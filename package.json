@@ -5,9 +5,11 @@
   "homepage": "https://sh4nnongoh.github.io/build",
   "dependencies": {},
   "scripts": {
-    "start": "serve build/"
+    "start": "serve build/",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
+    "gh-pages": "^2.2.0",
     "serve": "^11.3.0"
   }
 }

@@ -1,8 +1,8 @@
 {
   "name": "loa",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://sh4nnongoh.github.io/build",
+  "private": false,
+  "homepage": "https://sh4nnongoh.github.io",
   "dependencies": {},
   "scripts": {
     "start": "serve -s build"

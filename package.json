@@ -5,7 +5,7 @@
   "homepage": "https://sh4nnongoh.github.io/build",
   "dependencies": {},
   "scripts": {
-    "start": "serve build/"
+    "start": "serve -s build"
   },
   "devDependencies": {
     "serve": "^11.3.0"

@@ -7,14 +7,14 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import pluginFilters from "./_config/filters.js";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
-export default async function(eleventyConfig) {
+export default async function (eleventyConfig) {
 	// Drafts, see also _data/eleventyDataSchema.js
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft) {
 			data.title = `${data.title} (draft)`;
 		}
 
-		if(data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
+		if (data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
 			return false;
 		}
 	});
@@ -76,11 +76,11 @@ export default async function(eleventyConfig) {
 		},
 		metadata: {
 			language: "en",
-			title: "Blog Title",
-			subtitle: "This is a longer description about your blog.",
-			base: "https://example.com/",
+			title: "Shannon's Software Engineering Blog",
+			subtitle: "Just software stuff.",
+			base: "https://sh4nnongoh.github.io/",
 			author: {
-				name: "Your Name"
+				name: "Shannon Goh"
 			}
 		}
 	});

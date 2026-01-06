@@ -15,9 +15,9 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/sh4nnongoh/about.git"
+		"url": "git://github.com/sh4nnongoh/sh4nnongoh.github.io.git"
 	},
-	"homepage": "https://github.com/sh4nnongoh/about#readme",
+	"homepage": "https://github.com/sh4nnongoh/sh4nnongoh.github.io#readme",
 	"devDependencies": {
 		"@11ty/eleventy": "^3.1.2",
 		"@11ty/eleventy-img": "^6.0.4",

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="pretty-atom-feed.xsl" type="text/xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>Blog Title</title>
+  <subtitle>This is a longer description about your blog.</subtitle>
+  <link href="https://example.com/about/feed/feed.xml" rel="self" />
+  <link href="https://example.com/about/" />
+  <updated>2026-01-06T00:00:00Z</updated>
+  <id>https://example.com/about/</id>
+  <author>
+    <name>Your Name</name>
+  </author>
+  <entry>
+    <title>Hello Me!</title>
+    <link href="https://example.com/about/blog/1/" />
+    <updated>2026-01-06T00:00:00Z</updated>
+    <id>https://example.com/about/blog/1/</id>
+    <content type="html">&lt;p&gt;Stay tuned for more content!&lt;/p&gt;
+&lt;p&gt;In the meantime, look at the cute possums below! :D&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/about/blog/1/xbVnp_hAou-350.avif 350w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/about/blog/1/xbVnp_hAou-350.webp 350w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/about/blog/1/xbVnp_hAou-350.png&quot; alt=&quot;A possum parent and two possum kids hanging from the iconic red balloon&quot; width=&quot;350&quot; height=&quot;685&quot;&gt;&lt;/picture&gt;
+</content>
+  </entry>
+</feed>

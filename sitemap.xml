@@ -3,21 +3,7 @@
 	
 		
 		<url>
-			<loc>https://example.com/about/blog/1/</loc>
-			<lastmod>2026-01-06</lastmod>
-		</url>
-	
-	
-		
-		<url>
-			<loc>https://example.com/about/about/</loc>
-			<lastmod>2026-01-06</lastmod>
-		</url>
-	
-	
-		
-		<url>
-			<loc>https://example.com/about/blog/</loc>
+			<loc>https://example.com/blog/1/</loc>
 			<lastmod>2026-01-06</lastmod>
 		</url>
 	
@@ -31,14 +17,28 @@
 	
 		
 		<url>
-			<loc>https://example.com/about/tags/</loc>
+			<loc>https://example.com/blog/</loc>
 			<lastmod>2026-01-06</lastmod>
 		</url>
 	
 	
 		
 		<url>
-			<loc>https://example.com/about/feed/feed.xml</loc>
+			<loc>https://example.com/</loc>
+			<lastmod>2026-01-06</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/tags/</loc>
+			<lastmod>2026-01-06</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://example.com/feed/feed.xml</loc>
 			<lastmod>2026-01-06</lastmod>
 		</url>
 	

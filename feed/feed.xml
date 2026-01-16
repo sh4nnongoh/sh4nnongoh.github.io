@@ -12,9 +12,9 @@
   </author>
   <entry>
     <title>System Design</title>
-    <link href="https://sh4nnongoh.github.io/blog/2/" />
+    <link href="https://sh4nnongoh.github.io/blog/2-system-design/" />
     <updated>2026-01-16T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/2/</id>
+    <id>https://sh4nnongoh.github.io/blog/2-system-design/</id>
     <content type="html">&lt;p&gt;System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips &amp;amp; tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;The basic study of system design is the understanding of component parts and their subsequent interaction with one another.&lt;br&gt;- Wikipedia&lt;/em&gt;&lt;/p&gt;
@@ -31,13 +31,13 @@
 &lt;h2 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h2&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#ddd-strategic-design&quot;&gt;DDD Strategic Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#ddd-tactical-design&quot;&gt;DDD Tactical Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#api-endpoints&quot;&gt;API Endpoints&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#capacity-estimation-(data-storage)&quot;&gt;Capacity Estimation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#cost-estimation&quot;&gt;Cost Estimation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2/#system-architecture&quot;&gt;System Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-strategic-design&quot;&gt;DDD Strategic Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-tactical-design&quot;&gt;DDD Tactical Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#api-endpoints&quot;&gt;API Endpoints&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#capacity-estimation-(data-storage)&quot;&gt;Capacity Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#cost-estimation&quot;&gt;Cost Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#system-architecture&quot;&gt;System Architecture&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&quot;system-design&quot;&gt;System Design&lt;/h2&gt;
 &lt;hr&gt;
@@ -123,7 +123,7 @@
 	&lt;p&gt;&lt;em&gt;This section is where a software engineer provides technical artifacts such as ER diagrams or sequence diagrams.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2/Ntg6bzDa-0-2202.avif 2202w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2/Ntg6bzDa-0-2202.webp 2202w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2/Ntg6bzDa-0-2202.png&quot; alt=&quot;ER Diagram&quot; width=&quot;2202&quot; height=&quot;734&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/Ntg6bzDa-0-2202.avif 2202w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/Ntg6bzDa-0-2202.webp 2202w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2-system-design/Ntg6bzDa-0-2202.png&quot; alt=&quot;ER Diagram&quot; width=&quot;2202&quot; height=&quot;734&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;Based on the events and objects identified in the &lt;em&gt;Strategic Design&lt;/em&gt; stage, the above Entity-Relationship diagram is drawn.&lt;/p&gt;
 &lt;h3 id=&quot;non-functional-requirements&quot;&gt;&lt;strong&gt;Non-Functional Requirements&lt;/strong&gt;&lt;/h3&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -161,13 +161,13 @@ is_admin: 1 byte&lt;/code&gt;&lt;/pre&gt;
 	&lt;p&gt;&lt;em&gt;Based on the estimates done earlier, you can also estimate the cost of your design. Depending on your service provider, there may be calculators available to estimate the costs of the system.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;a href=&quot;https://calculator.aws/#/createCalculator/RDSPostgreSQL&quot;&gt;AWS Calculator&lt;/a&gt;&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2/mopT0UT3fV-2616.avif 2616w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2/mopT0UT3fV-2616.webp 2616w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2/mopT0UT3fV-2616.png&quot; alt=&quot;Cost&quot; width=&quot;2616&quot; height=&quot;1414&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/mopT0UT3fV-2616.avif 2616w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/mopT0UT3fV-2616.webp 2616w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2-system-design/mopT0UT3fV-2616.png&quot; alt=&quot;Cost&quot; width=&quot;2616&quot; height=&quot;1414&quot;&gt;&lt;/picture&gt;
 &lt;h3 id=&quot;system-architecture&quot;&gt;&lt;strong&gt;System Architecture&lt;/strong&gt;&lt;/h3&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is where the whole architecture of your system is shown. If the system is large, you may add accompanying flow diagrams as well.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2/uLQ3sDDHv0-2457.avif 2457w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2/uLQ3sDDHv0-2457.webp 2457w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2/uLQ3sDDHv0-2457.png&quot; alt=&quot;Architecture&quot; width=&quot;2457&quot; height=&quot;1627&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/uLQ3sDDHv0-2457.avif 2457w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/uLQ3sDDHv0-2457.webp 2457w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2-system-design/uLQ3sDDHv0-2457.png&quot; alt=&quot;Architecture&quot; width=&quot;2457&quot; height=&quot;1627&quot;&gt;&lt;/picture&gt;
 &lt;hr&gt;
 
 
@@ -175,12 +175,12 @@ is_admin: 1 byte&lt;/code&gt;&lt;/pre&gt;
   </entry>
   <entry>
     <title>Hello Me!</title>
-    <link href="https://sh4nnongoh.github.io/blog/1/" />
+    <link href="https://sh4nnongoh.github.io/blog/1-hello-me/" />
     <updated>2026-01-06T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/1/</id>
+    <id>https://sh4nnongoh.github.io/blog/1-hello-me/</id>
     <content type="html">&lt;p&gt;Stay tuned for more content!&lt;/p&gt;
 &lt;p&gt;In the meantime, look at the cute possums below! :D&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/1/xbVnp_hAou-350.avif 350w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/1/xbVnp_hAou-350.webp 350w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/1/xbVnp_hAou-350.png&quot; alt=&quot;A possum parent and two possum kids hanging from the iconic red balloon&quot; width=&quot;350&quot; height=&quot;685&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/1-hello-me/xbVnp_hAou-350.avif 350w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/1-hello-me/xbVnp_hAou-350.webp 350w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/1-hello-me/xbVnp_hAou-350.png&quot; alt=&quot;A possum parent and two possum kids hanging from the iconic red balloon&quot; width=&quot;350&quot; height=&quot;685&quot;&gt;&lt;/picture&gt;
 </content>
   </entry>
 </feed>

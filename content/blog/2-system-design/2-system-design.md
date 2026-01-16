@@ -48,79 +48,82 @@ Company XYZ requires a secure way to authenticate its users accessing its app. T
 </div>
 
 The expected interactions with __```XYZ Auth```__ are as follows:
-
-<table class="simple-table">
-  <thead>
-    <tr>
-      <th>Persona</th>
-      <th>Interaction</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>User</td>
-      <td>User enters email and requests for Magic Link.</td>
-    </tr>
-    <tr>
-      <td>User</td>
-      <td>User clicks on Magic Link and navigates to the Home page of the App.</td>
-    </tr>
-    <tr>
-      <td>User</td>
-      <td>User clicks on expired / invalid Magic Link and navigates to the HTTP 401 page of the App.</td>
-    </tr>
-    <tr>
-      <td>Admin</td>
-      <td>Admin enters email and requests for Magic Link.</td>
-    </tr>
-    <tr>
-      <td>Admin</td>
-      <td>Admin clicks on Magic Link and navigates to the Admin App.</td>
-    </tr>
-    <tr>
-      <td>Admin</td>
-      <td>Admin adds Users to the system by entering their emails.</td>
-    </tr>
-    <tr>
-      <td>Admin</td>
-      <td>Admin removes Users from the system by deleting their emails.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="simple-table-container">
+  <table class="simple-table">
+    <thead>
+      <tr>
+        <th>Persona</th>
+        <th>Interaction</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>User</td>
+        <td>User enters email and requests for Magic Link.</td>
+      </tr>
+      <tr>
+        <td>User</td>
+        <td>User clicks on Magic Link and navigates to the Home page of the App.</td>
+      </tr>
+      <tr>
+        <td>User</td>
+        <td>User clicks on expired / invalid Magic Link and navigates to the HTTP 401 page of the App.</td>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td>Admin enters email and requests for Magic Link.</td>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td>Admin clicks on Magic Link and navigates to the Admin App.</td>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td>Admin adds Users to the system by entering their emails.</td>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td>Admin removes Users from the system by deleting their emails.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 The domain of __```XYZ Auth```__ is as follows:
 
-<table class="simple-table">
-  <thead>
-    <tr>
-      <th>Events</th>
-      <th>Objects</th>
-      <th>Transactions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>UserAdded</td>
-      <td>User</td>
-      <td>AddUser</td>
-    </tr>
-    <tr>
-      <td>UserRemoved</td>
-      <td></td>
-      <td>RemoveUser</td>
-    </tr>
-    <tr>
-      <td>UserRequestsMagicLink</td>
-      <td></td>
-      <td>RequestMagicLink</td>
-    </tr>
-    <tr>
-      <td>UserLogin</td>
-      <td></td>
-      <td>LoginUser</td>
-    </tr>
-  </tbody>
-</table>
+<div class="simple-table-container">
+  <table class="simple-table">
+    <thead>
+      <tr>
+        <th>Events</th>
+        <th>Objects</th>
+        <th>Transactions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UserAdded</td>
+        <td>User</td>
+        <td>AddUser</td>
+      </tr>
+      <tr>
+        <td>UserRemoved</td>
+        <td></td>
+        <td>RemoveUser</td>
+      </tr>
+      <tr>
+        <td>UserRequestsMagicLink</td>
+        <td></td>
+        <td>RequestMagicLink</td>
+      </tr>
+      <tr>
+        <td>UserLogin</td>
+        <td></td>
+        <td>LoginUser</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ### __DDD Tactical Design__
 

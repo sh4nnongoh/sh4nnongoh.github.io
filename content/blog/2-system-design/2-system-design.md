@@ -48,6 +48,7 @@ Company XYZ requires a secure way to authenticate its users accessing its app. T
 </div>
 
 The expected interactions with __```XYZ Auth```__ are as follows:
+
 <div class="simple-table-container">
   <table class="simple-table">
     <thead>

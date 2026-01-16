@@ -45,7 +45,7 @@
 	}
 }
 .simple-table-container {
-  width: 100%;
+  width: auto;
   overflow-x: auto;
   border: 1px solid #dee2e6;
   border-radius: 8px;
@@ -53,11 +53,26 @@
 }
 
 .simple-table {
-  width: auto;
-  min-width: 100%;
+  width: 100%;
   border-collapse: collapse;
-  /* margin: 20px 0; */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Mobile-first table styling */
+@media (max-width: 768px) {
+  .simple-table-container {
+    display: block;
+    width: 100vw;
+    margin: 0 -1rem;
+    overflow-x: auto;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .simple-table {
+    min-width: 600px;
+    width: 100%;
+  }
 }
 
 .simple-table thead {
@@ -430,6 +445,17 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }
+
+@media (max-width: 768px) {
+	pre {
+		display: block;
+		width: 92vw;
+		margin-left: calc(-50vw + 50%);
+		overflow-x: auto;
+		/* Smooth scrolling on iOS */
+		-webkit-overflow-scrolling: touch;
+	}
+}
 /**
  * okaidia theme for JavaScript, CSS and HTML
  * Loosely based on Monokai textmate theme by http://www.monokai.nl/
@@ -800,7 +826,7 @@ is_admin: 1 byte</code></pre>
 			</p>
 		</footer>
 
-		<!-- This page `/blog/2-system-design/` was built on 2026-01-16T11:05:45.302Z -->
+		<!-- This page `/blog/2-system-design/` was built on 2026-01-16T11:59:08.764Z -->
 		<script type="module" src="/dist/cC8wS6ZjFU.js"></script>
 	</body>
 </html>

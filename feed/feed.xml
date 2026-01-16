@@ -19,7 +19,7 @@
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;The basic study of system design is the understanding of component parts and their subsequent interaction with one another.&lt;br&gt;- Wikipedia&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;Every system is built to solve a problem faced by someone or a buisness, and people tend to lose sight of that when the team or organisation starts growing. This could be because of how workers are hired for a specific role within a problem but are not directed to solve the buisness problem. As it is human nature to want to suceed and improve, these individual workers start implementing and improving onto their individual areas in isolation, which inevidently, results in creating a more complicated and messy system over time.&lt;/p&gt;
+&lt;p&gt;Every system is built to solve a problem faced by someone or a business, and people tend to lose sight of that when the team or organisation starts growing. This could be because of how workers are hired for a specific role within a problem but are not directed to solve the business problem. As it is human nature to want to suceed and improve, these individual workers start implementing and improving onto their individual areas in isolation, which Inevidently, results in creating a more complicated and messy system over time.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;The heart of software is its ability to solve domain-related problems for its user.&lt;br&gt;- Eric Evans&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;

@@ -15,6 +15,10 @@ Hey, I hear you! In the [previous post](../2-system-design/), I gave an example 
 
 In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the [Tactical Design](../2-system-design/#ddd-tactical-design) section of the System Design document.
 
+<div class="message-box">
+	<p><em>Magic Links are a mechanism for users to access secure resources without needing to enter passwords.</em></p>
+</div>
+
 ### Sequence Diagrams
 
 The best way to explain how Magic Links work is to use Sequence Diagrams.
@@ -43,7 +47,7 @@ In order to prevent manipulation of the Cookie, the Cookie will be encrypted by 
 There are security pitfalls associated with Stateless Cookies, and these need to be captured in the [Non-Functional Requirements](../2-system-design/#non-functional-requirements) of a System Design document.
 
 Example Additional requirements:
-* The encryption key needs to be rotate every 7 days.
+* The encryption key needs to be rotated every 7 days.
 * The Cookie in the Magic Link should expire within 15 minutes.
 * Refreshed Cookies should expire within 60 minutes, before needing a new Magic Link.
 * To adopt the [Double-Submit Cookie Pattern](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#alternative-using-a-double-submit-cookie-pattern), when generating a Cookie.

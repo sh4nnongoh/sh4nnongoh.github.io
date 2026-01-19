@@ -2,7 +2,7 @@
 title: System Design
 description: What I believe System Design should be.
 date: 2026-01-16
-tags:
+tags: System Design
 ---
 
 System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips & tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.

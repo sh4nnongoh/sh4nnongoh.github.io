@@ -663,6 +663,9 @@ pre[class*="language-diff-"] {
 </div>
 <p>Hey, I hear you! In the <a href="../2-system-design/">previous post</a>, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.</p>
 <p>In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the <a href="../2-system-design/#ddd-tactical-design">Tactical Design</a> section of the System Design document.</p>
+<div class="message-box">
+	<p><em>Magic Links are a mechanism for users to access secure resources without needing to enter passwords.</em></p>
+</div>
 <h3 id="sequence-diagrams">Sequence Diagrams</h3>
 <p>The best way to explain how Magic Links work is to use Sequence Diagrams.</p>
 <picture><source type="image/avif" srcset="/blog/3-magic-links/3HmZXJfn4O-764.avif 764w"><source type="image/webp" srcset="/blog/3-magic-links/3HmZXJfn4O-764.webp 764w"><img loading="lazy" decoding="async" src="/blog/3-magic-links/3HmZXJfn4O-764.png" alt="Sequence Diagram" width="764" height="767"></picture>
@@ -684,7 +687,7 @@ pre[class*="language-diff-"] {
 <p>There are security pitfalls associated with Stateless Cookies, and these need to be captured in the <a href="../2-system-design/#non-functional-requirements">Non-Functional Requirements</a> of a System Design document.</p>
 <p>Example Additional requirements:</p>
 <ul>
-<li>The encryption key needs to be rotate every 7 days.</li>
+<li>The encryption key needs to be rotated every 7 days.</li>
 <li>The Cookie in the Magic Link should expire within 15 minutes.</li>
 <li>Refreshed Cookies should expire within 60 minutes, before needing a new Magic Link.</li>
 <li>To adopt the <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#alternative-using-a-double-submit-cookie-pattern">Double-Submit Cookie Pattern</a>, when generating a Cookie.</li>
@@ -715,7 +718,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/3-magic-links/` was built on 2026-01-19T06:57:01.656Z -->
+		<!-- This page `/blog/3-magic-links/` was built on 2026-01-19T08:16:24.802Z -->
 		<script type="module" src="/dist/cC8wS6ZjFU.js"></script>
 	</body>
 </html>

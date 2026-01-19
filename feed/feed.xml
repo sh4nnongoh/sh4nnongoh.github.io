@@ -22,6 +22,9 @@
 &lt;/div&gt;
 &lt;p&gt;Hey, I hear you! In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/&quot;&gt;previous post&lt;/a&gt;, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.&lt;/p&gt;
 &lt;p&gt;In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-tactical-design&quot;&gt;Tactical Design&lt;/a&gt; section of the System Design document.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;Magic Links are a mechanism for users to access secure resources without needing to enter passwords.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;h3 id=&quot;sequence-diagrams&quot;&gt;Sequence Diagrams&lt;/h3&gt;
 &lt;p&gt;The best way to explain how Magic Links work is to use Sequence Diagrams.&lt;/p&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.avif 764w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.webp 764w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;764&quot; height=&quot;767&quot;&gt;&lt;/picture&gt;
@@ -43,7 +46,7 @@
 &lt;p&gt;There are security pitfalls associated with Stateless Cookies, and these need to be captured in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt; of a System Design document.&lt;/p&gt;
 &lt;p&gt;Example Additional requirements:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The encryption key needs to be rotate every 7 days.&lt;/li&gt;
+&lt;li&gt;The encryption key needs to be rotated every 7 days.&lt;/li&gt;
 &lt;li&gt;The Cookie in the Magic Link should expire within 15 minutes.&lt;/li&gt;
 &lt;li&gt;Refreshed Cookies should expire within 60 minutes, before needing a new Magic Link.&lt;/li&gt;
 &lt;li&gt;To adopt the &lt;a href=&quot;https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#alternative-using-a-double-submit-cookie-pattern&quot;&gt;Double-Submit Cookie Pattern&lt;/a&gt;, when generating a Cookie.&lt;/li&gt;

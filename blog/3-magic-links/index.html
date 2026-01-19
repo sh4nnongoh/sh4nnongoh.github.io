@@ -5,20 +5,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Primary Meta Tags -->
-		<title>System Design</title>
-		<meta name="title" content="System Design">
-		<meta name="description" content="What I believe System Design should be.">
+		<title>Magic Links</title>
+		<meta name="title" content="Magic Links">
+		<meta name="description" content="Describing how I implement Magic Links">
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://sh4nnongoh.github.io/">
-		<meta property="og:title" content="System Design">
-		<meta property="og:description" content="What I believe System Design should be.">
+		<meta property="og:title" content="Magic Links">
+		<meta property="og:description" content="Describing how I implement Magic Links">
 		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- X (Twitter) -->
 		<meta property="twitter:card" content="summary_large_image">
 		<meta property="twitter:url" content="https://sh4nnongoh.github.io/">
-		<meta property="twitter:title" content="System Design">
-		<meta property="twitter:description" content="What I believe System Design should be.">
+		<meta property="twitter:title" content="Magic Links">
+		<meta property="twitter:description" content="Describing how I implement Magic Links">
 		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- Meta Tags Generated with https://metatags.io -->
 
@@ -647,175 +647,63 @@ pre[class*="language-diff-"] {
 				
 
 
-<h1 id="system-design">System Design</h1>
+<h1 id="magic-links">Magic Links</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2026-01-16">16 January 2026</time></li>
-	<li><a href="/tags/system-design/" class="post-tag">System Design</a></li>
+	<li><time datetime="2026-01-19">19 January 2026</time></li>
+	<li><a href="/tags/system-design/" class="post-tag">System Design</a>, </li>
+	<li><a href="/tags/magic-links/" class="post-tag"> Magic Links</a>, </li>
+	<li><a href="/tags/go/" class="post-tag"> Go</a></li>
 </ul>
 
-<p>System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips &amp; tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.</p>
+<br>
+<br>
 <div class="message-box">
-	<p><em>The basic study of system design is the understanding of component parts and their subsequent interaction with one another.<br>- Wikipedia</em></p>
+	<p><em>"Hey Shannon! Your previous post talks about Magic Links but there were no details at all about implementing them!"<br>- random reader</em></p>
 </div>
-<p>Every system is built to solve a problem faced by someone or a business, and people tend to lose sight of that when the team or organisation starts growing. This could be because of how workers are hired for a specific role within a problem but are not directed to solve the business problem. As it is human nature to want to suceed and improve, these individual workers start implementing and improving onto their individual areas in isolation, which Inevidently, results in creating a more complicated and messy system over time.</p>
-<div class="message-box">
-	<p><em>The heart of software is its ability to solve domain-related problems for its user.<br>- Eric Evans</em></p>
-</div>
-<p>That is where Domain Driven Design (DDD) comes in, as it brings the problem-solving focus back to the actual issue at hand. It starts by formalizing the language used by the domain-experts and stakeholders, such that engineers can actually use those terminologies during their design and implementation. This solves a huge communication gap between the non-technical and technical folks. As conversations regularly take place between stakeholders, DDD provides a framework for capturing important details in the domain. These details are also commonly known as Objects &amp; Events in the software engineering world (more on that later).</p>
-<p>I will not be diving deep into what DDD is in this blog, but will cherry-pick concepts from it to apply to my approach to System Design.</p>
-<p>To give you a glimpse of what I am talking about, below is a simple System Design document leveraging DDD for building an authentication service for XYZ startup. These System Design documents are living documents that gets updated over time, and what is shown below is just a snapshot in the whole system life cycle.</p>
-<h1 id="xyz-auth">XYZ Auth</h1>
-<p>Company XYZ requires a secure way to authenticate its users accessing its app. To keep costs low, and not be subjected to GDPR related policies, passwords cannot be stored within the system. Consulting with the Security Engineer in the team, he advises to use Magic Links as a quick and simple way to authenticate users.</p>
-<h2 id="table-of-contents">Table of Contents</h2>
-<hr>
+<p>Hey, I hear you! In the <a href="../2-system-design/">previous post</a>, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.</p>
+<p>In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the <a href="../2-system-design/#ddd-tactical-design">Tactical Design</a> section of the System Design document.</p>
+<h3 id="sequence-diagrams">Sequence Diagrams</h3>
+<p>The best way to explain how Magic Links work is to use Sequence Diagrams.</p>
+<picture><source type="image/avif" srcset="/blog/3-magic-links/3HmZXJfn4O-764.avif 764w"><source type="image/webp" srcset="/blog/3-magic-links/3HmZXJfn4O-764.webp 764w"><img loading="lazy" decoding="async" src="/blog/3-magic-links/3HmZXJfn4O-764.png" alt="Sequence Diagram" width="764" height="767"></picture>
+<p>The above <a href="https://www.plantuml.com/plantuml/uml/ZP9FRzGm4CNl_XIZ7k0KSL-Lqj9MN8g4ke9JBrDxIAnDx6Wyfe9FZ_yqQK8s4hTavlt6Rvvz7GHPuj0hrE8PlWTYm00n4AinjQos8pg1Ym-zRwsxo4qSnuVyyuy0etJaKW65J3EYT9FwPjbPKpS3_l4EZlV78gO1RQyC2ZvZ8FZcWxHC8RVCirBP5ZHNimCuLCVaXFYL1l5GlAf9bOX49-qZeQa0a_Piu2Vx0Uu-loalcoP95-Jwi1_OMuD2S5zEUh7IrNcFPTukTykKANAQVuz21cwzFrdQrNyXHvm9XA_OMWqFrfrM-zHL3t0aPnOQ45yClG_Lucgp2jKGy-_Kct9DOyl7OSx8qYyAY_5FJZhsiUtgzDtxqBtLfm3UhTZwX3uDkVJnSWwZqIMCgzqqxgWeD_4zkNVpZVnFb8vUNibj1kLrI6GNDh8wR_M6fprRaW1CnZBfN1OFIGM1T4pLZAaDsfoTDozopk5A-sPqP2_rNARW8sjIr-HC7Fg_">sequence diagram</a> shows the happy path of a Magic Link usage.</p>
 <ol>
-<li><a href="#ddd-strategic-design">DDD Strategic Design</a></li>
-<li><a href="#ddd-tactical-design">DDD Tactical Design</a></li>
-<li><a href="#non-functional-requirements">Non-Functional Requirements</a></li>
-<li><a href="#api-endpoints">API Endpoints</a></li>
-<li><a href="#capacity-estimation-(data-storage)">Capacity Estimation</a></li>
-<li><a href="#cost-estimation">Cost Estimation</a></li>
-<li><a href="#system-architecture">System Architecture</a></li>
+<li>Users enter their email in the Login page.</li>
+<li>The backend checks if the email exists in the database.</li>
+<li>If the email exists, generate an encrypted cookie detailing who the user is.</li>
+<li>Create a Magic Link with the encrypted cookie as a URL param.</li>
+<li>Send the Magic Link to the user's email address.</li>
+<li>User clicks the Magic Link, and upon success, gets redirected to the protected page.</li>
 </ol>
-<h2 id="system-design-2">System Design</h2>
-<hr>
-<h3 id="ddd-strategic-design"><strong>DDD Strategic Design</strong></h3>
+<p>One of the beautiful features of Magic Links is that they use Stateless Cookies. Stateless means that the backend does not need to verify if the content in the Cookie is valid or not; it simply trusts it. This greatly reduces the number of network calls to databases as shown in the sequence diagram above; there is only 1 database call at the beginning, and future visits to protected resources will simply succeed if the Cookie has not expired.</p>
 <div class="message-box">
-	<p><em>The goal of strategic design is to formalize the language between stakeholders and can be categorized into 3 categories: (1) Events; (2) Objects; (3) Transactions.</em></p>
-  <p><em>Events represent the past and act as the source of truth; they are stored in databases. Objects are models that represent the current state of the domain and are derived from the events that occur over time. Transactions work with objects within the domain to generate events that changes the various objects of the domain.</em></p>
-  <p><em>Conversations need to happen with the Domain Experts, and I personally use a simple Persona table to describe such conversations on what they expect the interaction will be like.</em></p>
+	<p><em>"But won't clients just mutate their Cookies to impersonate other people?"<br>- concerned reader</em></p>
 </div>
-<p>The expected interactions with <strong><code>XYZ Auth</code></strong> are as follows:</p>
-<div class="simple-table-container">
-  <table class="simple-table">
-    <thead>
-      <tr>
-        <th>Persona</th>
-        <th>Interaction</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>User</td>
-        <td>User enters email and requests for Magic Link.</td>
-      </tr>
-      <tr>
-        <td>User</td>
-        <td>User clicks on Magic Link and navigates to the Home page of the App.</td>
-      </tr>
-      <tr>
-        <td>User</td>
-        <td>User clicks on expired / invalid Magic Link and navigates to the HTTP 401 page of the App.</td>
-      </tr>
-      <tr>
-        <td>Admin</td>
-        <td>Admin enters email and requests for Magic Link.</td>
-      </tr>
-      <tr>
-        <td>Admin</td>
-        <td>Admin clicks on Magic Link and navigates to the Admin App.</td>
-      </tr>
-      <tr>
-        <td>Admin</td>
-        <td>Admin adds Users to the system by entering their emails.</td>
-      </tr>
-      <tr>
-        <td>Admin</td>
-        <td>Admin removes Users from the system by deleting their emails.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<p>The domain of <strong><code>XYZ Auth</code></strong> is as follows:</p>
-<div class="simple-table-container">
-  <table class="simple-table">
-    <thead>
-      <tr>
-        <th>Events</th>
-        <th>Objects</th>
-        <th>Transactions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UserAdded</td>
-        <td>User</td>
-        <td>AddUser</td>
-      </tr>
-      <tr>
-        <td>UserRemoved</td>
-        <td></td>
-        <td>RemoveUser</td>
-      </tr>
-      <tr>
-        <td>UserRequestsMagicLink</td>
-        <td></td>
-        <td>RequestMagicLink</td>
-      </tr>
-      <tr>
-        <td>UserLogin</td>
-        <td></td>
-        <td>LoginUser</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<h3 id="ddd-tactical-design"><strong>DDD Tactical Design</strong></h3>
-<div class="message-box">
-	<p><em>This section is where a software engineer provides technical artifacts such as ER diagrams or sequence diagrams.</em></p>
-</div>
-<br>
-<picture><source type="image/avif" srcset="/blog/2-system-design/Ntg6bzDa-0-2202.avif 2202w"><source type="image/webp" srcset="/blog/2-system-design/Ntg6bzDa-0-2202.webp 2202w"><img loading="lazy" decoding="async" src="/blog/2-system-design/Ntg6bzDa-0-2202.png" alt="ER Diagram" width="2202" height="734"></picture>
-<p>Based on the events and objects identified in the <em>Strategic Design</em> stage, the above Entity-Relationship diagram is drawn.</p>
-<h3 id="non-functional-requirements"><strong>Non-Functional Requirements</strong></h3>
-<div class="message-box">
-	<p><em>Non-Functional requirements are tricky; and can very often be mixed up with the Domain requirements.</em></p>
-	<p><em>These are very important requirements that are not part of the domain.</em></p>
-</div>
+<p>In order to prevent manipulation of the Cookie, the Cookie will be encrypted by the server during creation. Only the server has the private key, hence adversaries will not be able to mutate the Cookie to suit their needs. Referring to the <a href="../2-system-design/#system-architecture">System Architecture</a> diagram in the previous post, these private encryption keys will be stored in Vercel's Key-Value stores, such that the backend will have access to them to decrypt / validate incoming requests and their respective Cookies.</p>
+<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+<p>There are security pitfalls associated with Stateless Cookies, and these need to be captured in the <a href="../2-system-design/#non-functional-requirements">Non-Functional Requirements</a> of a System Design document.</p>
+<p>Example Additional requirements:</p>
 <ul>
-<li>The Magic Link will only work on the same browser that was used to generate the Magic Link. This is enforced using CSRF tokens.</li>
+<li>The encryption key needs to be rotate every 7 days.</li>
+<li>The Cookie in the Magic Link should expire within 15 minutes.</li>
+<li>Refreshed Cookies should expire within 60 minutes, before needing a new Magic Link.</li>
+<li>To adopt the <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#alternative-using-a-double-submit-cookie-pattern">Double-Submit Cookie Pattern</a>, when generating a Cookie.</li>
 </ul>
-<h3 id="api-endpoints"><strong>API Endpoints</strong></h3>
 <div class="message-box">
-	<p><em>The endpoints are derived from transactions needed in the Strategic Design phase</em></p>
+	<p>
+    <em>
+      Check out my new Go library for creating encrypted Cookies!
+      <br>
+      <a href="https://github.com/sh4nnongoh/ironsession" target="_blank" rel="noopener noreferrer">
+        https://github.com/sh4nnongoh/ironsession
+      </a>
+    </em>
+  </p>
 </div>
-<pre class="language-bash" tabindex="0"><code class="language-bash">POST /api/v1/login
-POST /api/v1/login?magic<span class="token operator">=</span><span class="token punctuation">{</span>string<span class="token punctuation">}</span>
-POST /api/v1/users
-POST /api/v1/users/<span class="token punctuation">{</span>id<span class="token punctuation">}</span>
-GET /api/v1/users
-GET /api/v1/users/<span class="token punctuation">{</span>id<span class="token punctuation">}</span></code></pre>
-<h3 id="capacity-estimation-data-storage"><strong>Capacity Estimation</strong> (Data Storage)</h3>
-<div class="message-box">
-	<p><em>Using the ER diagrams described in the Tactical Design stage, provide a back-off-the-envelope estimation of the storage / memory needed for an estimated number of users.</em></p>
-</div>
-<p>Referencing the data structures for <a href="https://www.postgresql.org/docs/current/datatype.html">Postgres</a>, the estimation is as follows:</p>
-<pre class="language-code" tabindex="0"><code class="language-code">id: 16 bytes
-event_type: 1 byte * size = 16 bytes
-user_id: 16 bytes
-created_at: 16 bytes
-email: 128 bytes
-is_admin: 1 byte</code></pre>
-<p>Hence, an AuthEvent is estimated to be at most <code>(16 + 16 + 16 + 16 + 128 + 1) = 193 bytes</code>.</p>
-<p>With a <code>1GB</code> Postgres instance, we can store approximately <code>~5.1 million</code> auth events.</p>
-<h3 id="cost-estimation"><strong>Cost Estimation</strong></h3>
-<div class="message-box">
-	<p><em>Based on the estimates done earlier, you can also estimate the cost of your design. Depending on your service provider, there may be calculators available to estimate the costs of the system.</em></p>
-</div>
-<p><a href="https://calculator.aws/#/createCalculator/RDSPostgreSQL">AWS Calculator</a></p>
-<picture><source type="image/avif" srcset="/blog/2-system-design/mopT0UT3fV-2616.avif 2616w"><source type="image/webp" srcset="/blog/2-system-design/mopT0UT3fV-2616.webp 2616w"><img loading="lazy" decoding="async" src="/blog/2-system-design/mopT0UT3fV-2616.png" alt="Cost" width="2616" height="1414"></picture>
-<h3 id="system-architecture"><strong>System Architecture</strong></h3>
-<div class="message-box">
-	<p><em>This is where the whole architecture of your system is shown. If the system is large, you may add accompanying flow diagrams as well.</em></p>
-</div>
-<br>
-<picture><source type="image/avif" srcset="/blog/2-system-design/uLQ3sDDHv0-2457.avif 2457w"><source type="image/webp" srcset="/blog/2-system-design/uLQ3sDDHv0-2457.webp 2457w"><img loading="lazy" decoding="async" src="/blog/2-system-design/uLQ3sDDHv0-2457.png" alt="Architecture" width="2457" height="1627"></picture>
-<hr>
 
 
 
-<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/1-hello-me/">Hello Me!</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/3-magic-links/">Magic Links</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/2-system-design/">System Design</a></li>
 </ul>
 
 			</heading-anchors>
@@ -827,7 +715,7 @@ is_admin: 1 byte</code></pre>
 			</p>
 		</footer>
 
-		<!-- This page `/blog/2-system-design/` was built on 2026-01-19T06:57:01.656Z -->
+		<!-- This page `/blog/3-magic-links/` was built on 2026-01-19T06:57:01.656Z -->
 		<script type="module" src="/dist/cC8wS6ZjFU.js"></script>
 	</body>
 </html>

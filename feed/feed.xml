@@ -5,11 +5,64 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-01-16T00:00:00Z</updated>
+  <updated>2026-01-19T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
   </author>
+  <entry>
+    <title>Magic Links</title>
+    <link href="https://sh4nnongoh.github.io/blog/3-magic-links/" />
+    <updated>2026-01-19T00:00:00Z</updated>
+    <id>https://sh4nnongoh.github.io/blog/3-magic-links/</id>
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;&quot;Hey Shannon! Your previous post talks about Magic Links but there were no details at all about implementing them!&quot;&lt;br&gt;- random reader&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Hey, I hear you! In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/&quot;&gt;previous post&lt;/a&gt;, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.&lt;/p&gt;
+&lt;p&gt;In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-tactical-design&quot;&gt;Tactical Design&lt;/a&gt; section of the System Design document.&lt;/p&gt;
+&lt;h3 id=&quot;sequence-diagrams&quot;&gt;Sequence Diagrams&lt;/h3&gt;
+&lt;p&gt;The best way to explain how Magic Links work is to use Sequence Diagrams.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.avif 764w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.webp 764w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;764&quot; height=&quot;767&quot;&gt;&lt;/picture&gt;
+&lt;p&gt;The above &lt;a href=&quot;https://www.plantuml.com/plantuml/uml/ZP9FRzGm4CNl_XIZ7k0KSL-Lqj9MN8g4ke9JBrDxIAnDx6Wyfe9FZ_yqQK8s4hTavlt6Rvvz7GHPuj0hrE8PlWTYm00n4AinjQos8pg1Ym-zRwsxo4qSnuVyyuy0etJaKW65J3EYT9FwPjbPKpS3_l4EZlV78gO1RQyC2ZvZ8FZcWxHC8RVCirBP5ZHNimCuLCVaXFYL1l5GlAf9bOX49-qZeQa0a_Piu2Vx0Uu-loalcoP95-Jwi1_OMuD2S5zEUh7IrNcFPTukTykKANAQVuz21cwzFrdQrNyXHvm9XA_OMWqFrfrM-zHL3t0aPnOQ45yClG_Lucgp2jKGy-_Kct9DOyl7OSx8qYyAY_5FJZhsiUtgzDtxqBtLfm3UhTZwX3uDkVJnSWwZqIMCgzqqxgWeD_4zkNVpZVnFb8vUNibj1kLrI6GNDh8wR_M6fprRaW1CnZBfN1OFIGM1T4pLZAaDsfoTDozopk5A-sPqP2_rNARW8sjIr-HC7Fg_&quot;&gt;sequence diagram&lt;/a&gt; shows the happy path of a Magic Link usage.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Users enter their email in the Login page.&lt;/li&gt;
+&lt;li&gt;The backend checks if the email exists in the database.&lt;/li&gt;
+&lt;li&gt;If the email exists, generate an encrypted cookie detailing who the user is.&lt;/li&gt;
+&lt;li&gt;Create a Magic Link with the encrypted cookie as a URL param.&lt;/li&gt;
+&lt;li&gt;Send the Magic Link to the user&#39;s email address.&lt;/li&gt;
+&lt;li&gt;User clicks the Magic Link, and upon success, gets redirected to the protected page.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;One of the beautiful features of Magic Links is that they use Stateless Cookies. Stateless means that the backend does not need to verify if the content in the Cookie is valid or not; it simply trusts it. This greatly reduces the number of network calls to databases as shown in the sequence diagram above; there is only 1 database call at the beginning, and future visits to protected resources will simply succeed if the Cookie has not expired.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;&quot;But won&#39;t clients just mutate their Cookies to impersonate other people?&quot;&lt;br&gt;- concerned reader&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;In order to prevent manipulation of the Cookie, the Cookie will be encrypted by the server during creation. Only the server has the private key, hence adversaries will not be able to mutate the Cookie to suit their needs. Referring to the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#system-architecture&quot;&gt;System Architecture&lt;/a&gt; diagram in the previous post, these private encryption keys will be stored in Vercel&#39;s Key-Value stores, such that the backend will have access to them to decrypt / validate incoming requests and their respective Cookies.&lt;/p&gt;
+&lt;h3 id=&quot;non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/h3&gt;
+&lt;p&gt;There are security pitfalls associated with Stateless Cookies, and these need to be captured in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt; of a System Design document.&lt;/p&gt;
+&lt;p&gt;Example Additional requirements:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The encryption key needs to be rotate every 7 days.&lt;/li&gt;
+&lt;li&gt;The Cookie in the Magic Link should expire within 15 minutes.&lt;/li&gt;
+&lt;li&gt;Refreshed Cookies should expire within 60 minutes, before needing a new Magic Link.&lt;/li&gt;
+&lt;li&gt;To adopt the &lt;a href=&quot;https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#alternative-using-a-double-submit-cookie-pattern&quot;&gt;Double-Submit Cookie Pattern&lt;/a&gt;, when generating a Cookie.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;
+    &lt;em&gt;
+      Check out my new Go library for creating encrypted Cookies!
+      &lt;br&gt;
+      &lt;a href=&quot;https://github.com/sh4nnongoh/ironsession&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;
+        https://github.com/sh4nnongoh/ironsession
+      &lt;/a&gt;
+    &lt;/em&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+
+
+</content>
+  </entry>
   <entry>
     <title>System Design</title>
     <link href="https://sh4nnongoh.github.io/blog/2-system-design/" />

@@ -10,18 +10,19 @@
 		<meta name="description" content="{{ description or metadata.description }}" />
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://sh4nnongoh.github.io/" />
+		<meta property="og:url" content="{{ metadata.url }}" />
 		<meta property="og:title" content="{{ title or metadata.title }}" />
 		<meta property="og:description" content="{{ description or metadata.description }}" />
-		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg" />
+		<meta property="og:image" content="{{ metadata.author.logo }}" />
 		<!-- X (Twitter) -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://sh4nnongoh.github.io/" />
+		<meta property="twitter:url" content="{{ metadata.url }}" />
 		<meta property="twitter:title" content="{{ title or metadata.title }}" />
 		<meta property="twitter:description" content="{{ description or metadata.description }}" />
-		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg" />
+		<meta property="twitter:image" content="{{ metadata.author.logo }}" />
 		<!-- Meta Tags Generated with https://metatags.io -->
 
+		<link rel="canonical" href="{{ metadata.url }}{{ page.url }}">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
 
 		{#- Uncomment this if you’d like folks to know that you used Eleventy to build your site!  #}
@@ -90,7 +91,7 @@
 
 		<footer>
 			<a
-				href="https://www.linkedin.com/in/sh4nnongoh"
+				href="{{ metadata.author.url }}"
 				target="_blank"
 				rel="noopener noreferrer"
 				aria-label="LinkedIn"
@@ -101,7 +102,7 @@
 				</svg>
 			</a>
 			<a
-				href="https://github.com/sh4nnongoh"
+				href="{{ metadata.author.github }}"
 				target="_blank"
 				rel="noopener noreferrer"
 				aria-label="GitHub"

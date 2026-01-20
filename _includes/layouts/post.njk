@@ -1,11 +1,40 @@
 ---
 layout: layouts/base.njk
 ---
+
+<script eleventy:ignore type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"mainEntityOfPage": {
+			"@type": "WebPage",
+			"@id": "{{ metadata.url }}{{ page.url }}"
+		},
+		"headline": "{{ title | escape }}",
+		"description": "{{ description | escape }}",
+		"image": [{% if imageAbsolute %}"{{ imageAbsolute }}"{% endif %}],
+		"datePublished": "{{ page.date | htmlDateString }}",
+		"dateModified": "{{ page.updated or page.date | htmlDateString }}",
+		"author": {
+			"@type": "Person",
+			"name": "{{ metadata.author.name }}",
+			"url": "{{ metadata.author.url }}"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "{{ metadata.publisher.name }}",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "{{ metadata.publisher.logo }}"
+			}
+		}
+	}
+</script>
+
 {# Only include the syntax highlighter CSS on blog posts, included with the CSS per-page bundle #}
 <style>{% include "node_modules/prismjs/themes/prism-okaidia.css" %}</style>
 <style>{% include "css/prism-diff.css" %}</style>
 <h1>{{ title }}</h1>
-
 <ul class="post-metadata">
 	<li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
 	{%- for tag in tags | filterTagList %}

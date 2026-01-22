@@ -167,6 +167,17 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
   Your browser does not support the video tag.
 &lt;/video&gt;
 &lt;p&gt;The above video shows the full capabilities of our Magic Link site!&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;
+    &lt;em&gt;
+      Check out the example project here!
+      &lt;br&gt;
+      &lt;a href=&quot;https://github.com/sh4nnongoh/go-csrf-magic-links&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;
+        https://github.com/sh4nnongoh/go-csrf-magic-links
+      &lt;/a&gt;
+    &lt;/em&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
 
 
 </content>

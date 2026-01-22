@@ -78,7 +78,7 @@ So back to the issue at hand, the _Magic Link_ needs to only work in the same br
 
 ## Implemention
 
-In this section we will cover the implementatio details for a minimal CSRF Magic Link example with _Go_, _Gin_, _HTML templating_, and _HTMX_. 
+In this section we will cover the implementation details for a minimal CSRF Magic Link example with _Go_, _Gin_, _HTML templating_, and _HTMX_. 
 
 _HTMX_ is amazing but we will not be covering that in this post.
 

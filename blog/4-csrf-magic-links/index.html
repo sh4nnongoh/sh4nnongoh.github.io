@@ -752,7 +752,7 @@ pre[class*="language-diff-"] {
 <p>When navigating the secure site through the UI, the <em>CSRF token</em> can be easily accessed to be attached to the request. However, if the user were to click on a link to access the site, a <em>&quot;/verification&quot;</em> page willstill be needed to properly authenticate the user by capturing the <em>CSRF token</em> in the browser.</p>
 <p>So back to the issue at hand, the <em>Magic Link</em> needs to only work in the same browser that triggers the <em>Magic Link</em> generation. Similar to the <em>/login</em> page example in the previous section, the <em>CSRF token</em> is embedded in the browser when the users generate a <em>Magic Link</em> with their email. Therefore, the Magic Link sent to their emails will only work if the users open the links with the same browser session that triggered the generation; as that is where the <em>CSRF token</em> is embedded.</p>
 <h2 id="implemention">Implemention</h2>
-<p>In this section we will cover the implementatio details for a minimal CSRF Magic Link example with <em>Go</em>, <em>Gin</em>, <em>HTML templating</em>, and <em>HTMX</em>.</p>
+<p>In this section we will cover the implementation details for a minimal CSRF Magic Link example with <em>Go</em>, <em>Gin</em>, <em>HTML templating</em>, and <em>HTMX</em>.</p>
 <p><em>HTMX</em> is amazing but we will not be covering that in this post.</p>
 <p>The web server is setup as follow:</p>
 <pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">package</span> main
@@ -874,7 +874,7 @@ document<span class="token punctuation">.</span><span class="token function">add
 			</p>
 		</footer>
 
-		<!-- This page `/blog/4-csrf-magic-links/` was built on 2026-01-22T14:44:50.812Z -->
+		<!-- This page `/blog/4-csrf-magic-links/` was built on 2026-01-22T14:48:35.637Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

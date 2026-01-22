@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Primary Meta Tags -->
+		<title>CSRF with Magic Links</title>
+		<meta name="title" content="CSRF with Magic Links">
+		<meta name="description" content="Magic Links alone are not secure enough, as adversaries with access to the link have full access to your system.">
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://sh4nnongoh.github.io">
+		<meta property="og:title" content="CSRF with Magic Links">
+		<meta property="og:description" content="Magic Links alone are not secure enough, as adversaries with access to the link have full access to your system.">
+		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
+		<!-- X (Twitter) -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="https://sh4nnongoh.github.io">
+		<meta property="twitter:title" content="CSRF with Magic Links">
+		<meta property="twitter:description" content="Magic Links alone are not secure enough, as adversaries with access to the link have full access to your system.">
+		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
+		<!-- Meta Tags Generated with https://metatags.io -->
+
+		<meta name="google-site-verification" content="r1MXDdGzfOnO8Cjyxy0oQf1Jp-sNi5nm7ZBTXLEzaqA">
+
+		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/4-csrf-magic-links/">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Shannon&#39;s Software Engineering Blog">
+		
+		
+		
+		<style>/* Message Box */
+.message-box {
+	--color-message-box: #ffc;
+
+	display: block;
+	background-color: var(--color-message-box);
+	color: var(--color-gray-90);
+	padding: 1em 0.625em; /* 16px 10px /16 */
+}
+.message-box ol {
+	margin-top: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	.message-box {
+		--color-message-box: #082840;
+	}
+}
+.simple-table-container {
+  width: auto;
+  overflow-x: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Mobile-first table styling */
+@media (max-width: 768px) {
+  .simple-table-container {
+    display: block;
+    width: 100vw;
+    margin: 0 -1rem;
+    overflow-x: auto;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .simple-table {
+    min-width: 600px;
+    width: 100%;
+  }
+}
+
+.simple-table thead {
+  /* background-color: #f8f9fa; */
+  border-bottom: 2px solid #dee2e6;
+}
+
+.simple-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  /* color: #212529; */
+}
+
+.simple-table td {
+  padding: 10px 16px;
+  border-top: 1px solid #dee2e6;
+}
+
+/* .simple-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+} */
+
+/* .simple-table tbody tr:hover {
+  background-color: #e9ecef;
+} */
+
+.simple-table code {
+  background-color: #e9ecef;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.9em;
+  color: #d63384;
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+	font-size: small !important;
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+@media (max-width: 768px) {
+	pre {
+		display: block;
+		width: 92vw;
+		margin-left: calc(-50vw + 50%);
+		overflow-x: auto;
+		/* Smooth scrolling on iOS */
+		-webkit-overflow-scrolling: touch;
+	}
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+		
+	</head>
+	<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VZ0ECY91PF"></script>
+	
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Shannon&#39;s Software Engineering Blog</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="main">
+			<heading-anchors>
+				
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"mainEntityOfPage": {
+			"@type": "WebPage",
+			"@id": "https://sh4nnongoh.github.io/blog/4-csrf-magic-links/"
+		},
+		"headline": "CSRF with Magic Links",
+		"description": "Magic Links alone are not secure enough, as adversaries with access to the link have full access to your system.",
+		"image": [],
+		"datePublished": "2026-01-22",
+		"dateModified": "2026-01-22",
+		"author": {
+			"@type": "Person",
+			"name": "Shannon Goh",
+			"url": "https://www.linkedin.com/in/sh4nnongoh"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Shannon Goh",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://sh4nnongoh.github.io/img/me512.jpeg"
+			}
+		}
+	}
+</script>
+
+
+
+
+<h1 id="csrf-with-magic-links">CSRF with Magic Links</h1>
+<ul class="post-metadata">
+	<li><time datetime="2026-01-22">22 January 2026</time></li>
+	<li><a href="/tags/system-design/" class="post-tag">System Design</a>, </li>
+	<li><a href="/tags/magic-links/" class="post-tag"> Magic Links</a>, </li>
+	<li><a href="/tags/csrf/" class="post-tag"> CSRF</a>, </li>
+	<li><a href="/tags/go/" class="post-tag"> Go</a>, </li>
+	<li><a href="/tags/gin/" class="post-tag"> Gin</a>, </li>
+	<li><a href="/tags/html-templates/" class="post-tag"> HTML Templates</a>, </li>
+	<li><a href="/tags/htmx/" class="post-tag"> HTMX</a>, </li>
+	<li><a href="/tags/tl3/" class="post-tag"> TL3</a></li>
+</ul>
+
+<p>As a recap, a Magic Link contains an encrypted token containing the identity of a particular user. By that definition, anyone clicking that link can impersonate the identify encoded in the link. Doesn't that sound familiar? (<em>Cough, Cough</em> - <strong>Netflix</strong>)</p>
+<p>In order to prevent that we need a way for the link to only work for the original requester, and that is where <em>CSRF tokens</em> come in handy.</p>
+<div class="message-box">
+  <p><em>
+  Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they’re currently authenticated. With a little help of social engineering (such as sending a link via email or chat), an attacker may trick the users of a web application into executing actions of the attacker’s choosing. If the victim is a normal user, a successful CSRF attack can force the user to perform state changing requests like transferring funds, changing their email address, and so forth. If the victim is an administrative account, CSRF can compromise the entire web application.
+  <br>
+  - OWASP
+  </em></p>
+</div>
+<h3 id="csrf-cookies">CSRF + Cookies</h3>
+<p>Before discussing <em>CSRF tokens</em> with <em>Magic Links</em>, let's take a look at how <em>CSRF tokens</em> work with cookies. After a user gets authenticated, a cookie is usually created by the server and assigned to the user. This cookie would contain data identifying the user, and will be attached to every request made by the user to the server. Knowing this, an adversary could trick users into submitting authenticated transactions without their knowledge. A common example would be the user visiting the adversary site which triggers requests to a known webapp used by the user.</p>
+<pre class="language-html" tabindex="0"><code class="language-html"><span class="token comment">&lt;!-- Adversary site has the following elements --></span>
+
+ <span class="token comment">&lt;!-- A form that secretly performs a POST 
+  to a known site used by the User --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://bank.example.com/transfer<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>to_account<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>attacker123<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>amount<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1000<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span>
+
+<span class="token comment">&lt;!-- OR --></span>
+
+<span class="token comment">&lt;!-- Loading an img element which basically 
+ performs a hidden GET request --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://bank.example.com/transfer?to=attacker123&amp;amount=1000<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<div class="message-box">
+  <p><em>
+  A CSRF token is a nounce of a certain size that is random across sessions and users.
+  </em></p>
+</div>
+<p>In order to prevent such attacks, the <em>CSRF token</em> needs to be sent with the requests alongside the authentication cookies. The server will compare the request's <em>CSRF token</em> with the session's state, which could either be stored server-side like in Redis, or <a href="/blog/3-magic-links/#sequence-diagrams">in our scenario</a>, in the encrypted cookie.</p>
+<picture><source type="image/avif" srcset="/blog/4-csrf-magic-links/lZd_YgLNA4-439.avif 439w"><source type="image/webp" srcset="/blog/4-csrf-magic-links/lZd_YgLNA4-439.webp 439w"><img loading="lazy" decoding="async" src="/blog/4-csrf-magic-links/lZd_YgLNA4-439.png" alt="Sequence Diagram" width="439" height="478"></picture>
+<p>The above <a href="https://www.websequencediagrams.com/?lz=dGl0bGUgTG9naW4gd2l0aCBDb29raWVzCgphY3RvciBVc2VyCgovbAAcBS0-AAsFIDoAAQZ2aXNpdHMgcGFnZQA2BlxuQ1NSRiB0b2tlbiBlbWJlZGRlZAoKAC8FLT4gAEAGADYHc3VibWl0cyBjcmVkZW50aWFscyBcbgB9BgA7CmluIGhlYWRlcgB6CQB6ClJldHVybnMgZW5jcnlwdGVkIGMAgTcFIFxuY29udGFpbmluZwBCCwB-C3NlY3VyZQCBQAh0cmFuc2FjdHMAgXwGABYHcGFnZXMgXG51c2luZwBTEmFuZACBEhcAVgcAgSAKCg&amp;s=default">sequence diagram</a> shows the following:</p>
+<ol>
+<li>When the user navigates to the <em>/login</em> page, a <em>CSRF token</em> generated by the server is present in the <em>meta</em> tag of the page.</li>
+<li>Upon logging in, the <em>CSRF token</em> is attached in the <em>header</em> of the <em>POST</em> request along with the login credentials.</li>
+<li>The server verifies the credentials and, if successful, creates an encrypted cookie containing the user's identity along with the <em>CSRF token</em>.</li>
+<li>Any future authenticated requests made to the server will have the attached <em>CSRF token</em> in the header compared with the <em>CSRF token</em> stored in the encrypted cookie. Even if the cookie is valid, an invalid <em>CSRF token</em> check will render the request invalid.</li>
+</ol>
+<p>There is no way for an adversary site to capture this <em>CSRF token</em> embedded in our site.</p>
+<h3 id="csrf-magic-links">CSRF + Magic Links</h3>
+<p>A <em>Magic Link</em> basically has the encrypted cookie as part of the URL. The question now is how does the user send the <em>CSRF token</em> in the header by just clicking a link? You might have noticed when using certain secure sites like banking, there is some sort of <em>&quot;/verification&quot;</em> intemediary page before the site shows you your dashboard. This intermediary page actually captures the encrypted cookie in the <em>Magic Link</em> along with the <em>CSRF token</em> in the browser and performs the actual POST request of logging into the secure site.</p>
+<picture><source type="image/avif" srcset="/blog/4-csrf-magic-links/cMXV3k-0Je-515.avif 515w"><source type="image/webp" srcset="/blog/4-csrf-magic-links/cMXV3k-0Je-515.webp 515w"><img loading="lazy" decoding="async" src="/blog/4-csrf-magic-links/cMXV3k-0Je-515.png" alt="Sequence Diagram" width="515" height="510"></picture>
+<p>The above <a href="https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgTG9naW4gd2l0aCBNYWdpYyBMaW5rCgphY3RvciBVc2VyCgovdmVyaWZpY2F0aW9uIC0-ABIFIDoAAQZjbGlja3Mgb24ANAsgJiBcbm5hdmlnYXRlcyB0byAANQ1wYWdlCgA_BS0-IABPDjogQW4gYXV0b21hdGVkIFBPU1QgcmVxdWVzdCBpcyBkb25lIFxuY29udGFpbmluZyB0aGUgZW5jcnlwdGVkIHRva2VuIFxuYW5kIENTUkYACgdpbgAjBWhlYWRlcgCBPxAAgUYKU2V2ZXIgZ2VuZXIAgTMFYSBuZXcAUwtjb29raWUgXG5mb3IAdAVzZXNzaW9uICYgcmVkaXJlY3RzAIEMBXVzZXIgXG50bwAfB2N1cmUgcmVzb3VyY2UKAIFxCgATBwCCQwd0cmFuc2FjdHMAgwgGADAHcGFnZXMgXG51c2luZwB7EgCBWBIAgV4IAHAHAIFWCgo&amp;s=default">sequence diagram</a> shows the following:</p>
+<ol>
+<li>The <em>Magic Link</em> navigates the user to the <em>&quot;/verification&quot;</em> page.</li>
+<li>The <em>&quot;/verification&quot;</em> page performs a POST request with the encrypted cookie and <em>CSRF token</em> to login the user.</li>
+<li>The server decrypts the cookie and compare the embedded <em>CSRF token</em>, with the token in the <em>header</em>.</li>
+<li>If valid, a new session is created for the user with a new encrypted cookie returned to the user.</li>
+<li>Future requests to the secure site, will have the encrypted cookie in the request. The client will have to send the <em>CSRF token</em> in the header for the requests to be successful.</li>
+</ol>
+<p>When navigating the secure site through the UI, the <em>CSRF token</em> can be easily accessed to be attached to the request. However, if the user were to click on a link to access the site, a <em>&quot;/verification&quot;</em> page willstill be needed to properly authenticate the user by capturing the <em>CSRF token</em> in the browser.</p>
+<p>So back to the issue at hand, the <em>Magic Link</em> needs to only work in the same browser that triggers the <em>Magic Link</em> generation. Similar to the <em>/login</em> page example in the previous section, the <em>CSRF token</em> is embedded in the browser when the users generate a <em>Magic Link</em> with their email. Therefore, the Magic Link sent to their emails will only work if the users open the links with the same browser session that triggered the generation; as that is where the <em>CSRF token</em> is embedded.</p>
+<h2 id="implemention">Implemention</h2>
+<p>In this section we will cover the implementatio details for a minimal CSRF Magic Link example with <em>Go</em>, <em>Gin</em>, <em>HTML templating</em>, and <em>HTMX</em>.</p>
+<p><em>HTMX</em> is amazing but we will not be covering that in this post.</p>
+<p>The web server is setup as follow:</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"crypto/rand"</span>
+	<span class="token string">"net/http"</span>
+
+	<span class="token string">"github.com/gin-contrib/sessions"</span>
+	<span class="token string">"github.com/gin-contrib/sessions/cookie"</span>
+	<span class="token string">"github.com/gin-gonic/gin"</span>
+	<span class="token string">"github.com/gorilla/securecookie"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// (1) Defining keys &amp; store</span>
+	authKeyMagic <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span>
+	encryptKeyMagic <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span>
+	rand<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>authKeyMagic<span class="token punctuation">)</span>
+	rand<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>encryptKeyMagic<span class="token punctuation">)</span>
+	codec <span class="token operator">:=</span> securecookie<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span>authKeyMagic<span class="token punctuation">,</span> encryptKeyMagic<span class="token punctuation">)</span>
+	codec<span class="token punctuation">.</span><span class="token function">MaxAge</span><span class="token punctuation">(</span><span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">15</span><span class="token punctuation">)</span>
+	codecs <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>securecookie<span class="token punctuation">.</span>Codec<span class="token punctuation">{</span>codec<span class="token punctuation">}</span>
+
+	authKeyCookie <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span>
+	encryptKeyCookie <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span>
+	rand<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>authKeyCookie<span class="token punctuation">)</span>
+	rand<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>encryptKeyCookie<span class="token punctuation">)</span>
+	storeCookies <span class="token operator">:=</span> cookie<span class="token punctuation">.</span><span class="token function">NewStore</span><span class="token punctuation">(</span>authKeyCookie<span class="token punctuation">,</span> encryptKeyCookie<span class="token punctuation">)</span>
+	storeCookies<span class="token punctuation">.</span><span class="token function">Options</span><span class="token punctuation">(</span>sessions<span class="token punctuation">.</span>Options<span class="token punctuation">{</span>
+		Path<span class="token punctuation">:</span>     <span class="token string">"/"</span><span class="token punctuation">,</span>
+		MaxAge<span class="token punctuation">:</span>   <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">,</span>
+		HttpOnly<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+		Secure<span class="token punctuation">:</span>   <span class="token boolean">false</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// (2) Routes</span>
+	router <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	err <span class="token operator">:=</span> router<span class="token punctuation">.</span><span class="token function">SetTrustedProxies</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	router<span class="token punctuation">.</span><span class="token function">LoadHTMLGlob</span><span class="token punctuation">(</span><span class="token string">"templates/*.go.tmpl"</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">Static</span><span class="token punctuation">(</span><span class="token string">"/static"</span><span class="token punctuation">,</span> <span class="token string">"./static"</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">Use</span><span class="token punctuation">(</span>sessions<span class="token punctuation">.</span><span class="token function">Sessions</span><span class="token punctuation">(</span>COOKIE_STORE_NAME<span class="token punctuation">,</span> storeCookies<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/magic/generate"</span><span class="token punctuation">,</span> <span class="token function">handleMagicLinkGeneration</span><span class="token punctuation">(</span>codecs<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/magic/verify/:magic"</span><span class="token punctuation">,</span> <span class="token function">handleMagicLinkVerification</span><span class="token punctuation">(</span>codecs<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/magic/verify/:magic"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">"check-auth.go.tmpl"</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
+			<span class="token string">"route"</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/secure/:id"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">"check-auth.go.tmpl"</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
+			<span class="token string">"route"</span><span class="token punctuation">:</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>Path<span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/secure/:id"</span><span class="token punctuation">,</span> handleSecure<span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">,</span> <span class="token function">MiddlewareNoCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span><span class="token function">HTML</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">"login.go.tmpl"</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
+			<span class="token string">"csrfToken"</span><span class="token punctuation">:</span> <span class="token function">generateCsrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="1-defining-keys-and-store">(1) Defining keys &amp; store</h4>
+<div class="message-box">
+  <p><em>
+  Hash-based Message Authentication Code (HAMC), is a cryptographic technique that combines a hash function with a secret key to verify the integrity and authenticity of a message. It ensures that the message has not been altered during transmission and confirms that it comes from a legitimate source.
+  </em></p>
+</div>
+<br>
+The reason why we have 2 keys, is that one is used for _HMAC_ while the other is for encryption. _HMAC_ is needed so that adversaries are not able to successfully mutate the ciphertext of the encrypted cookie such that the decrypted version is still semantically valid.
+<p>We also define 2 separate key pairs as one is for <em>Magic Links</em>, while the other is for the actual encrypted session cookies.</p>
+<p>The expiry of the keys are defined here as well and should match what is stated in the <a href="/blog/3-magic-links/#non-functional-requirements">Non-Functional requirements</a>.</p>
+<h4 id="2-routes">(2) Routes</h4>
+<p>You may have noticed that secured routes have both a <em>GET</em> and a <em>POST</em> method. This is to support URL navigation, whereby the <em>check-auth</em> page is rendered to capture the <em>CSRF token</em> in the browser before attempting to retrieve the secured resources with a <em>POST</em>.</p>
+<h4 id="3-minimal-javascript">(3) Minimal Javascript</h4>
+<pre class="language-javascript" tabindex="0"><code class="language-javascript"><span class="token comment">// Read from meta tag and store in localStorage</span>
+<span class="token keyword">const</span> csrfMeta <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'meta[name="csrf-token"]'</span><span class="token punctuation">)</span><span class="token operator">?.</span>content<span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>csrfMeta<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'csrfToken'</span><span class="token punctuation">,</span> csrfMeta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Attach CSRF token from meta tag or localstorage to HTMX request</span>
+document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'htmx:configRequest'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">.</span>detail<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'X-CSRF-Token'</span><span class="token punctuation">]</span> <span class="token operator">=</span>
+    csrfMeta <span class="token operator">||</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'csrfToken'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>With <em>HTMX</em>, there is minimal need to introduce <em>javascript</em> into our webapp. However, as we will be using the browser's <em>localstorage</em> to store the <em>CSRF token</em>, <em>javascript</em> is still needed. The above code snippet shows the minimal code needed to store and retrieve the <em>CSRF token</em>.</p>
+<h4 id="demo">Demo</h4>
+<video controls="" width="720">
+  <source src="/videos/csrf.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<p>The above video shows the full capabilities of our Magic Link site!</p>
+
+
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/3-magic-links/">Magic Links</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<a href="https://www.linkedin.com/in/sh4nnongoh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="margin-right:12px; text-decoration:none;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M20.447 20.452H17.21V14.82c0-1.343-.027-3.071-1.873-3.071-1.873 0-2.159 1.462-2.159 2.973v5.73H9.94V9h3.112v1.561h.044c.434-.82 1.494-1.686 3.073-1.686 3.286 0 3.889 2.164 3.889 4.977v6.6zM5.337 7.433a1.804 1.804 0 1 1 0-3.607 1.804 1.804 0 0 1 0 3.607zM6.956 20.452H3.72V9h3.236v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.225 0z"></path>
+				</svg>
+			</a>
+			<a href="https://github.com/sh4nnongoh" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="text-decoration:none;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M12 .296c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.73.084-.73 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.303-5.466-1.332-5.466-5.93 0-1.31.469-2.38 1.236-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.018.005 2.042.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222v3.293c0 .321.218.694.825.576C20.565 22.092 24 17.592 24 12.296c0-6.627-5.373-12-12-12z"></path>
+				</svg>
+			</a>
+			<p>
+				<em>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a>, created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em>
+			</p>
+		</footer>
+
+		<!-- This page `/blog/4-csrf-magic-links/` was built on 2026-01-22T14:40:43.609Z -->
+		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
+	</body>
+</html>

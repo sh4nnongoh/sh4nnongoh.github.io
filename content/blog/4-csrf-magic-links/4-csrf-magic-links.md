@@ -156,6 +156,7 @@ func main() {
   </em></p>
 </div>
 <br/>
+
 The reason why we have 2 keys, is that one is used for _HMAC_ while the other is for encryption. _HMAC_ is needed so that adversaries are not able to successfully mutate the ciphertext of the encrypted cookie such that the decrypted version is still semantically valid.
 
 We also define 2 separate key pairs as one is for _Magic Links_, while the other is for the actual encrypted session cookies.

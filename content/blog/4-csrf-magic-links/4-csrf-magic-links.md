@@ -194,5 +194,18 @@ With _HTMX_, there is minimal need to introduce _javascript_ into our webapp. Ho
 
 The above video shows the full capabilities of our Magic Link site!
 
+<div class="message-box">
+	<p>
+    <em>
+      Check out the example project here!
+      <br/>
+      <a href="https://github.com/sh4nnongoh/go-csrf-magic-links" target="_blank" rel="noopener noreferrer">
+        https://github.com/sh4nnongoh/go-csrf-magic-links
+      </a>
+    </em>
+  </p>
+</div>
+
+
 <style>{% include "css/message-box.css" %}</style>
 <style>{% include "css/table.css" %}</style>

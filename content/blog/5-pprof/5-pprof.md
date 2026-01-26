@@ -236,4 +236,18 @@ When invoking the container, a strict constrained environment can be defined to 
 
 The parameters of our [Load Testing script](#load-testing) can be defined by experimenting with the values, and observing the stability of the container metrics in the Docker Desktop UI. In our scenario, ```500``` concurrent requests is a good number to start with for a ```64MB``` container.
 
+<div class="message-box">
+	<p>
+    <em>
+      Check out the example project here!
+      <br/>
+      <a href="https://github.com/sh4nnongoh/go-csrf-magic-links" target="_blank" rel="noopener noreferrer">
+        https://github.com/sh4nnongoh/go-csrf-magic-links
+      </a>
+    </em>
+  </p>
+</div>
+
+More details into ```pprof``` analysis will be in the next post. Stay tuned!
+
 <style>{% include "css/message-box.css" %}</style>

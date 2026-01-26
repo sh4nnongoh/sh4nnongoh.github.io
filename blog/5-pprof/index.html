@@ -644,7 +644,7 @@ pre[class*="language-diff-"] {
   - Google
   </em></p>
 </div>
-<p>In the <a href="/blog/4-csrf-magic-links">previous post</a>, we built a simple <code>Go</code> webapp using the <code>Gin</code> webserver for authentication of users using <code>Magic Links</code>. However, how do we know that it actually works at scale? We need a way to benchmark the app with proper load and see if it can withhold the number of users expected to use our app. This is where <a href="https://github.com/google/pprof">pprof</a> comes in handy, as it is already built into the Go package.</p>
+<p>In the <a href="/blog/4-csrf-magic-links">previous post</a>, we built a simple <code>Go</code> webapp using the <code>Gin</code> webserver for authentication of users using <code>Magic Links</code>. However, how do we know that it actually works at scale? We need a way to benchmark the app with a proper load and see if it can support the number of users expected to use our app with an appropriate level of resource constraints to match buisness requirements. This is where <a href="https://github.com/google/pprof">pprof</a> comes in handy, as it is already built into the Go package.</p>
 <pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
 	<span class="token comment">// ...</span>
 
@@ -670,7 +670,8 @@ pre[class*="language-diff-"] {
 	<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
     <span class="token comment">// ...</span>
 <span class="token punctuation">}</span></code></pre>
-<p>Importing the <code>&quot;net/http/pprof&quot;</code> package and spinning up a <code>http server</code>, will enable pprof analysis at the <code>/debug/pprof/</code> route of your application. As a sidenote, <code>gosec</code> linting package will flag this as a security issue as it assumes you are exposing profiling data publicly. Remember that in the larger system architecture, your webserver will not be public facing and is usually hidden behind a proxy. A bastion host is usually setup for system administrators or engineers to interact with the pprof endpoints. Therefore, we can ignore this specific linting rule.</p>
+<p>Importing the <code>&quot;net/http/pprof&quot;</code> package and spinning up a <code>http server</code>, will enable pprof analysis at the <code>/debug/pprof/</code> route of your application.</p>
+<p>As a sidenote, <code>gosec</code> linting package will flag this as a security issue as it assumes you are exposing profiling data publicly. Remember that in the larger system architecture, your webserver will not be public facing and is usually hidden behind a proxy. A bastion host is usually setup for system administrators or engineers to interact with the pprof endpoints. Therefore, we can ignore this specific linting rule.</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token assign-left variable">BASE_URL</span><span class="token operator">=</span>http://localhost:6060
 <span class="token assign-left variable">SAMPLING_PERIOD</span><span class="token operator">=</span><span class="token number">30</span>
 
@@ -701,7 +702,7 @@ pre[class*="language-diff-"] {
 <p>We can then use the command line <code>go tool</code> to evaluate each profile accordingly; i.e. <code>go tool pprof -http=:8081 ./cpu.pprof</code></p>
 <p>The <a href="https://github.com/sh4nnongoh/go-csrf-magic-links/blob/main/cmd/benchmark/start.sh">benchmarking script</a> is defined in the repository as well.</p>
 <h2 id="load-testing">Load Testing</h2>
-<p>Now that our server is ready to gather profiling metrics. We need to write a script to perform actual load on our server.</p>
+<p>Now that our server is ready to gather profiling metrics. We need to write a script to perform actual load testing on our server.</p>
 <pre class="language-go" tabindex="0"><code class="language-go"><span class="token comment">// ...</span>
 
 <span class="token keyword">const</span> <span class="token punctuation">(</span>
@@ -761,9 +762,10 @@ loop<span class="token punctuation">:</span>
 <span class="token punctuation">}</span></code></pre>
 <p>In the <a href="https://github.com/sh4nnongoh/go-csrf-magic-links/blob/main/cmd/benchmark/main.go"><code>/cmd/benchmark/main.go</code></a> directory, a <code>Go</code> program is written to perform concurrent requests to the server's endpoints.</p>
 <h4 id="1-defining-context-and-resource-managment-constructs">(1) Defining Context &amp; Resource Managment Constructs</h4>
-<p>A <code>context</code> is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an <code>errgroup</code> which is the construct that performs the actual concurrent requests. <em>(For those familiar with <code>Javascript</code>, an <code>errgroup</code> is similar to <code>Promise.All()</code>).</em> A Semaphore is also defined which represents the total number of concurrent requests made to our server.</p>
+<p>A <code>context</code> is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an <code>errgroup</code> which is the construct that performs the actual concurrent requests. <em>(For those familiar with <code>Javascript</code>, an <code>errgroup</code> is similar to <code>Promise.All()</code>).</em> A semaphore is also defined which represents the maximum number of concurrent requests that can be made to our server.</p>
 <h4 id="2-trigger-requests-in-go-routines">(2) Trigger Requests in Go Routines</h4>
-<p>The whole request lifecycle is encapsulated within a <code>Go</code> Routine, and this <code>Go Routine</code> is only triggered once a <em>lock</em> can be claimed from the <em>semaphore</em>. For this load testing, the endpoint for <code>Magic Link</code> generation will be used. An important note when performing a high number of HTTP requests, is that most libraries will pool the HTTP connections such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered <code>&quot;completed&quot;</code>, the <code>body</code> of the response recieved after perfoming a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, one will have a scoket exchaution error on the client side performing the load test.</p>
+<p>The whole request lifecycle is encapsulated within a <code>Go</code> Routine, and this <code>Go Routine</code> is only triggered once a <em>lock</em> can be claimed from the <em>semaphore</em>. For this load testing, the endpoint for <code>Magic Link</code> generation will be used.</p>
+<p>An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered <code>&quot;completed&quot;</code>, the <code>body</code> of the response recieved after perfoming a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.</p>
 <h3 id="docker">Docker</h3>
 <div class="message-box">
   <p><em>
@@ -853,7 +855,7 @@ loop<span class="token punctuation">:</span>
 			</p>
 		</footer>
 
-		<!-- This page `/blog/5-pprof/` was built on 2026-01-26T06:24:43.170Z -->
+		<!-- This page `/blog/5-pprof/` was built on 2026-01-26T08:06:49.033Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

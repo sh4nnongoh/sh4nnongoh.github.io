@@ -14,7 +14,7 @@ tags: System Design, Magic Links, CSRF, Go, Gin, Docker, pprof, TL3
   </em></p>
 </div>
 
-In the [previous post](/blog/4-csrf-magic-links), we built a simple ```Go``` webapp using the ```Gin``` webserver for authentication of users using ```Magic Links```. However, how do we know that it actually works at scale? We need a way to benchmark the app with proper load and see if it can withhold the number of users expected to use our app. This is where [pprof](https://github.com/google/pprof) comes in handy, as it is already built into the Go package.
+In the [previous post](/blog/4-csrf-magic-links), we built a simple ```Go``` webapp using the ```Gin``` webserver for authentication of users using ```Magic Links```. However, how do we know that it actually works at scale? We need a way to benchmark the app with a proper load and see if it can support the number of users expected to use our app with an appropriate level of resource constraints to match buisness requirements. This is where [pprof](https://github.com/google/pprof) comes in handy, as it is already built into the Go package.
 
 ```go
 import (
@@ -44,7 +44,9 @@ func main() {
 }
 ```
 
-Importing the ```"net/http/pprof"``` package and spinning up a ```http server```, will enable pprof analysis at the ```/debug/pprof/``` route of your application. As a sidenote, ```gosec``` linting package will flag this as a security issue as it assumes you are exposing profiling data publicly. Remember that in the larger system architecture, your webserver will not be public facing and is usually hidden behind a proxy. A bastion host is usually setup for system administrators or engineers to interact with the pprof endpoints. Therefore, we can ignore this specific linting rule.
+Importing the ```"net/http/pprof"``` package and spinning up a ```http server```, will enable pprof analysis at the ```/debug/pprof/``` route of your application. 
+
+As a sidenote, ```gosec``` linting package will flag this as a security issue as it assumes you are exposing profiling data publicly. Remember that in the larger system architecture, your webserver will not be public facing and is usually hidden behind a proxy. A bastion host is usually setup for system administrators or engineers to interact with the pprof endpoints. Therefore, we can ignore this specific linting rule.
 
 ```bash
 BASE_URL=http://localhost:6060
@@ -83,7 +85,7 @@ The [benchmarking script](https://github.com/sh4nnongoh/go-csrf-magic-links/blob
 
 ## Load Testing
 
-Now that our server is ready to gather profiling metrics. We need to write a script to perform actual load on our server.
+Now that our server is ready to gather profiling metrics. We need to write a script to perform actual load testing on our server.
 
 ```go
 // ...
@@ -149,11 +151,13 @@ In the [```/cmd/benchmark/main.go```](https://github.com/sh4nnongoh/go-csrf-magi
 
 #### (1) Defining Context & Resource Managment Constructs
 
-A ```context``` is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an ```errgroup``` which is the construct that performs the actual concurrent requests. _(For those familiar with ```Javascript```, an ```errgroup``` is similar to ```Promise.All()```)._ A Semaphore is also defined which represents the total number of concurrent requests made to our server.
+A ```context``` is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an ```errgroup``` which is the construct that performs the actual concurrent requests. _(For those familiar with ```Javascript```, an ```errgroup``` is similar to ```Promise.All()```)._ A semaphore is also defined which represents the maximum number of concurrent requests that can be made to our server.
 
 #### (2) Trigger Requests in Go Routines
 
-The whole request lifecycle is encapsulated within a ```Go``` Routine, and this ```Go Routine``` is only triggered once a _lock_ can be claimed from the _semaphore_. For this load testing, the endpoint for ```Magic Link``` generation will be used. An important note when performing a high number of HTTP requests, is that most libraries will pool the HTTP connections such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered ```"completed"```, the ```body``` of the response recieved after perfoming a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, one will have a scoket exchaution error on the client side performing the load test.
+The whole request lifecycle is encapsulated within a ```Go``` Routine, and this ```Go Routine``` is only triggered once a _lock_ can be claimed from the _semaphore_. For this load testing, the endpoint for ```Magic Link``` generation will be used. 
+
+An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered ```"completed"```, the ```body``` of the response recieved after perfoming a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.
 
 ### Docker
 

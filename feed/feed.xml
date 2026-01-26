@@ -24,7 +24,7 @@
   - Google
   &lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;previous post&lt;/a&gt;, we built a simple &lt;code&gt;Go&lt;/code&gt; webapp using the &lt;code&gt;Gin&lt;/code&gt; webserver for authentication of users using &lt;code&gt;Magic Links&lt;/code&gt;. However, how do we know that it actually works at scale? We need a way to benchmark the app with a proper load and see if it can support the number of users expected to use our app with an appropriate level of resource constraints to match buisness requirements. This is where &lt;a href=&quot;https://github.com/google/pprof&quot;&gt;pprof&lt;/a&gt; comes in handy, as it is already built into the Go package.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;previous post&lt;/a&gt;, we built a simple &lt;code&gt;Go&lt;/code&gt; webapp using the &lt;code&gt;Gin&lt;/code&gt; webserver for authentication of users using &lt;code&gt;Magic Links&lt;/code&gt;. However, how do we know that it actually works at scale? We need a way to benchmark the app with a proper load and see if it can support the number of users expected to use our app with an appropriate level of resource constraints to match business requirements. This is where &lt;a href=&quot;https://github.com/google/pprof&quot;&gt;pprof&lt;/a&gt; comes in handy, as it is already built into the Go package.&lt;/p&gt;
 &lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
 	&lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
 
@@ -51,7 +51,7 @@
     &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Importing the &lt;code&gt;&amp;quot;net/http/pprof&amp;quot;&lt;/code&gt; package and spinning up a &lt;code&gt;http server&lt;/code&gt;, will enable pprof analysis at the &lt;code&gt;/debug/pprof/&lt;/code&gt; route of your application.&lt;/p&gt;
-&lt;p&gt;As a sidenote, &lt;code&gt;gosec&lt;/code&gt; linting package will flag this as a security issue as it assumes you are exposing profiling data publicly. Remember that in the larger system architecture, your webserver will not be public facing and is usually hidden behind a proxy. A bastion host is usually setup for system administrators or engineers to interact with the pprof endpoints. Therefore, we can ignore this specific linting rule.&lt;/p&gt;
+&lt;p&gt;As a side-note, &lt;code&gt;gosec&lt;/code&gt; linting package will flag this as a security issue as it assumes you are exposing profiling data publicly. Remember that in the larger system architecture, your webserver will not be public facing and is usually hidden behind a proxy. A bastion host is usually setup for system administrators or engineers to interact with the pprof endpoints. Therefore, we can ignore this specific linting rule.&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token assign-left variable&quot;&gt;BASE_URL&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;http://localhost:6060
 &lt;span class=&quot;token assign-left variable&quot;&gt;SAMPLING_PERIOD&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;30&lt;/span&gt;
 
@@ -87,7 +87,7 @@
 
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
 	ConcurrentRequestsCount   &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;
-	BenchmarkDuractionSeconds &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;60&lt;/span&gt;
+	BenchmarkDurationSeconds  &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;60&lt;/span&gt;
 	Host                      &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;http://127.0.0.1:8080&quot;&lt;/span&gt;
 	GenerateMagicRoute        &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/magic/generate&quot;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
@@ -101,7 +101,7 @@
 	&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 
     &lt;span class=&quot;token comment&quot;&gt;// (1) Defining Context and Resource Management Constructs&lt;/span&gt;
-	ctx&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; cancel &lt;span class=&quot;token operator&quot;&gt;:=&lt;/span&gt; context&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;WithTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;context&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; BenchmarkDuractionSeconds&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Second&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+	ctx&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; cancel &lt;span class=&quot;token operator&quot;&gt;:=&lt;/span&gt; context&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;WithTimeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;context&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; BenchmarkDurationSeconds&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Second&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 	&lt;span class=&quot;token keyword&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cancel&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 	group&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; ctx &lt;span class=&quot;token operator&quot;&gt;:=&lt;/span&gt; errgroup&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;WithContext&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;ctx&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 	semaphore &lt;span class=&quot;token operator&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;make&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;chan&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; ConcurrentRequestsCount&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
@@ -141,11 +141,11 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the &lt;a href=&quot;https://github.com/sh4nnongoh/go-csrf-magic-links/blob/main/cmd/benchmark/main.go&quot;&gt;&lt;code&gt;/cmd/benchmark/main.go&lt;/code&gt;&lt;/a&gt; directory, a &lt;code&gt;Go&lt;/code&gt; program is written to perform concurrent requests to the server&#39;s endpoints.&lt;/p&gt;
-&lt;h4 id=&quot;1-defining-context-and-resource-managment-constructs&quot;&gt;(1) Defining Context &amp;amp; Resource Managment Constructs&lt;/h4&gt;
+&lt;h4 id=&quot;1-defining-context-and-resource-management-constructs&quot;&gt;(1) Defining Context &amp;amp; Resource Management Constructs&lt;/h4&gt;
 &lt;p&gt;A &lt;code&gt;context&lt;/code&gt; is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an &lt;code&gt;errgroup&lt;/code&gt; which is the construct that performs the actual concurrent requests. &lt;em&gt;(For those familiar with &lt;code&gt;Javascript&lt;/code&gt;, an &lt;code&gt;errgroup&lt;/code&gt; is similar to &lt;code&gt;Promise.All()&lt;/code&gt;).&lt;/em&gt; A semaphore is also defined which represents the maximum number of concurrent requests that can be made to our server.&lt;/p&gt;
 &lt;h4 id=&quot;2-trigger-requests-in-go-routines&quot;&gt;(2) Trigger Requests in Go Routines&lt;/h4&gt;
 &lt;p&gt;The whole request lifecycle is encapsulated within a &lt;code&gt;Go&lt;/code&gt; Routine, and this &lt;code&gt;Go Routine&lt;/code&gt; is only triggered once a &lt;em&gt;lock&lt;/em&gt; can be claimed from the &lt;em&gt;semaphore&lt;/em&gt;. For this load testing, the endpoint for &lt;code&gt;Magic Link&lt;/code&gt; generation will be used.&lt;/p&gt;
-&lt;p&gt;An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered &lt;code&gt;&amp;quot;completed&amp;quot;&lt;/code&gt;, the &lt;code&gt;body&lt;/code&gt; of the response recieved after perfoming a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.&lt;/p&gt;
+&lt;p&gt;An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered &lt;code&gt;&amp;quot;completed&amp;quot;&lt;/code&gt;, the &lt;code&gt;body&lt;/code&gt; of the response received after performing a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.&lt;/p&gt;
 &lt;h3 id=&quot;docker&quot;&gt;Docker&lt;/h3&gt;
 &lt;div class=&quot;message-box&quot;&gt;
   &lt;p&gt;&lt;em&gt;
@@ -211,6 +211,18 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
 &lt;p&gt;When invoking the container, a strict constrained environment can be defined to test specific areas of our application. An example is shown above.&lt;/p&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/5-pprof/5OQn4HWpsr-2916.avif 2916w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/5-pprof/5OQn4HWpsr-2916.webp 2916w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/5-pprof/5OQn4HWpsr-2916.png&quot; alt=&quot;Docker Desktop Metrics&quot; width=&quot;2916&quot; height=&quot;1816&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;The parameters of our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof/#load-testing&quot;&gt;Load Testing script&lt;/a&gt; can be defined by experimenting with the values, and observing the stability of the container metrics in the Docker Desktop UI. In our scenario, &lt;code&gt;500&lt;/code&gt; concurrent requests is a good number to start with for a &lt;code&gt;64MB&lt;/code&gt; container.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;
+    &lt;em&gt;
+      Check out the example project here!
+      &lt;br&gt;
+      &lt;a href=&quot;https://github.com/sh4nnongoh/go-csrf-magic-links&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;
+        https://github.com/sh4nnongoh/go-csrf-magic-links
+      &lt;/a&gt;
+    &lt;/em&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;More details into &lt;code&gt;pprof&lt;/code&gt; analysis will be in the next post. Stay tuned!&lt;/p&gt;
 
 </content>
   </entry>

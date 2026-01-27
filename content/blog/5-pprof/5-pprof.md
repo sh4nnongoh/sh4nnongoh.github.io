@@ -1,5 +1,5 @@
 ---
-title: PPROF & Load Testing
+title: pprof & Load Testing
 description: Setting up a Go app with pprof endpoints; Writing a Go program for Load Testing.
 date: 2026-01-26
 tags: System Design, Magic Links, CSRF, Go, Gin, Docker, pprof, TL3
@@ -117,7 +117,7 @@ loop:
 		case <-ctx.Done():
 			break loop
 		default:
-            // (2) Trigger Requests in Go Routines
+            // (2) Trigger Requests in Goroutines
 			semaphore <- struct{}{}
 			group.Go(func() error {
 				defer func() {
@@ -153,9 +153,9 @@ In the [```/cmd/benchmark/main.go```](https://github.com/sh4nnongoh/go-csrf-magi
 
 A ```context``` is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an ```errgroup``` which is the construct that performs the actual concurrent requests. _(For those familiar with ```Javascript```, an ```errgroup``` is similar to ```Promise.All()```)._ A semaphore is also defined which represents the maximum number of concurrent requests that can be made to our server.
 
-#### (2) Trigger Requests in Go Routines
+#### (2) Trigger Requests in Goroutines
 
-The whole request lifecycle is encapsulated within a ```Go``` Routine, and this ```Go Routine``` is only triggered once a _lock_ can be claimed from the _semaphore_. For this load testing, the endpoint for ```Magic Link``` generation will be used. 
+The whole request lifecycle is encapsulated within a ```Goroutine```, and this ```Goroutine``` is only triggered once a _lock_ can be claimed from the _semaphore_. For this load testing, the endpoint for ```Magic Link``` generation will be used. 
 
 An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered ```"completed"```, the ```body``` of the response received after performing a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.
 

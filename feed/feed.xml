@@ -5,13 +5,143 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-01-26T00:00:00Z</updated>
+  <updated>2026-01-27T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
   </author>
   <entry>
-    <title>PPROF &amp; Load Testing</title>
+    <title>pprof Analysis</title>
+    <link href="https://sh4nnongoh.github.io/blog/6-pprof-analysis/" />
+    <updated>2026-01-27T00:00:00Z</updated>
+    <id>https://sh4nnongoh.github.io/blog/6-pprof-analysis/</id>
+    <content type="html">&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
+&lt;p&gt;There are a lot of information provided by the profiles, and in order to not get overwhelmed, we need to adopt a strategy to analyze them.&lt;/p&gt;
+&lt;h2 id=&quot;strategy&quot;&gt;Strategy&lt;/h2&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  Flamegraph is a visualization of hierarchical data to visualize stack traces of profiled software so that the most frequent code-paths can be identified quickly and accurately.
+  &lt;/em&gt;&lt;br&gt;- brendangregg&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;We will be mostly using &lt;a href=&quot;https://www.brendangregg.com/flamegraphs.html&quot;&gt;flamegraphs&lt;/a&gt; to analyze the profile data. Flamegraphs provide a high level overview of the time or resource spent in certain areas of your app, and because it users a collection of bar graphs, we can easily identify bottlenecks by looking at the width of a bar relative to the overall app.&lt;/p&gt;
+&lt;p&gt;Below are the various sections of profile analysis, and I recommend going through them sequentially in order to not get overwhelmed.&lt;/p&gt;
+&lt;h2 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Resource Utilization&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#blocking-operation&quot;&gt;Blocking Operation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#mutex&quot;&gt;Mutex&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#goroutine&quot;&gt;Goroutine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#heap&quot;&gt;Heap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#cpu&quot;&gt;CPU&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Latency Reduction&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#cpu&quot;&gt;CPU&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;resource-utilization&quot;&gt;Resource Utilization&lt;/h2&gt;
+&lt;h4 id=&quot;blocking-operation&quot;&gt;Blocking Operation&lt;/h4&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  For I/O-bound latency, blocking profiles reveal goroutines waiting.
+  Examples include:
+  Network calls (HTTP, database, Redis);
+  Channel operations with slow consumers;
+  Mutex contention (use mutex profile separately).
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./block.pprof&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Most likely due to the fact that we are running everything on &lt;em&gt;localhost&lt;/em&gt;, hence, there is no information here. Will elaborate more on this in future posts!&lt;/p&gt;
+&lt;h4 id=&quot;mutex&quot;&gt;Mutex&lt;/h4&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  The mutex profile builds on the block profile to focus on mutexes.
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./mutex.pprof&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;em&gt;Magic Link Generation handler&lt;/em&gt; is currently not dealing with mutexes for resource sharing, hence, there is no information here.&lt;/p&gt;
+&lt;h4 id=&quot;goroutine&quot;&gt;Goroutine&lt;/h4&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  The Goroutine profile shows the goroutines present within the sample period, with each branch representing different types of goroutines triggered within the app. When looking at the flamegraph, identify the total number of goroutines spawned in the top right corner. It should be similar to the number of concurrent requests made during the load test. Also to look out for &quot;waiting on channel that never receives&quot; in your application code to identify leaks.
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./goroutine.pprof&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/nvMk-MCLjZ-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/nvMk-MCLjZ-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/nvMk-MCLjZ-3402.png&quot; alt=&quot;goroutine&quot; width=&quot;3402&quot; height=&quot;716&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot; italic=&quot;&quot;&gt;&lt;em&gt;Number of Goroutines&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;By referencing the flamegraph, it can be seen that the number of goroutines spawned (&lt;em&gt;517&lt;/em&gt;) is approximately equal to the concurrent requests (&lt;em&gt;500&lt;/em&gt;) made during the load test. It can also be seen that there is only one branch of goroutines which is inline with our implementation. In conclusion, there is no issue here.&lt;/p&gt;
+&lt;h4 id=&quot;heap&quot;&gt;Heap&lt;/h4&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  The heap profile show the amount of memory allocated along with the amount of memory actually in-use during the sample period. By calculating the percentage of the 2 metrics, we can derive the allocated memory utilization of the app. A low allocated memory utilization means that the Garbage Collector (GC) is heavily working to clear objects from memory.
+  &lt;br&gt;&lt;br&gt;
+  By calculating the percentage of the in-use memory with the memory allocated for the app (container), we can also derive the in-use memory utilization of the app. A low in-use memory utilization means that the app is not making full use of the resources available.
+  &lt;br&gt;&lt;br&gt;
+  The goal is to increase the utilizations to an acceptable level, such that there is less pressure on the GC, and making full use of the resources available. Note, that when a GC is active, the app is paused from doing actual work.
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./heap_rate.pprof&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/ISUtVWcb0t-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/ISUtVWcb0t-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/ISUtVWcb0t-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space&lt;/em&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/bDdQifKs1d-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/bDdQifKs1d-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/bDdQifKs1d-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap In-Use Space&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated-memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/p&gt;
+&lt;p&gt;There are opportunities for improvements here.&lt;/p&gt;
+&lt;h4 id=&quot;cpu&quot;&gt;CPU&lt;/h4&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  The CPU profile shows the time spent processing tasks in various sections of the app. The CPU utilization of the app can be calculated by taking the percentage of the CPU time spent (top right corner of the flamegraph) against the sample period. A low CPU utilization means that the app can handle more concurrent requests to make more use of the CPU.
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./cpu.pprof&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/u_t_G0Crz8-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/u_t_G0Crz8-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/u_t_G0Crz8-3402.png&quot; alt=&quot;cpu&quot; width=&quot;3402&quot; height=&quot;1696&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The current CPU utilization is (&lt;em&gt;14.83s&lt;/em&gt; / &lt;em&gt;30s&lt;/em&gt; ~= &lt;strong&gt;49%&lt;/strong&gt;). This means that the CPU still has room to process more concurrent requests, but due to the memory issues identified in the previous section, the app can&#39;t handle more concurrent requests.&lt;/p&gt;
+&lt;h2 id=&quot;latency-reduction&quot;&gt;Latency Reduction&lt;/h2&gt;
+&lt;h4 id=&quot;cpu-2&quot;&gt;CPU&lt;/h4&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  When focusing on latency reduction, one needs to dive deep into the sections of the flamegraph to identify optimization areas. Once an area is identified, perform benchmarking to get a baseline of the current metrics, make the necessary improvements, then run the benchmark again to quantify the actual improvements gained.
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;Referencing the CPU flamegraph in the previous section, we can see that our &lt;em&gt;Magic Link Generation&lt;/em&gt; handler consumed &lt;em&gt;38.6%&lt;/em&gt; of the overall CPU, and (&lt;em&gt;38.6%&lt;/em&gt; / &lt;em&gt;89.8%&lt;/em&gt; ~= &lt;em&gt;43%&lt;/em&gt;) of the &lt;em&gt;http request &amp;amp; response lifecycle&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Before optimizing the actual application code written by the developer, we should try to remove or reduce other sections of code that consumes the CPU.&lt;/p&gt;
+&lt;p&gt;Looking at the &lt;em&gt;fmt.Fprint&lt;/em&gt; under the &lt;em&gt;gin.LoggerWithConfig.func1&lt;/em&gt; section, we can see that it takes up &lt;em&gt;9.2%&lt;/em&gt; of the overall CPU. We can look at optimizing the default &lt;em&gt;logger&lt;/em&gt; for &lt;em&gt;gin&lt;/em&gt;, before optimizing else where.&lt;/p&gt;
+&lt;p&gt;When dealing with latency, we will need to do proper benchmarking in-order to quantify the potential gains achieved. &lt;a href=&quot;https://betterstack.com/community/guides/scaling-go/golang-benchmarking/&quot;&gt;Betterstack&lt;/a&gt; has a good article describing this process.&lt;/p&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The priority of optimization tasks is as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;To increase the allocated memory utilization of the app.&lt;/li&gt;
+&lt;li&gt;To increase the in-use memory utilization of the app.&lt;/li&gt;
+&lt;li&gt;To reduce the latency of our app.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;Stay tuned to future blog posts where we will dive deep into each area!&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;
+    &lt;em&gt;
+      Check out the example project here!
+      &lt;br&gt;
+      &lt;a href=&quot;https://github.com/sh4nnongoh/go-csrf-magic-links&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;
+        https://github.com/sh4nnongoh/go-csrf-magic-links
+      &lt;/a&gt;
+    &lt;/em&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <title>pprof &amp; Load Testing</title>
     <link href="https://sh4nnongoh.github.io/blog/5-pprof/" />
     <updated>2026-01-26T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/5-pprof/</id>
@@ -112,7 +242,7 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
 		&lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;-&lt;/span&gt;ctx&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Done&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
 			&lt;span class=&quot;token keyword&quot;&gt;break&lt;/span&gt; loop
 		&lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;token comment&quot;&gt;// (2) Trigger Requests in Go Routines&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;// (2) Trigger Requests in Goroutines&lt;/span&gt;
 			semaphore &lt;span class=&quot;token operator&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 			group&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Go&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
 				&lt;span class=&quot;token keyword&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -143,8 +273,8 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
 &lt;p&gt;In the &lt;a href=&quot;https://github.com/sh4nnongoh/go-csrf-magic-links/blob/main/cmd/benchmark/main.go&quot;&gt;&lt;code&gt;/cmd/benchmark/main.go&lt;/code&gt;&lt;/a&gt; directory, a &lt;code&gt;Go&lt;/code&gt; program is written to perform concurrent requests to the server&#39;s endpoints.&lt;/p&gt;
 &lt;h4 id=&quot;1-defining-context-and-resource-management-constructs&quot;&gt;(1) Defining Context &amp;amp; Resource Management Constructs&lt;/h4&gt;
 &lt;p&gt;A &lt;code&gt;context&lt;/code&gt; is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an &lt;code&gt;errgroup&lt;/code&gt; which is the construct that performs the actual concurrent requests. &lt;em&gt;(For those familiar with &lt;code&gt;Javascript&lt;/code&gt;, an &lt;code&gt;errgroup&lt;/code&gt; is similar to &lt;code&gt;Promise.All()&lt;/code&gt;).&lt;/em&gt; A semaphore is also defined which represents the maximum number of concurrent requests that can be made to our server.&lt;/p&gt;
-&lt;h4 id=&quot;2-trigger-requests-in-go-routines&quot;&gt;(2) Trigger Requests in Go Routines&lt;/h4&gt;
-&lt;p&gt;The whole request lifecycle is encapsulated within a &lt;code&gt;Go&lt;/code&gt; Routine, and this &lt;code&gt;Go Routine&lt;/code&gt; is only triggered once a &lt;em&gt;lock&lt;/em&gt; can be claimed from the &lt;em&gt;semaphore&lt;/em&gt;. For this load testing, the endpoint for &lt;code&gt;Magic Link&lt;/code&gt; generation will be used.&lt;/p&gt;
+&lt;h4 id=&quot;2-trigger-requests-in-goroutines&quot;&gt;(2) Trigger Requests in Goroutines&lt;/h4&gt;
+&lt;p&gt;The whole request lifecycle is encapsulated within a &lt;code&gt;Goroutine&lt;/code&gt;, and this &lt;code&gt;Goroutine&lt;/code&gt; is only triggered once a &lt;em&gt;lock&lt;/em&gt; can be claimed from the &lt;em&gt;semaphore&lt;/em&gt;. For this load testing, the endpoint for &lt;code&gt;Magic Link&lt;/code&gt; generation will be used.&lt;/p&gt;
 &lt;p&gt;An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered &lt;code&gt;&amp;quot;completed&amp;quot;&lt;/code&gt;, the &lt;code&gt;body&lt;/code&gt; of the response received after performing a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.&lt;/p&gt;
 &lt;h3 id=&quot;docker&quot;&gt;Docker&lt;/h3&gt;
 &lt;div class=&quot;message-box&quot;&gt;

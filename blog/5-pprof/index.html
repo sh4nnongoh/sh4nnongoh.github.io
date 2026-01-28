@@ -5,19 +5,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Primary Meta Tags -->
-		<title>PPROF &amp; Load Testing</title>
-		<meta name="title" content="PPROF &amp; Load Testing">
+		<title>pprof &amp; Load Testing</title>
+		<meta name="title" content="pprof &amp; Load Testing">
 		<meta name="description" content="Setting up a Go app with pprof endpoints; Writing a Go program for Load Testing.">
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://sh4nnongoh.github.io">
-		<meta property="og:title" content="PPROF &amp; Load Testing">
+		<meta property="og:title" content="pprof &amp; Load Testing">
 		<meta property="og:description" content="Setting up a Go app with pprof endpoints; Writing a Go program for Load Testing.">
 		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- X (Twitter) -->
 		<meta property="twitter:card" content="summary_large_image">
 		<meta property="twitter:url" content="https://sh4nnongoh.github.io">
-		<meta property="twitter:title" content="PPROF &amp; Load Testing">
+		<meta property="twitter:title" content="pprof &amp; Load Testing">
 		<meta property="twitter:description" content="Setting up a Go app with pprof endpoints; Writing a Go program for Load Testing.">
 		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- Meta Tags Generated with https://metatags.io -->
@@ -598,7 +598,7 @@ pre[class*="language-diff-"] {
 			"@type": "WebPage",
 			"@id": "https://sh4nnongoh.github.io/blog/5-pprof/"
 		},
-		"headline": "PPROF &amp; Load Testing",
+		"headline": "pprof &amp; Load Testing",
 		"description": "Setting up a Go app with pprof endpoints; Writing a Go program for Load Testing.",
 		"image": [],
 		"datePublished": "2026-01-26",
@@ -622,7 +622,7 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="pprof-and-load-testing">PPROF &amp; Load Testing</h1>
+<h1 id="pprof-and-load-testing">pprof &amp; Load Testing</h1>
 <ul class="post-metadata">
 	<li><time datetime="2026-01-26">26 January 2026</time></li>
 	<li><a href="/tags/system-design/" class="post-tag">System Design</a>, </li>
@@ -732,7 +732,7 @@ loop<span class="token punctuation">:</span>
 		<span class="token keyword">case</span> <span class="token operator">&lt;-</span>ctx<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 			<span class="token keyword">break</span> loop
 		<span class="token keyword">default</span><span class="token punctuation">:</span>
-            <span class="token comment">// (2) Trigger Requests in Go Routines</span>
+            <span class="token comment">// (2) Trigger Requests in Goroutines</span>
 			semaphore <span class="token operator">&lt;-</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
 			group<span class="token punctuation">.</span><span class="token function">Go</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
 				<span class="token keyword">defer</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -763,8 +763,8 @@ loop<span class="token punctuation">:</span>
 <p>In the <a href="https://github.com/sh4nnongoh/go-csrf-magic-links/blob/main/cmd/benchmark/main.go"><code>/cmd/benchmark/main.go</code></a> directory, a <code>Go</code> program is written to perform concurrent requests to the server's endpoints.</p>
 <h4 id="1-defining-context-and-resource-management-constructs">(1) Defining Context &amp; Resource Management Constructs</h4>
 <p>A <code>context</code> is defined with a timeout parameter, to tell our program to exit once it reaches the time limit. This context is attached to an <code>errgroup</code> which is the construct that performs the actual concurrent requests. <em>(For those familiar with <code>Javascript</code>, an <code>errgroup</code> is similar to <code>Promise.All()</code>).</em> A semaphore is also defined which represents the maximum number of concurrent requests that can be made to our server.</p>
-<h4 id="2-trigger-requests-in-go-routines">(2) Trigger Requests in Go Routines</h4>
-<p>The whole request lifecycle is encapsulated within a <code>Go</code> Routine, and this <code>Go Routine</code> is only triggered once a <em>lock</em> can be claimed from the <em>semaphore</em>. For this load testing, the endpoint for <code>Magic Link</code> generation will be used.</p>
+<h4 id="2-trigger-requests-in-goroutines">(2) Trigger Requests in Goroutines</h4>
+<p>The whole request lifecycle is encapsulated within a <code>Goroutine</code>, and this <code>Goroutine</code> is only triggered once a <em>lock</em> can be claimed from the <em>semaphore</em>. For this load testing, the endpoint for <code>Magic Link</code> generation will be used.</p>
 <p>An important note when performing a high number of HTTP requests is that most libraries will pool the HTTP connections, such that the program does not overload the number of network sockets on the system. In order for a HTTP connection to be considered <code>&quot;completed&quot;</code>, the <code>body</code> of the response received after performing a request needs to be read fully. Otherwise, the HTTP connection will not be returned to the connection pool, and as a result, the client will experience a socket exhaustion error while performing the load test.</p>
 <h3 id="docker">Docker</h3>
 <div class="message-box">
@@ -845,7 +845,7 @@ loop<span class="token punctuation">:</span>
 <p>More details into <code>pprof</code> analysis will be in the next post. Stay tuned!</p>
 
 
-<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/4-csrf-magic-links/">CSRF with Magic Links</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/4-csrf-magic-links/">CSRF with Magic Links</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/6-pprof-analysis/">pprof Analysis</a></li>
 </ul>
 
 			</heading-anchors>
@@ -867,7 +867,7 @@ loop<span class="token punctuation">:</span>
 			</p>
 		</footer>
 
-		<!-- This page `/blog/5-pprof/` was built on 2026-01-26T13:07:51.869Z -->
+		<!-- This page `/blog/5-pprof/` was built on 2026-01-28T05:23:03.298Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

@@ -17,7 +17,7 @@ There are a lot of information provided by the profiles, and in order to not get
   </em><br>- brendangregg</p>
 </div>
 
-We will be mostly using [flamegraphs](https://www.brendangregg.com/flamegraphs.html) to analyze the profile data. Flamegraphs provide a high level overview of the time or resource spent in certain areas of your app, and because it users a collection of bar graphs, we can easily identify bottlenecks by looking at the width of a bar relative to the overall app.
+We will be mostly using [flamegraphs](https://www.brendangregg.com/flamegraphs.html) to analyze the profile data. Flamegraphs provide a high level overview of the time or resource spent in certain areas of your app, and because it uses a collection of bar graphs, we can easily identify bottlenecks by looking at the width of a bar relative to the overall app.
 
 Below are the various sections of profile analysis, and I recommend going through them sequentially in order to not get overwhelmed.
 

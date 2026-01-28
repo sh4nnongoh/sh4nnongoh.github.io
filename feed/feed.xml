@@ -5,7 +5,7 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-01-27T00:00:00Z</updated>
+  <updated>2026-01-28T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
@@ -13,7 +13,7 @@
   <entry>
     <title>pprof Analysis</title>
     <link href="https://sh4nnongoh.github.io/blog/6-pprof-analysis/" />
-    <updated>2026-01-27T00:00:00Z</updated>
+    <updated>2026-01-28T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/6-pprof-analysis/</id>
     <content type="html">&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
 &lt;p&gt;There are a lot of information provided by the profiles, and in order to not get overwhelmed, we need to adopt a strategy to analyze them.&lt;/p&gt;
@@ -72,7 +72,7 @@
 &lt;br&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./goroutine.pprof&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/nvMk-MCLjZ-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/nvMk-MCLjZ-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/nvMk-MCLjZ-3402.png&quot; alt=&quot;goroutine&quot; width=&quot;3402&quot; height=&quot;716&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/Z3wWVTwucg-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/Z3wWVTwucg-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/Z3wWVTwucg-3402.png&quot; alt=&quot;goroutine&quot; width=&quot;3402&quot; height=&quot;716&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot; italic=&quot;&quot;&gt;&lt;em&gt;Number of Goroutines&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;By referencing the flamegraph, it can be seen that the number of goroutines spawned (&lt;em&gt;517&lt;/em&gt;) is approximately equal to the concurrent requests (&lt;em&gt;500&lt;/em&gt;) made during the load test. It can also be seen that there is only one branch of goroutines which is inline with our implementation. In conclusion, there is no issue here.&lt;/p&gt;
 &lt;h4 id=&quot;heap&quot;&gt;Heap&lt;/h4&gt;
@@ -88,13 +88,21 @@
 &lt;br&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./heap_rate.pprof&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/ISUtVWcb0t-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/ISUtVWcb0t-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/ISUtVWcb0t-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space&lt;/em&gt;&lt;/p&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/bDdQifKs1d-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/bDdQifKs1d-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/bDdQifKs1d-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap In-Use Space&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated-memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/p&gt;
+&lt;p&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/p&gt;
 &lt;p&gt;There are opportunities for improvements here.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  &quot;Hey Shannon! I do not understand what the utilization means???&quot;
+  &lt;br&gt; - confused reader
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Remember that our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker container&lt;/a&gt; is only allocated &lt;em&gt;64MB&lt;/em&gt; of memory? Have you wondered how is it possible for the memory allocation during load test to reach &lt;em&gt;1.8GB&lt;/em&gt;? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. &lt;em&gt;500&lt;/em&gt; concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app. &lt;em&gt;People who complain that Rust is faster than Go often skip this step of memory optimization.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.&lt;/p&gt;
 &lt;h4 id=&quot;cpu&quot;&gt;CPU&lt;/h4&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;
@@ -104,7 +112,7 @@
 &lt;br&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./cpu.pprof&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/u_t_G0Crz8-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/u_t_G0Crz8-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/u_t_G0Crz8-3402.png&quot; alt=&quot;cpu&quot; width=&quot;3402&quot; height=&quot;1696&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.png&quot; alt=&quot;cpu&quot; width=&quot;3402&quot; height=&quot;1696&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The current CPU utilization is (&lt;em&gt;14.83s&lt;/em&gt; / &lt;em&gt;30s&lt;/em&gt; ~= &lt;strong&gt;49%&lt;/strong&gt;). This means that the CPU still has room to process more concurrent requests, but due to the memory issues identified in the previous section, the app can&#39;t handle more concurrent requests.&lt;/p&gt;
 &lt;h2 id=&quot;latency-reduction&quot;&gt;Latency Reduction&lt;/h2&gt;

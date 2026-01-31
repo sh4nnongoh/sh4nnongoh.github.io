@@ -5,7 +5,7 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-01-28T00:00:00Z</updated>
+  <updated>2026-01-31T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
@@ -13,7 +13,7 @@
   <entry>
     <title>pprof Analysis</title>
     <link href="https://sh4nnongoh.github.io/blog/6-pprof-analysis/" />
-    <updated>2026-01-28T00:00:00Z</updated>
+    <updated>2026-01-31T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/6-pprof-analysis/</id>
     <content type="html">&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
 &lt;p&gt;There are a lot of information provided by the profiles, and in order to not get overwhelmed, we need to adopt a strategy to analyze them.&lt;/p&gt;
@@ -78,11 +78,7 @@
 &lt;h4 id=&quot;heap&quot;&gt;Heap&lt;/h4&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;
-  The heap profile show the amount of memory allocated along with the amount of memory actually in-use during the sample period. By calculating the percentage of the 2 metrics, we can derive the allocated memory utilization of the app. A low allocated memory utilization means that the Garbage Collector (GC) is heavily working to clear objects from memory.
-  &lt;br&gt;&lt;br&gt;
-  By calculating the percentage of the in-use memory with the memory allocated for the app (container), we can also derive the in-use memory utilization of the app. A low in-use memory utilization means that the app is not making full use of the resources available.
-  &lt;br&gt;&lt;br&gt;
-  The goal is to increase the utilizations to an acceptable level, such that there is less pressure on the GC, and making full use of the resources available. Note, that when a GC is active, the app is paused from doing actual work.
+  The heap profiles show the amount of memory allocated along with the amount of memory actually in-use during the sample period. The allocated memory is usually large as the Garbage Collector (GC) is constantly reclaiming memory throughout the app lifecycle, whilst the in-use memory details memory that the GC will not work on, and should remain low.
   &lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
@@ -93,22 +89,17 @@
 &lt;br&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap In-Use Space&lt;/em&gt;&lt;/p&gt;
+&lt;details&gt;
+  &lt;summary&gt;Click to show/hide  invalid old content&lt;/summary&gt;
+&lt;p&gt;I had a wrong understanding on the matter, detailed below.&lt;/p&gt;
 &lt;p&gt;&lt;s&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/s&gt;&lt;/p&gt;
 &lt;p&gt;&lt;s&gt;There are opportunities for improvements here.&lt;/s&gt;&lt;/p&gt;
-&lt;div class=&quot;message-box&quot;&gt;
-	&lt;p&gt;&lt;em&gt;
-  &quot;Hey Shannon! I do not understand what the utilization means???&quot;
-  &lt;br&gt; - confused reader
-  &lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;message-box&quot;&gt;
-	&lt;p&gt;&lt;em&gt;
-  &quot;I think I am confused also. Stay tuned while I clarify my understanding.&quot;
-  &lt;br&gt; - Shannon
-  &lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;
 &lt;p&gt;&lt;s&gt;Remember that our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker container&lt;/a&gt; is only allocated 64MB of memory? Have you wondered how is it possible for the memory allocation during load test to reach 1.8GB? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. 500 concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app.&lt;/s&gt;&lt;/p&gt;
 &lt;p&gt;&lt;s&gt;Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.&lt;/s&gt;&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;Looking at the top right corner of each memory profile, we can see the memory allocated or in-use by the app during the load test. I once thought that the high allocated memory was an issue but in fact, that number alone does not mean anything. Instead, we need to take the rate of change of how the allocated memory grows with the increase in concurrent requests. For this app, the allocated memory and in-use memory remains relatively constant as the concurrent requests increases. The in-use memory should also be much lower than the allocated memory to ensure that there are no memory leaks in the app such that the GC is unable to reclaim them; in this case the in-use memory is fine as well.&lt;/p&gt;
+&lt;p&gt;Another reason to optimize the allocated memory is when the CPU utilization on GC is high (&amp;gt;10%); more on that in the next section.&lt;/p&gt;
+&lt;p&gt;Areas of optimization can be seen in the flamegraph: the &lt;em&gt;Serializer&lt;/em&gt; and the &lt;em&gt;HTML templating engine&lt;/em&gt;.&lt;/p&gt;
 &lt;h4 id=&quot;cpu&quot;&gt;CPU&lt;/h4&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;
@@ -120,7 +111,18 @@
 &lt;br&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.png&quot; alt=&quot;cpu&quot; width=&quot;3402&quot; height=&quot;1696&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The current CPU utilization is (&lt;em&gt;14.83s&lt;/em&gt; / &lt;em&gt;30s&lt;/em&gt; ~= &lt;strong&gt;49%&lt;/strong&gt;). This means that the CPU still has room to process more concurrent requests, but due to the memory issues identified in the previous section, the app can&#39;t handle more concurrent requests.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  Resident Set Size (RSS) is the portion of memory (measured in kilobytes) occupied by a process that is held in main memory (RAM).
+  &lt;br&gt;
+  - Wikipedia
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;The current CPU utilization is (&lt;em&gt;14.83s&lt;/em&gt; / &lt;em&gt;30s&lt;/em&gt; ~= &lt;strong&gt;49%&lt;/strong&gt;). This means that the CPU still has room to process more concurrent requests, but due to the app reaching the RSS limits as seen in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker metrics&lt;/a&gt;, the app can&#39;t handle more concurrent requests.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/P_sVpYeXVJ-1142.avif 1142w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/P_sVpYeXVJ-1142.webp 1142w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/P_sVpYeXVJ-1142.png&quot; alt=&quot;cpu-gc-top&quot; width=&quot;1142&quot; height=&quot;480&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU GC (TOP 10)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The Top 10 GC related functions utilize only about ~5% of the CPU utilization. Hence, there is no issue with the memory allocation mentioned in the previous section.&lt;/p&gt;
 &lt;h2 id=&quot;latency-reduction&quot;&gt;Latency Reduction&lt;/h2&gt;
 &lt;h4 id=&quot;cpu-2&quot;&gt;CPU&lt;/h4&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -134,7 +136,8 @@
 &lt;p&gt;Looking at the &lt;em&gt;fmt.Fprint&lt;/em&gt; under the &lt;em&gt;gin.LoggerWithConfig.func1&lt;/em&gt; section, we can see that it takes up &lt;em&gt;9.2%&lt;/em&gt; of the overall CPU. We can look at optimizing the default &lt;em&gt;logger&lt;/em&gt; for &lt;em&gt;gin&lt;/em&gt;, before optimizing else where.&lt;/p&gt;
 &lt;p&gt;When dealing with latency, we will need to do proper benchmarking in-order to quantify the potential gains achieved. &lt;a href=&quot;https://betterstack.com/community/guides/scaling-go/golang-benchmarking/&quot;&gt;Betterstack&lt;/a&gt; has a good article describing this process.&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;The priority of optimization tasks is as follows:&lt;/p&gt;
+&lt;p&gt;The app is currently fine and there is no need for optimizations as there will be diminishing returns with respect to the effort needed.&lt;/p&gt;
+&lt;p&gt;However for practice, the priority of optimization tasks is as follows:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;To increase the allocated memory utilization of the app.&lt;/li&gt;
 &lt;li&gt;To increase the in-use memory utilization of the app.&lt;/li&gt;

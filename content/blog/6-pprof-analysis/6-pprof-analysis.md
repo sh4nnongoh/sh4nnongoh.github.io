@@ -114,9 +114,9 @@ go tool pprof -http=:8082 ./heap_rate.pprof
 <img src="./heap-in-use-space.png" alt="heap-in-use-space">
 <p align="center"><em>Heap In-Use Space</em></p>
 
-Looking at the _2_ flamegraphs above, it can be seen that the in-use space (_10.24MB_) is much smaller than the allocated space (_1.33GB_). That means that the current allocated memory utilization is only **~0.7%**! That is extremely low! The in-use memory utilization is very low as well (_10.24MB_ / _64MB_ ~= **16%**).
+~~Looking at the _2_ flamegraphs above, it can be seen that the in-use space (_10.24MB_) is much smaller than the allocated space (_1.33GB_). That means that the current allocated memory utilization is only **~0.7%**! That is extremely low! The in-use memory utilization is very low as well (_10.24MB_ / _64MB_ ~= **16%**).~~
 
-There are opportunities for improvements here.
+~~There are opportunities for improvements here.~~
 
 <div class="message-box">
 	<p><em>
@@ -125,9 +125,16 @@ There are opportunities for improvements here.
   </em></p>
 </div>
 
-Remember that our [Docker container](/blog/5-pprof#docker) is only allocated _64MB_ of memory? Have you wondered how is it possible for the memory allocation during load test to reach _1.8GB_? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. _500_ concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app. _People who complain that Rust is faster than Go often skip this step of memory optimization._
+<div class="message-box">
+	<p><em>
+  "I think I am confused also. Stay tuned while I clarify my understanding."
+  <br> - Shannon
+  </em></p>
+</div>
 
-Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.
+~~Remember that our [Docker container](/blog/5-pprof#docker) is only allocated 64MB of memory? Have you wondered how is it possible for the memory allocation during load test to reach 1.8GB? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. 500 concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app.~~
+
+~~Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.~~
 
 #### CPU
 

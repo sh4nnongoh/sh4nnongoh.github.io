@@ -713,16 +713,22 @@ pre[class*="language-diff-"] {
 <br>
 <picture><source type="image/avif" srcset="/blog/6-pprof-analysis/G5Wt6pgI44-3402.avif 3402w"><source type="image/webp" srcset="/blog/6-pprof-analysis/G5Wt6pgI44-3402.webp 3402w"><img loading="lazy" decoding="async" src="/blog/6-pprof-analysis/G5Wt6pgI44-3402.png" alt="heap-in-use-space" width="3402" height="918"></picture>
 <p align="center"><em>Heap In-Use Space</em></p>
-<p>Looking at the <em>2</em> flamegraphs above, it can be seen that the in-use space (<em>10.24MB</em>) is much smaller than the allocated space (<em>1.33GB</em>). That means that the current allocated memory utilization is only <strong>~0.7%</strong>! That is extremely low! The in-use memory utilization is very low as well (<em>10.24MB</em> / <em>64MB</em> ~= <strong>16%</strong>).</p>
-<p>There are opportunities for improvements here.</p>
+<p><s>Looking at the <em>2</em> flamegraphs above, it can be seen that the in-use space (<em>10.24MB</em>) is much smaller than the allocated space (<em>1.33GB</em>). That means that the current allocated memory utilization is only <strong>~0.7%</strong>! That is extremely low! The in-use memory utilization is very low as well (<em>10.24MB</em> / <em>64MB</em> ~= <strong>16%</strong>).</s></p>
+<p><s>There are opportunities for improvements here.</s></p>
 <div class="message-box">
 	<p><em>
   "Hey Shannon! I do not understand what the utilization means???"
   <br> - confused reader
   </em></p>
 </div>
-<p>Remember that our <a href="/blog/5-pprof#docker">Docker container</a> is only allocated <em>64MB</em> of memory? Have you wondered how is it possible for the memory allocation during load test to reach <em>1.8GB</em>? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. <em>500</em> concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app. <em>People who complain that Rust is faster than Go often skip this step of memory optimization.</em></p>
-<p>Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.</p>
+<div class="message-box">
+	<p><em>
+  "I think I am confused also. Stay tuned while I clarify my understanding."
+  <br> - Shannon
+  </em></p>
+</div>
+<p><s>Remember that our <a href="/blog/5-pprof#docker">Docker container</a> is only allocated 64MB of memory? Have you wondered how is it possible for the memory allocation during load test to reach 1.8GB? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. 500 concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app.</s></p>
+<p><s>Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.</s></p>
 <h4 id="cpu">CPU</h4>
 <div class="message-box">
 	<p><em>
@@ -789,7 +795,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/6-pprof-analysis/` was built on 2026-01-28T09:06:12.156Z -->
+		<!-- This page `/blog/6-pprof-analysis/` was built on 2026-01-31T08:12:10.396Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

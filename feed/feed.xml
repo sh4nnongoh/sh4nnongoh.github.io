@@ -93,16 +93,22 @@
 &lt;br&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap In-Use Space&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/p&gt;
-&lt;p&gt;There are opportunities for improvements here.&lt;/p&gt;
+&lt;p&gt;&lt;s&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/s&gt;&lt;/p&gt;
+&lt;p&gt;&lt;s&gt;There are opportunities for improvements here.&lt;/s&gt;&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;
   &quot;Hey Shannon! I do not understand what the utilization means???&quot;
   &lt;br&gt; - confused reader
   &lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;Remember that our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker container&lt;/a&gt; is only allocated &lt;em&gt;64MB&lt;/em&gt; of memory? Have you wondered how is it possible for the memory allocation during load test to reach &lt;em&gt;1.8GB&lt;/em&gt;? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. &lt;em&gt;500&lt;/em&gt; concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app. &lt;em&gt;People who complain that Rust is faster than Go often skip this step of memory optimization.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  &quot;I think I am confused also. Stay tuned while I clarify my understanding.&quot;
+  &lt;br&gt; - Shannon
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;s&gt;Remember that our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker container&lt;/a&gt; is only allocated 64MB of memory? Have you wondered how is it possible for the memory allocation during load test to reach 1.8GB? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. 500 concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app.&lt;/s&gt;&lt;/p&gt;
+&lt;p&gt;&lt;s&gt;Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.&lt;/s&gt;&lt;/p&gt;
 &lt;h4 id=&quot;cpu&quot;&gt;CPU&lt;/h4&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;

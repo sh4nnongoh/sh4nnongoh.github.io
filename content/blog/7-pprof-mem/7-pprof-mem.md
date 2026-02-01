@@ -1,8 +1,8 @@
 ---
 title: pprof Memory Optimization
 description: Optimizing the memory allocation in the Magic Link app.
-date: 2026-01-31
-tags: System Design, Magic Links, CSRF, Go, Gin, Benchmark, pprof, memory, TL4
+date: 2026-02-01
+tags: System Design, Magic Links, CSRF, Go, Gin, go-json, templ, pprof, memory, TL4
 ---
 
 In the [previous post](/blog//6-pprof-analysis/) we identified areas for optimization, with the memory allocation being the most obvious one.

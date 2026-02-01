@@ -5,7 +5,7 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-01-31T00:00:00Z</updated>
+  <updated>2026-02-01T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
@@ -13,7 +13,7 @@
   <entry>
     <title>pprof Memory Optimization</title>
     <link href="https://sh4nnongoh.github.io/blog/7-pprof-mem/" />
-    <updated>2026-01-31T00:00:00Z</updated>
+    <updated>2026-02-01T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/7-pprof-mem/</id>
     <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/&quot;&gt;previous post&lt;/a&gt; we identified areas for optimization, with the memory allocation being the most obvious one.&lt;/p&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;

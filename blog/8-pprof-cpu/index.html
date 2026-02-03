@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Primary Meta Tags -->
+		<title>pprof CPU</title>
+		<meta name="title" content="pprof CPU">
+		<meta name="description" content="Optimizing the CPU Usage / Latency in the Magic Link app.">
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://sh4nnongoh.github.io">
+		<meta property="og:title" content="pprof CPU">
+		<meta property="og:description" content="Optimizing the CPU Usage / Latency in the Magic Link app.">
+		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
+		<!-- X (Twitter) -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="https://sh4nnongoh.github.io">
+		<meta property="twitter:title" content="pprof CPU">
+		<meta property="twitter:description" content="Optimizing the CPU Usage / Latency in the Magic Link app.">
+		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
+		<!-- Meta Tags Generated with https://metatags.io -->
+
+		<meta name="google-site-verification" content="r1MXDdGzfOnO8Cjyxy0oQf1Jp-sNi5nm7ZBTXLEzaqA">
+
+		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/8-pprof-cpu/">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Shannon&#39;s Software Engineering Blog">
+		<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+		
+		
+		
+		<style>/* Message Box */
+.message-box {
+	--color-message-box: #ffc;
+
+	display: block;
+	background-color: var(--color-message-box);
+	color: var(--color-gray-90);
+	padding: 1em 0.625em; /* 16px 10px /16 */
+}
+.message-box ol {
+	margin-top: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	.message-box {
+		--color-message-box: #082840;
+	}
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+	font-size: small !important;
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+@media (max-width: 768px) {
+	pre {
+		display: block;
+		width: 92vw;
+		margin-left: calc(-50vw + 50%);
+		overflow-x: auto;
+		/* Smooth scrolling on iOS */
+		-webkit-overflow-scrolling: touch;
+	}
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+		
+	</head>
+	<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VZ0ECY91PF"></script>
+	
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Shannon&#39;s Software Engineering Blog</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="main">
+			<heading-anchors>
+				
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"mainEntityOfPage": {
+			"@type": "WebPage",
+			"@id": "https://sh4nnongoh.github.io/blog/8-pprof-cpu/"
+		},
+		"headline": "pprof CPU",
+		"description": "Optimizing the CPU Usage / Latency in the Magic Link app.",
+		"image": [],
+		"datePublished": "2026-02-01",
+		"dateModified": "2026-02-01",
+		"author": {
+			"@type": "Person",
+			"name": "Shannon Goh",
+			"url": "https://www.linkedin.com/in/sh4nnongoh"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Shannon Goh",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://sh4nnongoh.github.io/img/me512.jpeg"
+			}
+		}
+	}
+</script>
+
+
+
+
+<h1 id="pprof-cpu">pprof CPU</h1>
+<ul class="post-metadata">
+	<li><time datetime="2026-02-01">01 February 2026</time></li>
+	<li><a href="/tags/system-design/" class="post-tag">System Design</a>, </li>
+	<li><a href="/tags/magic-links/" class="post-tag"> Magic Links</a>, </li>
+	<li><a href="/tags/csrf/" class="post-tag"> CSRF</a>, </li>
+	<li><a href="/tags/go/" class="post-tag"> Go</a>, </li>
+	<li><a href="/tags/gin/" class="post-tag"> Gin</a>, </li>
+	<li><a href="/tags/benchmark/" class="post-tag"> Benchmark</a>, </li>
+	<li><a href="/tags/log/" class="post-tag"> Log</a>, </li>
+	<li><a href="/tags/pprof/" class="post-tag"> pprof</a>, </li>
+	<li><a href="/tags/cpu/" class="post-tag"> CPU</a>, </li>
+	<li><a href="/tags/tl4/" class="post-tag"> TL4</a></li>
+</ul>
+
+<br>
+<br>
+<picture><source type="image/avif" srcset="/blog/8-pprof-cpu/OJ6v8qIjj8-3416.avif 3416w"><source type="image/webp" srcset="/blog/8-pprof-cpu/OJ6v8qIjj8-3416.webp 3416w"><img loading="lazy" decoding="async" src="/blog/8-pprof-cpu/OJ6v8qIjj8-3416.png" alt="cpu-base" width="3416" height="1662"></picture>
+<p align="center"><em>CPU</em></p>
+<p>The above CPU flamegraph shows the CPU utilization after the memory optimizations made in the <a href="/blog/7-pprof-mem/">previous post</a>.</p>
+<p>As seen in the flamegraph, the <em>Magic Link</em> handler takes up less than half of the CPU utilization during the sample period. This is expected as it is a very simple handler. Majority of the compute in the handler is used for encryption, while the rest is part of the HTTP lifecycle.</p>
+<p>One area of optimization would be the <em>fmt.Fprint</em> section that is part of the <em>Gin</em> logger. Every request coming in will be logged synchronously, triggering <em>syscalls</em> which consumes CPU utilization.</p>
+<h2 id="benchmarks">Benchmarks</h2>
+<p>When dealing with CPU utilization or latency, we need to gather baseline metrics of our system before making improvements, such that we can compare the results.</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token comment">// benchmark_test.go</span>
+<span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"net/http"</span>
+	<span class="token string">"net/http/httptest"</span>
+	<span class="token string">"testing"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">(</span>
+	Host               <span class="token operator">=</span> <span class="token string">"http://127.0.0.1:8080"</span>
+	GenerateMagicRoute <span class="token operator">=</span> <span class="token string">"/magic/generate"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">BenchmarkGin</span><span class="token punctuation">(</span>b <span class="token operator">*</span>testing<span class="token punctuation">.</span>B<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	router <span class="token operator">:=</span> <span class="token function">NewRouter</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+	req<span class="token punctuation">,</span> err <span class="token operator">:=</span> http<span class="token punctuation">.</span><span class="token function">NewRequest</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>MethodPost<span class="token punctuation">,</span> Host<span class="token operator">+</span>GenerateMagicRoute<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+	req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"X-CSRF-Token"</span><span class="token punctuation">,</span> <span class="token function">generateCsrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		b<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+		<span class="token keyword">return</span>
+	<span class="token punctuation">}</span>
+	b<span class="token punctuation">.</span><span class="token function">ResetTimer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">for</span> b<span class="token punctuation">.</span><span class="token function">Loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		w <span class="token operator">:=</span> httptest<span class="token punctuation">.</span><span class="token function">NewRecorder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		router<span class="token punctuation">.</span><span class="token function">ServeHTTP</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> req<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The above code shows a simple benchmark test that is focus on the <em>Magic Link</em> handler, with the results shown below.</p>
+<picture><source type="image/avif" srcset="/blog/8-pprof-cpu/sqoRVDEKry-1398.avif 1398w"><source type="image/webp" srcset="/blog/8-pprof-cpu/sqoRVDEKry-1398.webp 1398w"><img loading="lazy" decoding="async" src="/blog/8-pprof-cpu/sqoRVDEKry-1398.png" alt="benchmark-base" width="1398" height="196"></picture>
+<p align="center"><em>Benchmark Results (baseline)</em></p>
+<h2 id="buffered-logging">Buffered Logging</h2>
+<p>Writing logs to disk synchronously per request is slow. Unless your system is fragile, and you fear that logs go missing on your critical path, it makes sense to buffer the incoming logs before writing them to disk; grouping such calls reduce <em>syscalls</em>.</p>
+<p>The logging library <a href="https://github.com/uber-go/zap">Zap</a>, supports this and is the fastest so far among other libraries.</p>
+<div class="message-box">
+	<p>
+    <em>
+      ...using <strong>encoding/json</strong> and <strong>fmt.Fprintf</strong> to log tons of <strong>interface{}</strong> makes your application slow...
+      <br>
+      - https://github.com/uber-go/zap
+    </em>
+  </p>
+</div>
+<p>When replacing the default Gin logger, we need to add 2 middlewares: (1) Logging; (2) Recovery.</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">func</span> <span class="token function">MiddlewareZapLogger</span><span class="token punctuation">(</span>logger <span class="token operator">*</span>zap<span class="token punctuation">.</span>Logger<span class="token punctuation">)</span> gin<span class="token punctuation">.</span>HandlerFunc <span class="token punctuation">{</span>
+	<span class="token keyword">return</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		start <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		path <span class="token operator">:=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>Path
+		raw <span class="token operator">:=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>RawQuery
+		<span class="token keyword">if</span> raw <span class="token operator">!=</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+			path <span class="token operator">=</span> path <span class="token operator">+</span> <span class="token string">"?"</span> <span class="token operator">+</span> raw
+		<span class="token punctuation">}</span>
+
+		c<span class="token punctuation">.</span><span class="token function">Next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+		latency <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Since</span><span class="token punctuation">(</span>start<span class="token punctuation">)</span>
+
+		logger<span class="token punctuation">.</span><span class="token function">Info</span><span class="token punctuation">(</span><span class="token string">"http request"</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">Int</span><span class="token punctuation">(</span><span class="token string">"status"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Writer<span class="token punctuation">.</span><span class="token function">Status</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"method"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Method<span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"ip"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">ClientIP</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">Duration</span><span class="token punctuation">(</span><span class="token string">"latency"</span><span class="token punctuation">,</span> latency<span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"user_agent"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">UserAgent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">Int</span><span class="token punctuation">(</span><span class="token string">"bytes_out"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Writer<span class="token punctuation">.</span><span class="token function">Size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"errors"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Errors<span class="token punctuation">.</span><span class="token function">ByType</span><span class="token punctuation">(</span>gin<span class="token punctuation">.</span>ErrorTypePrivate<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">MiddlewareZapRecovery</span><span class="token punctuation">(</span>logger <span class="token operator">*</span>zap<span class="token punctuation">.</span>Logger<span class="token punctuation">)</span> gin<span class="token punctuation">.</span>HandlerFunc <span class="token punctuation">{</span>
+	<span class="token keyword">return</span> gin<span class="token punctuation">.</span><span class="token function">CustomRecovery</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> recovered any<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		logger<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token string">"panic recovered"</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">Any</span><span class="token punctuation">(</span><span class="token string">"error"</span><span class="token punctuation">,</span> recovered<span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"method"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Method<span class="token punctuation">)</span><span class="token punctuation">,</span>
+			zap<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>Path<span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">)</span>
+		c<span class="token punctuation">.</span><span class="token function">AbortWithStatus</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusInternalServerError<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+
+  logger<span class="token punctuation">,</span> err <span class="token operator">:=</span> zap<span class="token punctuation">.</span><span class="token function">NewProduction</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token boolean">_</span> <span class="token operator">=</span> fmt<span class="token punctuation">.</span><span class="token function">Errorf</span><span class="token punctuation">(</span><span class="token string">"failed to run router: %w"</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+		<span class="token keyword">return</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">defer</span> logger<span class="token punctuation">.</span><span class="token function">Sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  router <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">Use</span><span class="token punctuation">(</span><span class="token function">MiddlewareZapLogger</span><span class="token punctuation">(</span>logger<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">Use</span><span class="token punctuation">(</span><span class="token function">MiddlewareZapRecovery</span><span class="token punctuation">(</span>logger<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Running the benchmarks again, we can see the optimized results below.</p>
+<picture><source type="image/avif" srcset="/blog/8-pprof-cpu/E2HNG0_ydP-1398.avif 1398w"><source type="image/webp" srcset="/blog/8-pprof-cpu/E2HNG0_ydP-1398.webp 1398w"><img loading="lazy" decoding="async" src="/blog/8-pprof-cpu/E2HNG0_ydP-1398.png" alt="benchmark-optimized" width="1398" height="196"></picture>
+<p align="center"><em>Benchmark Results (Optimized)</em></p>
+<p>Using the <em>Zap</em> logger, latency was improved by <em>(22614-5430) / 22614 = <strong>~76%</strong></em>. This is a huge speed improvement!</p>
+<picture><source type="image/avif" srcset="/blog/8-pprof-cpu/7FA5finAt3-3420.avif 3420w"><source type="image/webp" srcset="/blog/8-pprof-cpu/7FA5finAt3-3420.webp 3420w"><img loading="lazy" decoding="async" src="/blog/8-pprof-cpu/7FA5finAt3-3420.png" alt="cpu-optimized" width="3420" height="1724"></picture>
+<p align="center"><em>CPU (Optimized)</em></p>
+<p>Looking at the flamegraph, we can see that the <em>fmt.Fprint</em> section is gone, and that the <em>syscalls</em> are greatly reduced.</p>
+<p>The CPU utilization is still low as we can't increase the number of concurrent requests due to the RSS limit mentioned <a href="../6-pprof-analysis/#cpu">here</a>.</p>
+<div class="message-box">
+	<p>
+    <em>
+      Check out the example project here!
+      <br>
+      <a href="https://github.com/sh4nnongoh/go-csrf-magic-links/tree/cpu" target="_blank" rel="noopener noreferrer">
+        https://github.com/sh4nnongoh/go-csrf-magic-links/tree/cpu
+      </a>
+    </em>
+  </p>
+</div>
+
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/7-pprof-mem/">pprof Memory Optimization</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<a href="https://www.linkedin.com/in/sh4nnongoh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="margin-right:12px; text-decoration:none;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M20.447 20.452H17.21V14.82c0-1.343-.027-3.071-1.873-3.071-1.873 0-2.159 1.462-2.159 2.973v5.73H9.94V9h3.112v1.561h.044c.434-.82 1.494-1.686 3.073-1.686 3.286 0 3.889 2.164 3.889 4.977v6.6zM5.337 7.433a1.804 1.804 0 1 1 0-3.607 1.804 1.804 0 0 1 0 3.607zM6.956 20.452H3.72V9h3.236v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.225 0z"></path>
+				</svg>
+			</a>
+			<a href="https://github.com/sh4nnongoh" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="text-decoration:none;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M12 .296c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.73.084-.73 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.303-5.466-1.332-5.466-5.93 0-1.31.469-2.38 1.236-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.018.005 2.042.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222v3.293c0 .321.218.694.825.576C20.565 22.092 24 17.592 24 12.296c0-6.627-5.373-12-12-12z"></path>
+				</svg>
+			</a>
+			<p>
+				<em>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a>, created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em>
+			</p>
+		</footer>
+
+		<!-- This page `/blog/8-pprof-cpu/` was built on 2026-02-03T08:30:11.895Z -->
+		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
+	</body>
+</html>

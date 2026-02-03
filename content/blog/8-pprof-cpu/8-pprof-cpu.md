@@ -1,7 +1,7 @@
 ---
 title: pprof CPU
 description: Optimizing the CPU Usage / Latency in the Magic Link app.
-date: 2026-02-01
+date: 2026-02-03
 tags: System Design, Magic Links, CSRF, Go, Gin, Benchmark, Log, pprof, CPU, TL4
 ---
 
@@ -56,6 +56,16 @@ The above code shows a simple benchmark test that is focus on the _Magic Link_ h
 
 <img src="./benchmark-base.png" alt="benchmark-base">
 <p align="center"><em>Benchmark Results (baseline)</em></p>
+
+### Metrics Legend
+
+| Symbol  | Description |
+|---------|-------------|
+| op      | Operation   |
+| ns      | Nano-seconds|
+| allocs  | Number of Memory Allocations |
+| B       | Bytes Allocated |
+
 
 ## Buffered Logging
 

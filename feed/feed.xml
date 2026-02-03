@@ -5,7 +5,7 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-02-01T00:00:00Z</updated>
+  <updated>2026-02-03T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
@@ -13,7 +13,7 @@
   <entry>
     <title>pprof CPU</title>
     <link href="https://sh4nnongoh.github.io/blog/8-pprof-cpu/" />
-    <updated>2026-02-01T00:00:00Z</updated>
+    <updated>2026-02-03T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/8-pprof-cpu/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
@@ -56,6 +56,33 @@
 &lt;p&gt;The above code shows a simple benchmark test that is focus on the &lt;em&gt;Magic Link&lt;/em&gt; handler, with the results shown below.&lt;/p&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/sqoRVDEKry-1398.avif 1398w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/sqoRVDEKry-1398.webp 1398w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/sqoRVDEKry-1398.png&quot; alt=&quot;benchmark-base&quot; width=&quot;1398&quot; height=&quot;196&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Benchmark Results (baseline)&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&quot;metrics-legend&quot;&gt;Metrics Legend&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Symbol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;op&lt;/td&gt;
+&lt;td&gt;Operation&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ns&lt;/td&gt;
+&lt;td&gt;Nano-seconds&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;allocs&lt;/td&gt;
+&lt;td&gt;Number of Memory Allocations&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;Bytes Allocated&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h2 id=&quot;buffered-logging&quot;&gt;Buffered Logging&lt;/h2&gt;
 &lt;p&gt;Writing logs to disk synchronously per request is slow. Unless your system is fragile, and you fear that logs go missing on your critical path, it makes sense to buffer the incoming logs before writing them to disk; grouping such calls reduce &lt;em&gt;syscalls&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;The logging library &lt;a href=&quot;https://github.com/uber-go/zap&quot;&gt;Zap&lt;/a&gt;, supports this and is the fastest so far among other libraries.&lt;/p&gt;

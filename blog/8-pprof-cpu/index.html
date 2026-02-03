@@ -601,8 +601,8 @@ pre[class*="language-diff-"] {
 		"headline": "pprof CPU",
 		"description": "Optimizing the CPU Usage / Latency in the Magic Link app.",
 		"image": [],
-		"datePublished": "2026-02-01",
-		"dateModified": "2026-02-01",
+		"datePublished": "2026-02-03",
+		"dateModified": "2026-02-03",
 		"author": {
 			"@type": "Person",
 			"name": "Shannon Goh",
@@ -624,7 +624,7 @@ pre[class*="language-diff-"] {
 
 <h1 id="pprof-cpu">pprof CPU</h1>
 <ul class="post-metadata">
-	<li><time datetime="2026-02-01">01 February 2026</time></li>
+	<li><time datetime="2026-02-03">03 February 2026</time></li>
 	<li><a href="/tags/system-design/" class="post-tag">System Design</a>, </li>
 	<li><a href="/tags/magic-links/" class="post-tag"> Magic Links</a>, </li>
 	<li><a href="/tags/csrf/" class="post-tag"> CSRF</a>, </li>
@@ -678,6 +678,33 @@ pre[class*="language-diff-"] {
 <p>The above code shows a simple benchmark test that is focus on the <em>Magic Link</em> handler, with the results shown below.</p>
 <picture><source type="image/avif" srcset="/blog/8-pprof-cpu/sqoRVDEKry-1398.avif 1398w"><source type="image/webp" srcset="/blog/8-pprof-cpu/sqoRVDEKry-1398.webp 1398w"><img loading="lazy" decoding="async" src="/blog/8-pprof-cpu/sqoRVDEKry-1398.png" alt="benchmark-base" width="1398" height="196"></picture>
 <p align="center"><em>Benchmark Results (baseline)</em></p>
+<h3 id="metrics-legend">Metrics Legend</h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>op</td>
+<td>Operation</td>
+</tr>
+<tr>
+<td>ns</td>
+<td>Nano-seconds</td>
+</tr>
+<tr>
+<td>allocs</td>
+<td>Number of Memory Allocations</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Bytes Allocated</td>
+</tr>
+</tbody>
+</table>
 <h2 id="buffered-logging">Buffered Logging</h2>
 <p>Writing logs to disk synchronously per request is slow. Unless your system is fragile, and you fear that logs go missing on your critical path, it makes sense to buffer the incoming logs before writing them to disk; grouping such calls reduce <em>syscalls</em>.</p>
 <p>The logging library <a href="https://github.com/uber-go/zap">Zap</a>, supports this and is the fastest so far among other libraries.</p>
@@ -786,7 +813,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/8-pprof-cpu/` was built on 2026-02-03T08:30:11.895Z -->
+		<!-- This page `/blog/8-pprof-cpu/` was built on 2026-02-03T10:39:23.080Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

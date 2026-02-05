@@ -17,6 +17,19 @@
     <id>https://sh4nnongoh.github.io/blog/8-pprof-cpu/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 7&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;pprof CPU&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;br&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/OJ6v8qIjj8-3416.avif 3416w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/OJ6v8qIjj8-3416.webp 3416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/OJ6v8qIjj8-3416.png&quot; alt=&quot;cpu-base&quot; width=&quot;3416&quot; height=&quot;1662&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The above CPU flamegraph shows the CPU utilization after the memory optimizations made in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
@@ -175,7 +188,21 @@
     <link href="https://sh4nnongoh.github.io/blog/7-pprof-mem/" />
     <updated>2026-02-01T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/7-pprof-mem/</id>
-    <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/&quot;&gt;previous post&lt;/a&gt; we identified areas for optimization, with the memory allocation being the most obvious one.&lt;/p&gt;
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 6&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;pprof Memory Optimizations&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/&quot;&gt;previous post&lt;/a&gt; we identified areas for optimization, with the memory allocation being the most obvious one.&lt;/p&gt;
 &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The &lt;em&gt;Magic Link Generation&lt;/em&gt; handler has 2 main areas with high memory allocation: &lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/#cookie-serialization&quot;&gt;&lt;strong&gt;(1) Cookie Serialization&lt;/strong&gt;&lt;/a&gt;; &lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/#html-generation&quot;&gt;&lt;strong&gt;(2) HTML Generation&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
@@ -269,7 +296,21 @@
     <link href="https://sh4nnongoh.github.io/blog/6-pprof-analysis/" />
     <updated>2026-01-31T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/6-pprof-analysis/</id>
-    <content type="html">&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 5&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;pprof Analysis&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
 &lt;p&gt;There are a lot of information provided by the profiles, and in order to not get overwhelmed, we need to adopt a strategy to analyze them.&lt;/p&gt;
 &lt;h2 id=&quot;strategy&quot;&gt;Strategy&lt;/h2&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -417,6 +458,19 @@
     <updated>2026-01-26T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/5-pprof/</id>
     <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 4&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;pprof &amp; Load Testing&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
   &lt;p&gt;&lt;em&gt;
@@ -632,7 +686,21 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
     <link href="https://sh4nnongoh.github.io/blog/4-csrf-magic-links/" />
     <updated>2026-01-22T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/4-csrf-magic-links/</id>
-    <content type="html">&lt;p&gt;As a recap, a Magic Link contains an encrypted token containing the identity of a particular user. By that definition, anyone clicking that link can impersonate the identify encoded in the link. Doesn&#39;t that sound familiar? (&lt;em&gt;Cough, Cough&lt;/em&gt; - &lt;strong&gt;Netflix&lt;/strong&gt;)&lt;/p&gt;
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 3&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;CSRF with Magic Links&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;As a recap, a Magic Link contains an encrypted token containing the identity of a particular user. By that definition, anyone clicking that link can impersonate the identify encoded in the link. Doesn&#39;t that sound familiar? (&lt;em&gt;Cough, Cough&lt;/em&gt; - &lt;strong&gt;Netflix&lt;/strong&gt;)&lt;/p&gt;
 &lt;p&gt;In order to prevent that we need a way for the link to only work for the original requester, and that is where &lt;em&gt;CSRF tokens&lt;/em&gt; come in handy.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
   &lt;p&gt;&lt;em&gt;
@@ -807,6 +875,19 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 2&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Magic Links&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;&quot;Hey Shannon! Your previous post talks about Magic Links but there were no details at all about implementing them!&quot;&lt;br&gt;- random reader&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Hey, I hear you! In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/&quot;&gt;previous post&lt;/a&gt;, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.&lt;/p&gt;
@@ -860,7 +941,21 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
     <link href="https://sh4nnongoh.github.io/blog/2-system-design/" />
     <updated>2026-01-16T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/2-system-design/</id>
-    <content type="html">&lt;p&gt;System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips &amp;amp; tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.&lt;/p&gt;
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 1&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips &amp;amp; tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;The basic study of system design is the understanding of component parts and their subsequent interaction with one another.&lt;br&gt;- Wikipedia&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;

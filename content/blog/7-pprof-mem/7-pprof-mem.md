@@ -5,6 +5,21 @@ date: 2026-02-01
 tags: System Design, Magic Links, CSRF, Go, Gin, go-json, templ, pprof, memory, TL4
 ---
 
+<br/>
+<br/>
+<div class="message-box">
+	<p><em>This is <strong>Part 6</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li><a href="/blog/3-magic-links">Magic Links</a></li>
+    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
+    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
+    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
+    <li>pprof Memory Optimizations</li>
+    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
+  </ol>
+</div>
+
 In the [previous post](/blog//6-pprof-analysis/) we identified areas for optimization, with the memory allocation being the most obvious one.
 
 <img src="../6-pprof-analysis/heap-alloc-space.png" alt="heap-alloc-space">

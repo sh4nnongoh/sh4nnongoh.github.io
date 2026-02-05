@@ -5,7 +5,20 @@ date: 2026-02-03
 tags: System Design, Magic Links, CSRF, Go, Gin, Benchmark, Log, pprof, CPU, TL4
 ---
 
-<br>
+<br/>
+<br/>
+<div class="message-box">
+	<p><em>This is <strong>Part 7</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li><a href="/blog/3-magic-links">Magic Links</a></li>
+    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
+    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
+    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
+    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
+    <li>pprof CPU</li>
+  </ol>
+</div>
 <br>
 <img src="./cpu-base.png" alt="cpu-base">
 <p align="center"><em>CPU</em></p>

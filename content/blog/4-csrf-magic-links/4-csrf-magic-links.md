@@ -5,6 +5,21 @@ date: 2026-01-22
 tags: System Design, Magic Links, CSRF, Go, Gin, HTML Templates, HTMX, TL3
 ---
 
+<br/>
+<br/>
+<div class="message-box">
+	<p><em>This is <strong>Part 3</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li><a href="/blog/3-magic-links">Magic Links</a></li>
+    <li>CSRF with Magic Links</li>
+    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
+    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
+    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
+    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
+  </ol>
+</div>
+
 As a recap, a Magic Link contains an encrypted token containing the identity of a particular user. By that definition, anyone clicking that link can impersonate the identify encoded in the link. Doesn't that sound familiar? (*Cough, Cough* - __Netflix__)
 
 In order to prevent that we need a way for the link to only work for the original requester, and that is where _CSRF tokens_ come in handy.

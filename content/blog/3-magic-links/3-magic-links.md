@@ -8,6 +8,19 @@ tags: System Design, Magic Links, Go, TL2
 <br/>
 <br/>
 <div class="message-box">
+	<p><em>This is <strong>Part 2</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li>Magic Links</li>
+    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
+    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
+    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
+    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
+    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
+  </ol>
+</div>
+<br/>
+<div class="message-box">
 	<p><em>"Hey Shannon! Your previous post talks about Magic Links but there were no details at all about implementing them!"<br/>- random reader</em></p>
 </div>
 

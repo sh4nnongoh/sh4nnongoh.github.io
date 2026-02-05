@@ -5,6 +5,21 @@ date: 2026-01-31
 tags: System Design, Magic Links, CSRF, Go, Gin, Benchmark, pprof, TL4
 ---
 
+<br/>
+<br/>
+<div class="message-box">
+	<p><em>This is <strong>Part 5</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li><a href="/blog/3-magic-links">Magic Links</a></li>
+    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
+    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
+    <li>pprof Analysis</li>
+    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
+    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
+  </ol>
+</div>
+
 Now that we have generated the [pprof profiles](/blog/5-pprof) for our _Magic Link_ app, let's start analyzing them.
 
 There are a lot of information provided by the profiles, and in order to not get overwhelmed, we need to adopt a strategy to analyze them.

@@ -5,6 +5,21 @@ date: 2026-01-16
 tags: System Design, TL1
 ---
 
+<br/>
+<br/>
+<div class="message-box">
+	<p><em>This is <strong>Part 1</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li><a href="/blog/3-magic-links">Magic Links</a></li>
+    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
+    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
+    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
+    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
+    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
+  </ol>
+</div>
+
 System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips & tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.
 
 <div class="message-box">

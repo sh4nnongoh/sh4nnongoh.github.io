@@ -4,7 +4,21 @@ description: Setting up a Go app with pprof endpoints; Writing a Go program for 
 date: 2026-01-26
 tags: System Design, Magic Links, CSRF, Go, Gin, Docker, pprof, TL3
 ---
+
 <br/>
+<br/>
+<div class="message-box">
+	<p><em>This is <strong>Part 4</strong> of the Magic Link System Design Series.</em></p>
+  <ol>
+    <li><a href="/blog/2-system-design">System Design</a></li>
+    <li><a href="/blog/3-magic-links">Magic Links</a></li>
+    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
+    <li>pprof & Load Testing</li>
+    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
+    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
+    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
+  </ol>
+</div>
 <br/>
 <div class="message-box">
   <p><em>

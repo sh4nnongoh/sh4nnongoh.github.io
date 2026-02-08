@@ -5,11 +5,97 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-02-03T00:00:00Z</updated>
+  <updated>2026-02-08T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
   </author>
+  <entry>
+    <title>AI Agents</title>
+    <link href="https://sh4nnongoh.github.io/blog/9-ai-agents/" />
+    <updated>2026-02-08T00:00:00Z</updated>
+    <id>https://sh4nnongoh.github.io/blog/9-ai-agents/</id>
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;Disclaimer: I am not an &quot;AI Engineer&quot; or whatever that means. This post describes my thoughts and reflections on the current landscape at this current point in time, and may very well change in the future.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/AlYejncQqb-1416.avif 1416w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/AlYejncQqb-1416.webp 1416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/AlYejncQqb-1416.png&quot; alt=&quot;rag&quot; width=&quot;1416&quot; height=&quot;1974&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;em&gt;RAG&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;I was scrolling &lt;strong&gt;X&lt;/strong&gt; one day and saw this &lt;a href=&quot;https://x.com/goyalshaliniuk/status/2019735325321388416?s=20&quot;&gt;post&lt;/a&gt; about RAG. I thought &lt;em&gt;&amp;quot;Whoa! The AI landscape has evolved so much!&amp;quot;&lt;/em&gt;. So I started going down the rabbit hole, trying to understand what RAG is.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;Retrieval-augmented generation (RAG) is a technique that enhances large language models (LLMs) by allowing them to retrieve and incorporate new information from external data sources before generating responses. This approach improves the accuracy and relevance of the information provided by the LLMs.&lt;br&gt;- Wikipedia&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;So apparently this is a &lt;strong&gt;&lt;em&gt;technique&lt;/em&gt;&lt;/strong&gt; used to interface with an LLM? Okay, what exactly is this technique I wondered. So I went to setup my own LLM, and since I have a MacBook, I went with the Ollama setup.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/2O4E1VpKRL-1974.avif 1974w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/2O4E1VpKRL-1974.webp 1974w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/2O4E1VpKRL-1974.png&quot; alt=&quot;ollama&quot; width=&quot;1974&quot; height=&quot;694&quot;&gt;&lt;/picture&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;em&gt;Ollama&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Looking at the &lt;a href=&quot;https://docs.ollama.com/quickstart#curl&quot;&gt;docs&lt;/a&gt;, Ollama exposes a HTTP endpoint where we can send HTTP request to interface with the model.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; http://localhost:11434/api/chat &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;{
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;messages&quot;: [{
+    &quot;role&quot;: &quot;user&quot;,
+    &quot;content&quot;: &quot;What are you?&quot;
+  }],
+  &quot;stream&quot;: false
+}&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There is this concept of Tools as well, which we can prompt the LLM to use.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; http://localhost:11434/api/chat &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;{
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;messages&quot;: [{
+    &quot;role&quot;: &quot;user&quot;,
+    &quot;content&quot;: &quot;What are you?&quot;
+  }],
+  &quot;stream&quot;: false,
+  &quot;tools&quot;: [
+    &quot;type&quot;: &quot;function&quot;,
+    &quot;function&quot;: {
+      &quot;name&quot;: &quot;ask_god&quot;,
+      &quot;description&quot;: &quot;Prays to God for an answer.&quot;,
+      &quot;parameters&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [&quot;god_name&quot;],
+        &quot;properties&quot;: {
+          &quot;god_name&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;description&quot;: &quot;The name of the God you wish to pray to.&quot;
+          }
+        },
+      },
+    }
+  ]
+}&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If the LLM does not know the answer, the response will request the use of Tools available. The engineer will then have to write code to call the specific tool and pipe the response back to the LLM. An example is shown below.&lt;/p&gt;
+&lt;pre class=&quot;language-json&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Initial Response&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;model&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;qwen2.5-coder:3B&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;role&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;assistant&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{&#92;&quot;name&#92;&quot;: &#92;&quot;ask_god Prays to God for an answer.&#92;&quot;, &#92;&quot;arguments&#92;&quot;: {&#92;&quot;god_name&#92;&quot;: &#92;&quot;Some God&#92;&quot;}}&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;//...&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// Reply with Tool answer&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;//...&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token property&quot;&gt;&quot;role&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;tool&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token property&quot;&gt;&quot;tool_name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ask_god&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token property&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;I am GOD!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So apparently this &lt;strong&gt;&lt;em&gt;technique&lt;/em&gt;&lt;/strong&gt; is just a mechanism for piping &lt;em&gt;JSON&lt;/em&gt; object messages back-and-forth between an engineer&#39;s code and the LLM. Why is there a need to create so many complicated fancy names for this back-and-forth messaging?&lt;/p&gt;
+&lt;h2 id=&quot;engineers-vs-scientists&quot;&gt;Engineers VS Scientists&lt;/h2&gt;
+&lt;p&gt;From an engineer&#39;s point-of-view, we only care about improving production metrics.&lt;/p&gt;
+&lt;p&gt;When developing a feature, the first question we ask ourselves is that is it working or is it correct. When relying on an LLM, that largely depends on the LLM as it is probabilistic in nature. It is not the job of an engineer to solve accuracy issues but that of a data scientist. But hey, RAG exists so that engineers can direct the LLM to find a correct answer right? NO! I strongly believe that is the wrong thought process to have as one would end up over-engineering a solution to the problem. If one cares about complete correctness, an engineer should not rely on a probabilistic engine but code out the exact requirements needed for the problem.&lt;/p&gt;
+&lt;p&gt;Okay so we accept that it may not be accurate but it can still provide good summaries of information and possibly be a good assistant. Using ChatGPT, DeepSeek, Grok, etc. is great for querying or generating information and content. So why do we not just embed these models into our applications? The answer is cost; it is expensive to host and maintain such a large model while scaling it to many clients.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;The value comes from choosing a small model to keep cost low, and making it work for a particular business use-case; possibly using RAG.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The engineer can monitor the number of tokens consumed by the model, along with the end-to-end latency of request(s), when attempting to &lt;em&gt;&amp;quot;solve&amp;quot;&lt;/em&gt; a business problem. The results can be benchmarked with the latest state-of-the-art models in terms of accuracy, with the goal of reducing the metrics mentioned above as much as possible to keep cost low.&lt;/p&gt;
+&lt;p&gt;My future posts will dive deeper into such problems, and attempt to define what an &lt;em&gt;&amp;quot;AI Engineer&amp;quot;&lt;/em&gt; actually is.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;Fun Fact: The So-So-Ah-So post tag is just to state that the current post is a reflection post. So-So-Ah-So is a Singapore singlish way of talking, whereby our sentences continuously have the word &quot;so&quot; to prove a point.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+</content>
+  </entry>
   <entry>
     <title>pprof CPU</title>
     <link href="https://sh4nnongoh.github.io/blog/8-pprof-cpu/" />

@@ -5,33 +5,51 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Primary Meta Tags -->
-		<title>Hello Me!</title>
-		<meta name="title" content="Hello Me!">
-		<meta name="description" content="This is the first post of my blog!">
+		<title>AI Agents</title>
+		<meta name="title" content="AI Agents">
+		<meta name="description" content="My personal reflections on AI Agents.">
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://sh4nnongoh.github.io">
-		<meta property="og:title" content="Hello Me!">
-		<meta property="og:description" content="This is the first post of my blog!">
+		<meta property="og:title" content="AI Agents">
+		<meta property="og:description" content="My personal reflections on AI Agents.">
 		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- X (Twitter) -->
 		<meta property="twitter:card" content="summary_large_image">
 		<meta property="twitter:url" content="https://sh4nnongoh.github.io">
-		<meta property="twitter:title" content="Hello Me!">
-		<meta property="twitter:description" content="This is the first post of my blog!">
+		<meta property="twitter:title" content="AI Agents">
+		<meta property="twitter:description" content="My personal reflections on AI Agents.">
 		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- Meta Tags Generated with https://metatags.io -->
 
 		<meta name="google-site-verification" content="r1MXDdGzfOnO8Cjyxy0oQf1Jp-sNi5nm7ZBTXLEzaqA">
 
-		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/1-hello-me/">
+		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/9-ai-agents/">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Shannon&#39;s Software Engineering Blog">
 		<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		
 		
 		
-		<style>/* This is an arbitrary CSS string added to the bundle */
+		<style>/* Message Box */
+.message-box {
+	--color-message-box: #ffc;
+
+	display: block;
+	background-color: var(--color-message-box);
+	color: var(--color-gray-90);
+	padding: 1em 0.625em; /* 16px 10px /16 */
+}
+.message-box ol {
+	margin-top: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	.message-box {
+		--color-message-box: #082840;
+	}
+}
+/* This is an arbitrary CSS string added to the bundle */
 /* Defaults */
 :root {
 	--font-family: -apple-system, system-ui, sans-serif;
@@ -578,13 +596,13 @@ pre[class*="language-diff-"] {
 		"@type": "BlogPosting",
 		"mainEntityOfPage": {
 			"@type": "WebPage",
-			"@id": "https://sh4nnongoh.github.io/blog/1-hello-me/"
+			"@id": "https://sh4nnongoh.github.io/blog/9-ai-agents/"
 		},
-		"headline": "Hello Me!",
-		"description": "This is the first post of my blog!",
+		"headline": "AI Agents",
+		"description": "My personal reflections on AI Agents.",
 		"image": [],
-		"datePublished": "2026-01-06",
-		"dateModified": "2026-01-06",
+		"datePublished": "2026-02-08",
+		"dateModified": "2026-02-08",
 		"author": {
 			"@type": "Person",
 			"name": "Shannon Goh",
@@ -604,16 +622,97 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="hello-me">Hello Me!</h1>
+<h1 id="ai-agents">AI Agents</h1>
 <ul class="post-metadata">
-	<li><time datetime="2026-01-06">06 January 2026</time></li>
+	<li><time datetime="2026-02-08">08 February 2026</time></li>
+	<li><a href="/tags/llm/" class="post-tag">LLM</a>, </li>
+	<li><a href="/tags/ai-agents/" class="post-tag"> AI Agents</a>, </li>
+	<li><a href="/tags/go/" class="post-tag"> Go</a>, </li>
+	<li><a href="/tags/so-so-ah-so/" class="post-tag"> So-So-Ah-So</a>, </li>
+	<li><a href="/tags/tl2/" class="post-tag"> TL2</a></li>
 </ul>
 
-<p>Stay tuned for more content!</p>
-<p>In the meantime, look at the cute possums below! :D</p>
-<picture><source type="image/avif" srcset="/blog/1-hello-me/xbVnp_hAou-350.avif 350w"><source type="image/webp" srcset="/blog/1-hello-me/xbVnp_hAou-350.webp 350w"><img loading="lazy" decoding="async" src="/blog/1-hello-me/xbVnp_hAou-350.png" alt="A possum parent and two possum kids hanging from the iconic red balloon" width="350" height="685"></picture>
+<br>
+<br>
+<div class="message-box">
+	<p><em>Disclaimer: I am not an "AI Engineer" or whatever that means. This post describes my thoughts and reflections on the current landscape at this current point in time, and may very well change in the future.</em></p>
+</div>
+<br>
+<picture><source type="image/avif" srcset="/blog/9-ai-agents/AlYejncQqb-1416.avif 1416w"><source type="image/webp" srcset="/blog/9-ai-agents/AlYejncQqb-1416.webp 1416w"><img loading="lazy" decoding="async" src="/blog/9-ai-agents/AlYejncQqb-1416.png" alt="rag" width="1416" height="1974"></picture>
+<p align="center"><em>RAG</em></p>
+<p>I was scrolling <strong>X</strong> one day and saw this <a href="https://x.com/goyalshaliniuk/status/2019735325321388416?s=20">post</a> about RAG. I thought <em>&quot;Whoa! The AI landscape has evolved so much!&quot;</em>. So I started going down the rabbit hole, trying to understand what RAG is.</p>
+<div class="message-box">
+	<p><em>Retrieval-augmented generation (RAG) is a technique that enhances large language models (LLMs) by allowing them to retrieve and incorporate new information from external data sources before generating responses. This approach improves the accuracy and relevance of the information provided by the LLMs.<br>- Wikipedia</em></p>
+</div>
+<p>So apparently this is a <strong><em>technique</em></strong> used to interface with an LLM? Okay, what exactly is this technique I wondered. So I went to setup my own LLM, and since I have a MacBook, I went with the Ollama setup.</p>
+<picture><source type="image/avif" srcset="/blog/9-ai-agents/2O4E1VpKRL-1974.avif 1974w"><source type="image/webp" srcset="/blog/9-ai-agents/2O4E1VpKRL-1974.webp 1974w"><img loading="lazy" decoding="async" src="/blog/9-ai-agents/2O4E1VpKRL-1974.png" alt="ollama" width="1974" height="694"></picture>
+<p align="center"><em>Ollama</em></p>
+<p>Looking at the <a href="https://docs.ollama.com/quickstart#curl">docs</a>, Ollama exposes a HTTP endpoint where we can send HTTP request to interface with the model.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">curl</span> http://localhost:11434/api/chat <span class="token parameter variable">-d</span> <span class="token string">'{
+  "model": "qwen2.5-coder:3B",
+  "messages": [{
+    "role": "user",
+    "content": "What are you?"
+  }],
+  "stream": false
+}'</span></code></pre>
+<p>There is this concept of Tools as well, which we can prompt the LLM to use.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">curl</span> http://localhost:11434/api/chat <span class="token parameter variable">-d</span> <span class="token string">'{
+  "model": "qwen2.5-coder:3B",
+  "messages": [{
+    "role": "user",
+    "content": "What are you?"
+  }],
+  "stream": false,
+  "tools": [
+    "type": "function",
+    "function": {
+      "name": "ask_god",
+      "description": "Prays to God for an answer.",
+      "parameters": {
+        "type": "object",
+        "required": ["god_name"],
+        "properties": {
+          "god_name": {
+            "type": "string",
+            "description": "The name of the God you wish to pray to."
+          }
+        },
+      },
+    }
+  ]
+}'</span></code></pre>
+<p>If the LLM does not know the answer, the response will request the use of Tools available. The engineer will then have to write code to call the specific tool and pipe the response back to the LLM. An example is shown below.</p>
+<pre class="language-json" tabindex="0"><code class="language-json"><span class="token comment">// Initial Response</span>
+<span class="token punctuation">{</span>
+  <span class="token property">"model"</span><span class="token operator">:</span> <span class="token string">"qwen2.5-coder:3B"</span><span class="token punctuation">,</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"assistant"</span><span class="token punctuation">,</span>
+    <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"{\"name\": \"ask_god Prays to God for an answer.\", \"arguments\": {\"god_name\": \"Some God\"}}"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">//...</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// Reply with Tool answer</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">//...</span>
+  <span class="token punctuation">{</span><span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"tool"</span><span class="token punctuation">,</span> <span class="token property">"tool_name"</span><span class="token operator">:</span> <span class="token string">"ask_god"</span><span class="token punctuation">,</span> <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"I am GOD!"</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>So apparently this <strong><em>technique</em></strong> is just a mechanism for piping <em>JSON</em> object messages back-and-forth between an engineer's code and the LLM. Why is there a need to create so many complicated fancy names for this back-and-forth messaging?</p>
+<h2 id="engineers-vs-scientists">Engineers VS Scientists</h2>
+<p>From an engineer's point-of-view, we only care about improving production metrics.</p>
+<p>When developing a feature, the first question we ask ourselves is that is it working or is it correct. When relying on an LLM, that largely depends on the LLM as it is probabilistic in nature. It is not the job of an engineer to solve accuracy issues but that of a data scientist. But hey, RAG exists so that engineers can direct the LLM to find a correct answer right? NO! I strongly believe that is the wrong thought process to have as one would end up over-engineering a solution to the problem. If one cares about complete correctness, an engineer should not rely on a probabilistic engine but code out the exact requirements needed for the problem.</p>
+<p>Okay so we accept that it may not be accurate but it can still provide good summaries of information and possibly be a good assistant. Using ChatGPT, DeepSeek, Grok, etc. is great for querying or generating information and content. So why do we not just embed these models into our applications? The answer is cost; it is expensive to host and maintain such a large model while scaling it to many clients.</p>
+<div class="message-box">
+	<p><em>The value comes from choosing a small model to keep cost low, and making it work for a particular business use-case; possibly using RAG.</em></p>
+</div>
+<p>The engineer can monitor the number of tokens consumed by the model, along with the end-to-end latency of request(s), when attempting to <em>&quot;solve&quot;</em> a business problem. The results can be benchmarked with the latest state-of-the-art models in terms of accuracy, with the goal of reducing the metrics mentioned above as much as possible to keep cost low.</p>
+<p>My future posts will dive deeper into such problems, and attempt to define what an <em>&quot;AI Engineer&quot;</em> actually is.</p>
+<div class="message-box">
+	<p><em>Fun Fact: The So-So-Ah-So post tag is just to state that the current post is a reflection post. So-So-Ah-So is a Singapore singlish way of talking, whereby our sentences continuously have the word "so" to prove a point.</em></p>
+</div>
+<br>
 
-<ul class="links-nextprev"><li class="links-nextprev-next">Next →<br><a href="/blog/2-system-design/">System Design</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/8-pprof-cpu/">pprof CPU</a></li>
 </ul>
 
 			</heading-anchors>
@@ -635,7 +734,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/1-hello-me/` was built on 2026-02-08T08:38:39.838Z -->
+		<!-- This page `/blog/9-ai-agents/` was built on 2026-02-08T08:38:39.839Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

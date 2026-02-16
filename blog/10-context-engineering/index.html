@@ -707,6 +707,11 @@ Response:  {
 </code></pre>
 <h2 id="supercharge-the-llm-with-tools">Supercharge the LLM with Tools</h2>
 <p>As mentioned earlier we need to enhance the <em>LLM</em> with tools such that it can do more than what it was trained to do.</p>
+<div class="message-box">
+	<p><em>
+  NOTE: The LLM is just a brain that decides which tool to use. The actual computation needs to be written by the engineer. This is currently commonly done through the concept of Model Context Protocol (MCP) servers.
+  </em></p>
+</div>
 <p>The structure of a Tool is shown below.</p>
 <pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">type</span> OllamaFunctionParameter <span class="token keyword">struct</span> <span class="token punctuation">{</span>
 	Type       <span class="token builtin">string</span>          <span class="token string">`json:"type" description:"Return type of the current function."`</span>
@@ -752,6 +757,7 @@ tools <span class="token operator">:=</span> <span class="token punctuation">[</
 <p>Let's ask the <em>LLM</em>, what the weather is.</p>
 <p>When querying with the Tools defined, the response is as follows:</p>
 <pre><code>Prompt: What is the Weather now?
+Tools: &lt;tools&gt;
 Response: {
   &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
   &quot;message&quot;: {
@@ -794,6 +800,7 @@ Response: {
 </code></pre>
 <h2 id="hallucination">Hallucination</h2>
 <pre><code>Prompt: What is the time now?
+Tools: &lt;tools&gt;
 Response: {
   &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
   &quot;message&quot;: {
@@ -835,6 +842,7 @@ Response: {
 <h2 id="testing-the-changes-with-other-prompts">Testing the changes with other Prompts</h2>
 <p>Let's ask the <em>1+1</em> question again.</p>
 <pre><code>Prompt: What is 1+1?
+Tools: &lt;tools&gt;
 Response: {
   &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
   &quot;message&quot;: {
@@ -844,7 +852,11 @@ Response: {
   // ...
 }
 </code></pre>
-<p><em>What... Why is it asking for LLM definition???</em></p>
+<div class="message-box">
+	<p><em>
+  What... Why is it asking for LLM definition??? Is it just a lousy model? Is it bad prompting? Can't be... This is such a simple scenario. Honestly, who knows? The LLM is a black box! MOVING ON!
+  </em></p>
+</div>
 <p>If we remove all the Tools from the Prompt request, then it can respond with the answer <em>&quot;2&quot;</em>.</p>
 <h2 id="dynamic-contexts">Dynamic Contexts</h2>
 <p>We need a way to dynamically inject tools to the Prompt request. However, remember that we <strong>DO NOT WANT</strong> to over-engineer a solution.</p>
@@ -871,6 +883,7 @@ Response: {
 <p>After defining the Tools available in the System Prompt, we ask the <em>LLM</em> to setup which Tools we should use for our Prompt. In this scenario, none of the Tools are compatible to answer the question <em>&quot;What is 1+1?&quot;</em></p>
 <p>Now we can programmatically know to not send the Tools with the Prompt, allowing the <em>LLM</em> to derive the answer.</p>
 <pre><code>Prompt: What is 1+1?
+Tools: nil
 Response:  {
   &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
   &quot;message&quot;: {
@@ -887,6 +900,121 @@ Response:  {
 <li>Establish 2-stage prompting, whereby the <em>LLM</em> first decides what <em>Tools</em> to use, followed by fulfilling the actual prompt made by the user using the insight gained on the compatibility of <em>Tools</em> available in the first prompt.</li>
 </ul>
 <p>By following the above methodology, I believe an <em>&quot;AI Engineer&quot;</em> may find more success in achieving business objectives!</p>
+<h2 id="appendix-data-structures-for-ollama">Appendix (Data Structures for Ollama)</h2>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">type</span> OllamaMessage <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Role    <span class="token builtin">string</span> <span class="token string">`json:"role" description:"Who is requesting the message."`</span>
+  Content <span class="token builtin">string</span> <span class="token string">`json:"content" description:"The actual message content."`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaFunctionParameter <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Type       <span class="token builtin">string</span>          <span class="token string">`json:"type" description:"Return type of the current function."`</span>
+  Required   <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span>        <span class="token string">`json:"required" description:"Which parameters are required in the function call."`</span>
+  Properties json<span class="token punctuation">.</span>RawMessage <span class="token string">`json:"properties" description:"Details about the parameters."`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaFunction <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Name        <span class="token builtin">string</span>                  <span class="token string">`json:"name" description:"Name of the Function."`</span>
+  Description <span class="token builtin">string</span>                  <span class="token string">`json:"description" description:"What the Function does."`</span>
+  Parameters  OllamaFunctionParameter <span class="token string">`json:"parameters" description:"Parameters that get passed to the Function."`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaTool <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Type     <span class="token builtin">string</span>         <span class="token string">`json:"type" description:"The type of Tool; i.e. Function"`</span>
+  Function OllamaFunction <span class="token string">`json:"function" description:"A Tool that is of Function type."`</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// ModelOptions defines common model parameters for the Options field</span>
+<span class="token keyword">type</span> ModelOptions <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Temperature controls randomness (0.0 to 1.0)</span>
+  Temperature <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"temperature,omitempty"`</span>
+
+  <span class="token comment">// TopP controls diversity via nucleus sampling (0.0 to 1.0)</span>
+  TopP <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"top_p,omitempty"`</span>
+
+  <span class="token comment">// TopK limits token selection to top K</span>
+  TopK <span class="token operator">*</span><span class="token builtin">int</span> <span class="token string">`json:"top_k,omitempty"`</span>
+
+  <span class="token comment">// NumPredict sets maximum number of tokens to predict</span>
+  NumPredict <span class="token operator">*</span><span class="token builtin">int</span> <span class="token string">`json:"num_predict,omitempty"`</span>
+
+  <span class="token comment">// RepeatPenalty penalizes repetition (1.0 = no penalty)</span>
+  RepeatPenalty <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"repeat_penalty,omitempty"`</span>
+
+  <span class="token comment">// PresencePenalty penalizes new tokens based on presence</span>
+  PresencePenalty <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"presence_penalty,omitempty"`</span>
+
+  <span class="token comment">// FrequencyPenalty penalizes new tokens based on frequency</span>
+  FrequencyPenalty <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"frequency_penalty,omitempty"`</span>
+
+  <span class="token comment">// Mirostat enables mirostat sampling</span>
+  Mirostat <span class="token operator">*</span><span class="token builtin">int</span> <span class="token string">`json:"mirostat,omitempty"`</span>
+
+  <span class="token comment">// MirostatTau sets target entropy for mirostat</span>
+  MirostatTau <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"mirostat_tau,omitempty"`</span>
+
+  <span class="token comment">// MirostatEta sets learning rate for mirostat</span>
+  MirostatEta <span class="token operator">*</span><span class="token builtin">float64</span> <span class="token string">`json:"mirostat_eta,omitempty"`</span>
+
+  <span class="token comment">// Stop sets custom stop sequences</span>
+  Stop <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span> <span class="token string">`json:"stop,omitempty"`</span>
+
+  <span class="token comment">// Seed sets random seed for reproducibility</span>
+  Seed <span class="token operator">*</span><span class="token builtin">int</span> <span class="token string">`json:"seed,omitempty"`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaResponseFormat <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Type       <span class="token builtin">string</span>                       <span class="token string">`json:"type,omitempty"`</span>
+  Properties <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span> <span class="token string">`json:"properties,omitempty"`</span>
+  Required   <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">bool</span>                       <span class="token string">`json:"required,omitempty"`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaRequest <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Model <span class="token builtin">string</span>       <span class="token string">`json:"model" description:"LLM model to be used."`</span>
+  Tools <span class="token punctuation">[</span><span class="token punctuation">]</span>OllamaTool <span class="token string">`json:"tools" description:"List of Tools the LLM can use."`</span>
+
+  <span class="token comment">// Depending on the model, either field is used</span>
+  Messages <span class="token punctuation">[</span><span class="token punctuation">]</span>OllamaMessage <span class="token string">`json:"messages,omitempty" description:"List of messages in the current prompt."`</span>
+  Prompt   <span class="token builtin">string</span>          <span class="token string">`json:"prompt,omitempty"`</span>
+
+  <span class="token comment">// Optional fields</span>
+  Suffix    <span class="token builtin">string</span>               <span class="token string">`json:"suffix,omitempty"`</span>
+  Images    <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span>             <span class="token string">`json:"images,omitempty"`</span> <span class="token comment">// base64-encoded images</span>
+  Format    OllamaResponseFormat <span class="token string">`json:"format,omitempty"`</span>
+  Options   ModelOptions         <span class="token string">`json:"options,omitempty"`</span>
+  System    <span class="token builtin">string</span>               <span class="token string">`json:"system,omitempty"`</span>
+  Template  <span class="token builtin">string</span>               <span class="token string">`json:"template,omitempty"`</span>
+  Stream    <span class="token operator">*</span><span class="token builtin">bool</span>                <span class="token string">`json:"stream,omitempty" description:"To stream the response or not."`</span>
+  Raw       <span class="token builtin">bool</span>                 <span class="token string">`json:"raw,omitempty"`</span>
+  KeepAlive <span class="token builtin">int</span>                  <span class="token string">`json:"keep_alive,omitempty"`</span>
+
+  <span class="token comment">// Experimental image generation fields</span>
+  Width  <span class="token builtin">int</span> <span class="token string">`json:"width,omitempty"`</span>
+  Height <span class="token builtin">int</span> <span class="token string">`json:"height,omitempty"`</span>
+  Steps  <span class="token builtin">int</span> <span class="token string">`json:"steps,omitempty"`</span>
+
+  <span class="token comment">// Thinking models parameter</span>
+  Think <span class="token builtin">bool</span> <span class="token string">`json:"think,omitempty"`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaResponse <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+  Model     <span class="token builtin">string</span>        <span class="token string">`json:"model" description:"LLM model to be used."`</span>
+  Message   OllamaMessage <span class="token string">`json:"message" description:"List of messages in the current prompt."`</span>
+  Response  <span class="token builtin">string</span>        <span class="token string">`json:"response"`</span>
+  Done      <span class="token builtin">bool</span>          <span class="token string">`json:"done" description:"Response is done streaming."`</span>
+  CreatedAt time<span class="token punctuation">.</span>Time     <span class="token string">`json:"created_at" description:"Timestamp when response was created."`</span>
+
+  <span class="token comment">// Additional fields present only when Done = true</span>
+  Context            <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span>  <span class="token string">`json:"context,omitempty"`</span>
+  TotalDuration      <span class="token builtin">int64</span>  <span class="token string">`json:"total_duration,omitempty"`</span> <span class="token comment">// nanoseconds</span>
+  LoadDuration       <span class="token builtin">int64</span>  <span class="token string">`json:"load_duration,omitempty"`</span>  <span class="token comment">// nanoseconds</span>
+  PromptEvalCount    <span class="token builtin">int</span>    <span class="token string">`json:"prompt_eval_count,omitempty"`</span>
+  PromptEvalDuration <span class="token builtin">int64</span>  <span class="token string">`json:"prompt_eval_duration,omitempty"`</span> <span class="token comment">// nanoseconds</span>
+  EvalCount          <span class="token builtin">int</span>    <span class="token string">`json:"eval_count,omitempty"`</span>
+  EvalDuration       <span class="token builtin">int64</span>  <span class="token string">`json:"eval_duration,omitempty"`</span> <span class="token comment">// nanoseconds</span>
+  DoneReason         <span class="token builtin">string</span> <span class="token string">`json:"done_reason,omitempty"`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> AnyFunc <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 
 
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/9-ai-agents/">AI Agents</a></li>
@@ -911,7 +1039,7 @@ Response:  {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/10-context-engineering/` was built on 2026-02-16T15:16:31.258Z -->
+		<!-- This page `/blog/10-context-engineering/` was built on 2026-02-16T16:33:38.488Z -->
 		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
 	</body>
 </html>

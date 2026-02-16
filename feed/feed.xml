@@ -90,6 +90,11 @@ Response:  {
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;supercharge-the-llm-with-tools&quot;&gt;Supercharge the LLM with Tools&lt;/h2&gt;
 &lt;p&gt;As mentioned earlier we need to enhance the &lt;em&gt;LLM&lt;/em&gt; with tools such that it can do more than what it was trained to do.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  NOTE: The LLM is just a brain that decides which tool to use. The actual computation needs to be written by the engineer. This is currently commonly done through the concept of Model Context Protocol (MCP) servers.
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;p&gt;The structure of a Tool is shown below.&lt;/p&gt;
 &lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaFunctionParameter &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
 	Type       &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;          &lt;span class=&quot;token string&quot;&gt;`json:&quot;type&quot; description:&quot;Return type of the current function.&quot;`&lt;/span&gt;
@@ -135,6 +140,7 @@ tools &lt;span class=&quot;token operator&quot;&gt;:=&lt;/span&gt; &lt;span clas
 &lt;p&gt;Let&#39;s ask the &lt;em&gt;LLM&lt;/em&gt;, what the weather is.&lt;/p&gt;
 &lt;p&gt;When querying with the Tools defined, the response is as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Prompt: What is the Weather now?
+Tools: &amp;lt;tools&amp;gt;
 Response: {
   &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
   &amp;quot;message&amp;quot;: {
@@ -177,6 +183,7 @@ Response: {
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;hallucination&quot;&gt;Hallucination&lt;/h2&gt;
 &lt;pre&gt;&lt;code&gt;Prompt: What is the time now?
+Tools: &amp;lt;tools&amp;gt;
 Response: {
   &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
   &amp;quot;message&amp;quot;: {
@@ -218,6 +225,7 @@ Response: {
 &lt;h2 id=&quot;testing-the-changes-with-other-prompts&quot;&gt;Testing the changes with other Prompts&lt;/h2&gt;
 &lt;p&gt;Let&#39;s ask the &lt;em&gt;1+1&lt;/em&gt; question again.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Prompt: What is 1+1?
+Tools: &amp;lt;tools&amp;gt;
 Response: {
   &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
   &amp;quot;message&amp;quot;: {
@@ -227,7 +235,11 @@ Response: {
   // ...
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;em&gt;What... Why is it asking for LLM definition???&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  What... Why is it asking for LLM definition??? Is it just a lousy model? Is it bad prompting? Can&#39;t be... This is such a simple scenario. Honestly, who knows? The LLM is a black box! MOVING ON!
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;p&gt;If we remove all the Tools from the Prompt request, then it can respond with the answer &lt;em&gt;&amp;quot;2&amp;quot;&lt;/em&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;dynamic-contexts&quot;&gt;Dynamic Contexts&lt;/h2&gt;
 &lt;p&gt;We need a way to dynamically inject tools to the Prompt request. However, remember that we &lt;strong&gt;DO NOT WANT&lt;/strong&gt; to over-engineer a solution.&lt;/p&gt;
@@ -254,6 +266,7 @@ Response: {
 &lt;p&gt;After defining the Tools available in the System Prompt, we ask the &lt;em&gt;LLM&lt;/em&gt; to setup which Tools we should use for our Prompt. In this scenario, none of the Tools are compatible to answer the question &lt;em&gt;&amp;quot;What is 1+1?&amp;quot;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Now we can programmatically know to not send the Tools with the Prompt, allowing the &lt;em&gt;LLM&lt;/em&gt; to derive the answer.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Prompt: What is 1+1?
+Tools: nil
 Response:  {
   &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
   &amp;quot;message&amp;quot;: {
@@ -270,6 +283,121 @@ Response:  {
 &lt;li&gt;Establish 2-stage prompting, whereby the &lt;em&gt;LLM&lt;/em&gt; first decides what &lt;em&gt;Tools&lt;/em&gt; to use, followed by fulfilling the actual prompt made by the user using the insight gained on the compatibility of &lt;em&gt;Tools&lt;/em&gt; available in the first prompt.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;By following the above methodology, I believe an &lt;em&gt;&amp;quot;AI Engineer&amp;quot;&lt;/em&gt; may find more success in achieving business objectives!&lt;/p&gt;
+&lt;h2 id=&quot;appendix-data-structures-for-ollama&quot;&gt;Appendix (Data Structures for Ollama)&lt;/h2&gt;
+&lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaMessage &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Role    &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;role&quot; description:&quot;Who is requesting the message.&quot;`&lt;/span&gt;
+  Content &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;content&quot; description:&quot;The actual message content.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaFunctionParameter &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Type       &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;          &lt;span class=&quot;token string&quot;&gt;`json:&quot;type&quot; description:&quot;Return type of the current function.&quot;`&lt;/span&gt;
+  Required   &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;`json:&quot;required&quot; description:&quot;Which parameters are required in the function call.&quot;`&lt;/span&gt;
+  Properties json&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;RawMessage &lt;span class=&quot;token string&quot;&gt;`json:&quot;properties&quot; description:&quot;Details about the parameters.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaFunction &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Name        &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;                  &lt;span class=&quot;token string&quot;&gt;`json:&quot;name&quot; description:&quot;Name of the Function.&quot;`&lt;/span&gt;
+  Description &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;                  &lt;span class=&quot;token string&quot;&gt;`json:&quot;description&quot; description:&quot;What the Function does.&quot;`&lt;/span&gt;
+  Parameters  OllamaFunctionParameter &lt;span class=&quot;token string&quot;&gt;`json:&quot;parameters&quot; description:&quot;Parameters that get passed to the Function.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaTool &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Type     &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;         &lt;span class=&quot;token string&quot;&gt;`json:&quot;type&quot; description:&quot;The type of Tool; i.e. Function&quot;`&lt;/span&gt;
+  Function OllamaFunction &lt;span class=&quot;token string&quot;&gt;`json:&quot;function&quot; description:&quot;A Tool that is of Function type.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// ModelOptions defines common model parameters for the Options field&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; ModelOptions &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Temperature controls randomness (0.0 to 1.0)&lt;/span&gt;
+  Temperature &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;temperature,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// TopP controls diversity via nucleus sampling (0.0 to 1.0)&lt;/span&gt;
+  TopP &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;top_p,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// TopK limits token selection to top K&lt;/span&gt;
+  TopK &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;top_k,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// NumPredict sets maximum number of tokens to predict&lt;/span&gt;
+  NumPredict &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;num_predict,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// RepeatPenalty penalizes repetition (1.0 = no penalty)&lt;/span&gt;
+  RepeatPenalty &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;repeat_penalty,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// PresencePenalty penalizes new tokens based on presence&lt;/span&gt;
+  PresencePenalty &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;presence_penalty,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// FrequencyPenalty penalizes new tokens based on frequency&lt;/span&gt;
+  FrequencyPenalty &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;frequency_penalty,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Mirostat enables mirostat sampling&lt;/span&gt;
+  Mirostat &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;mirostat,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// MirostatTau sets target entropy for mirostat&lt;/span&gt;
+  MirostatTau &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;mirostat_tau,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// MirostatEta sets learning rate for mirostat&lt;/span&gt;
+  MirostatEta &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;float64&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;mirostat_eta,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Stop sets custom stop sequences&lt;/span&gt;
+  Stop &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;stop,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Seed sets random seed for reproducibility&lt;/span&gt;
+  Seed &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;seed,omitempty&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaResponseFormat &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Type       &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;                       &lt;span class=&quot;token string&quot;&gt;`json:&quot;type,omitempty&quot;`&lt;/span&gt;
+  Properties &lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;properties,omitempty&quot;`&lt;/span&gt;
+  Required   &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;bool&lt;/span&gt;                       &lt;span class=&quot;token string&quot;&gt;`json:&quot;required,omitempty&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaRequest &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Model &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;       &lt;span class=&quot;token string&quot;&gt;`json:&quot;model&quot; description:&quot;LLM model to be used.&quot;`&lt;/span&gt;
+  Tools &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;OllamaTool &lt;span class=&quot;token string&quot;&gt;`json:&quot;tools&quot; description:&quot;List of Tools the LLM can use.&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Depending on the model, either field is used&lt;/span&gt;
+  Messages &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;OllamaMessage &lt;span class=&quot;token string&quot;&gt;`json:&quot;messages,omitempty&quot; description:&quot;List of messages in the current prompt.&quot;`&lt;/span&gt;
+  Prompt   &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;          &lt;span class=&quot;token string&quot;&gt;`json:&quot;prompt,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Optional fields&lt;/span&gt;
+  Suffix    &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;               &lt;span class=&quot;token string&quot;&gt;`json:&quot;suffix,omitempty&quot;`&lt;/span&gt;
+  Images    &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;             &lt;span class=&quot;token string&quot;&gt;`json:&quot;images,omitempty&quot;`&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// base64-encoded images&lt;/span&gt;
+  Format    OllamaResponseFormat &lt;span class=&quot;token string&quot;&gt;`json:&quot;format,omitempty&quot;`&lt;/span&gt;
+  Options   ModelOptions         &lt;span class=&quot;token string&quot;&gt;`json:&quot;options,omitempty&quot;`&lt;/span&gt;
+  System    &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;               &lt;span class=&quot;token string&quot;&gt;`json:&quot;system,omitempty&quot;`&lt;/span&gt;
+  Template  &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;               &lt;span class=&quot;token string&quot;&gt;`json:&quot;template,omitempty&quot;`&lt;/span&gt;
+  Stream    &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;bool&lt;/span&gt;                &lt;span class=&quot;token string&quot;&gt;`json:&quot;stream,omitempty&quot; description:&quot;To stream the response or not.&quot;`&lt;/span&gt;
+  Raw       &lt;span class=&quot;token builtin&quot;&gt;bool&lt;/span&gt;                 &lt;span class=&quot;token string&quot;&gt;`json:&quot;raw,omitempty&quot;`&lt;/span&gt;
+  KeepAlive &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt;                  &lt;span class=&quot;token string&quot;&gt;`json:&quot;keep_alive,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Experimental image generation fields&lt;/span&gt;
+  Width  &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;width,omitempty&quot;`&lt;/span&gt;
+  Height &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;height,omitempty&quot;`&lt;/span&gt;
+  Steps  &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;steps,omitempty&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Thinking models parameter&lt;/span&gt;
+  Think &lt;span class=&quot;token builtin&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;think,omitempty&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaResponse &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  Model     &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;`json:&quot;model&quot; description:&quot;LLM model to be used.&quot;`&lt;/span&gt;
+  Message   OllamaMessage &lt;span class=&quot;token string&quot;&gt;`json:&quot;message&quot; description:&quot;List of messages in the current prompt.&quot;`&lt;/span&gt;
+  Response  &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;`json:&quot;response&quot;`&lt;/span&gt;
+  Done      &lt;span class=&quot;token builtin&quot;&gt;bool&lt;/span&gt;          &lt;span class=&quot;token string&quot;&gt;`json:&quot;done&quot; description:&quot;Response is done streaming.&quot;`&lt;/span&gt;
+  CreatedAt time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Time     &lt;span class=&quot;token string&quot;&gt;`json:&quot;created_at&quot; description:&quot;Timestamp when response was created.&quot;`&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// Additional fields present only when Done = true&lt;/span&gt;
+  Context            &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;`json:&quot;context,omitempty&quot;`&lt;/span&gt;
+  TotalDuration      &lt;span class=&quot;token builtin&quot;&gt;int64&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;`json:&quot;total_duration,omitempty&quot;`&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// nanoseconds&lt;/span&gt;
+  LoadDuration       &lt;span class=&quot;token builtin&quot;&gt;int64&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;`json:&quot;load_duration,omitempty&quot;`&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;// nanoseconds&lt;/span&gt;
+  PromptEvalCount    &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt;    &lt;span class=&quot;token string&quot;&gt;`json:&quot;prompt_eval_count,omitempty&quot;`&lt;/span&gt;
+  PromptEvalDuration &lt;span class=&quot;token builtin&quot;&gt;int64&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;`json:&quot;prompt_eval_duration,omitempty&quot;`&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// nanoseconds&lt;/span&gt;
+  EvalCount          &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt;    &lt;span class=&quot;token string&quot;&gt;`json:&quot;eval_count,omitempty&quot;`&lt;/span&gt;
+  EvalDuration       &lt;span class=&quot;token builtin&quot;&gt;int64&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;`json:&quot;eval_duration,omitempty&quot;`&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// nanoseconds&lt;/span&gt;
+  DoneReason         &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;done_reason,omitempty&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; AnyFunc &lt;span class=&quot;token keyword&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 </content>
   </entry>

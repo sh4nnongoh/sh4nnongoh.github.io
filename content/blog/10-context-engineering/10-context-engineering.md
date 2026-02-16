@@ -97,6 +97,12 @@ Response:  {
 
 As mentioned earlier we need to enhance the _LLM_ with tools such that it can do more than what it was trained to do.
 
+<div class="message-box">
+	<p><em>
+  NOTE: The LLM is just a brain that decides which tool to use. The actual computation needs to be written by the engineer. This is currently commonly done through the concept of Model Context Protocol (MCP) servers.
+  </em></p>
+</div>
+
 The structure of a Tool is shown below.
 
 ```go
@@ -148,6 +154,7 @@ When querying with the Tools defined, the response is as follows:
 
 ```
 Prompt: What is the Weather now?
+Tools: <tools>
 Response: {
   "model": "qwen2.5-coder:3B",
   "message": {
@@ -201,6 +208,7 @@ Response:  {
 
 ```
 Prompt: What is the time now?
+Tools: <tools>
 Response: {
   "model": "qwen2.5-coder:3B",
   "message": {
@@ -257,6 +265,7 @@ Let's ask the _1+1_ question again.
 
 ```
 Prompt: What is 1+1?
+Tools: <tools>
 Response: {
   "model": "qwen2.5-coder:3B",
   "message": {
@@ -267,7 +276,11 @@ Response: {
 }
 ```
 
-_What... Why is it asking for LLM definition???_
+<div class="message-box">
+	<p><em>
+  What... Why is it asking for LLM definition??? Is it just a lousy model? Is it bad prompting? Can't be... This is such a simple scenario. Honestly, who knows? The LLM is a black box! MOVING ON!
+  </em></p>
+</div>
 
 If we remove all the Tools from the Prompt request, then it can respond with the answer _"2"_.
 
@@ -304,6 +317,7 @@ Now we can programmatically know to not send the Tools with the Prompt, allowing
 
 ```
 Prompt: What is 1+1?
+Tools: nil
 Response:  {
   "model": "qwen2.5-coder:3B",
   "message": {
@@ -321,5 +335,125 @@ Response:  {
 - Establish 2-stage prompting, whereby the _LLM_ first decides what _Tools_ to use, followed by fulfilling the actual prompt made by the user using the insight gained on the compatibility of _Tools_ available in the first prompt.
 
 By following the above methodology, I believe an _"AI Engineer"_ may find more success in achieving business objectives!
+
+
+## Appendix (Data Structures for Ollama)
+
+```go
+type OllamaMessage struct {
+  Role    string `json:"role" description:"Who is requesting the message."`
+  Content string `json:"content" description:"The actual message content."`
+}
+
+type OllamaFunctionParameter struct {
+  Type       string          `json:"type" description:"Return type of the current function."`
+  Required   []string        `json:"required" description:"Which parameters are required in the function call."`
+  Properties json.RawMessage `json:"properties" description:"Details about the parameters."`
+}
+
+type OllamaFunction struct {
+  Name        string                  `json:"name" description:"Name of the Function."`
+  Description string                  `json:"description" description:"What the Function does."`
+  Parameters  OllamaFunctionParameter `json:"parameters" description:"Parameters that get passed to the Function."`
+}
+
+type OllamaTool struct {
+  Type     string         `json:"type" description:"The type of Tool; i.e. Function"`
+  Function OllamaFunction `json:"function" description:"A Tool that is of Function type."`
+}
+
+// ModelOptions defines common model parameters for the Options field
+type ModelOptions struct {
+  // Temperature controls randomness (0.0 to 1.0)
+  Temperature *float64 `json:"temperature,omitempty"`
+
+  // TopP controls diversity via nucleus sampling (0.0 to 1.0)
+  TopP *float64 `json:"top_p,omitempty"`
+
+  // TopK limits token selection to top K
+  TopK *int `json:"top_k,omitempty"`
+
+  // NumPredict sets maximum number of tokens to predict
+  NumPredict *int `json:"num_predict,omitempty"`
+
+  // RepeatPenalty penalizes repetition (1.0 = no penalty)
+  RepeatPenalty *float64 `json:"repeat_penalty,omitempty"`
+
+  // PresencePenalty penalizes new tokens based on presence
+  PresencePenalty *float64 `json:"presence_penalty,omitempty"`
+
+  // FrequencyPenalty penalizes new tokens based on frequency
+  FrequencyPenalty *float64 `json:"frequency_penalty,omitempty"`
+
+  // Mirostat enables mirostat sampling
+  Mirostat *int `json:"mirostat,omitempty"`
+
+  // MirostatTau sets target entropy for mirostat
+  MirostatTau *float64 `json:"mirostat_tau,omitempty"`
+
+  // MirostatEta sets learning rate for mirostat
+  MirostatEta *float64 `json:"mirostat_eta,omitempty"`
+
+  // Stop sets custom stop sequences
+  Stop []string `json:"stop,omitempty"`
+
+  // Seed sets random seed for reproducibility
+  Seed *int `json:"seed,omitempty"`
+}
+
+type OllamaResponseFormat struct {
+  Type       string                       `json:"type,omitempty"`
+  Properties map[string]map[string]string `json:"properties,omitempty"`
+  Required   []bool                       `json:"required,omitempty"`
+}
+
+type OllamaRequest struct {
+  Model string       `json:"model" description:"LLM model to be used."`
+  Tools []OllamaTool `json:"tools" description:"List of Tools the LLM can use."`
+
+  // Depending on the model, either field is used
+  Messages []OllamaMessage `json:"messages,omitempty" description:"List of messages in the current prompt."`
+  Prompt   string          `json:"prompt,omitempty"`
+
+  // Optional fields
+  Suffix    string               `json:"suffix,omitempty"`
+  Images    []string             `json:"images,omitempty"` // base64-encoded images
+  Format    OllamaResponseFormat `json:"format,omitempty"`
+  Options   ModelOptions         `json:"options,omitempty"`
+  System    string               `json:"system,omitempty"`
+  Template  string               `json:"template,omitempty"`
+  Stream    *bool                `json:"stream,omitempty" description:"To stream the response or not."`
+  Raw       bool                 `json:"raw,omitempty"`
+  KeepAlive int                  `json:"keep_alive,omitempty"`
+
+  // Experimental image generation fields
+  Width  int `json:"width,omitempty"`
+  Height int `json:"height,omitempty"`
+  Steps  int `json:"steps,omitempty"`
+
+  // Thinking models parameter
+  Think bool `json:"think,omitempty"`
+}
+
+type OllamaResponse struct {
+  Model     string        `json:"model" description:"LLM model to be used."`
+  Message   OllamaMessage `json:"message" description:"List of messages in the current prompt."`
+  Response  string        `json:"response"`
+  Done      bool          `json:"done" description:"Response is done streaming."`
+  CreatedAt time.Time     `json:"created_at" description:"Timestamp when response was created."`
+
+  // Additional fields present only when Done = true
+  Context            []int  `json:"context,omitempty"`
+  TotalDuration      int64  `json:"total_duration,omitempty"` // nanoseconds
+  LoadDuration       int64  `json:"load_duration,omitempty"`  // nanoseconds
+  PromptEvalCount    int    `json:"prompt_eval_count,omitempty"`
+  PromptEvalDuration int64  `json:"prompt_eval_duration,omitempty"` // nanoseconds
+  EvalCount          int    `json:"eval_count,omitempty"`
+  EvalDuration       int64  `json:"eval_duration,omitempty"` // nanoseconds
+  DoneReason         string `json:"done_reason,omitempty"`
+}
+
+type AnyFunc func(...interface{}) interface{}
+```
 
 <style>{% include "css/message-box.css" %}</style>

@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Primary Meta Tags -->
+		<title>Context Engineering</title>
+		<meta name="title" content="Context Engineering">
+		<meta name="description" content="Describing my context engineering journey.">
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://sh4nnongoh.github.io">
+		<meta property="og:title" content="Context Engineering">
+		<meta property="og:description" content="Describing my context engineering journey.">
+		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
+		<!-- X (Twitter) -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="https://sh4nnongoh.github.io">
+		<meta property="twitter:title" content="Context Engineering">
+		<meta property="twitter:description" content="Describing my context engineering journey.">
+		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
+		<!-- Meta Tags Generated with https://metatags.io -->
+
+		<meta name="google-site-verification" content="r1MXDdGzfOnO8Cjyxy0oQf1Jp-sNi5nm7ZBTXLEzaqA">
+
+		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/10-context-engineering/">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Shannon&#39;s Software Engineering Blog">
+		<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+		
+		
+		
+		<style>/* Message Box */
+.message-box {
+	--color-message-box: #ffc;
+
+	display: block;
+	background-color: var(--color-message-box);
+	color: var(--color-gray-90);
+	padding: 1em 0.625em; /* 16px 10px /16 */
+}
+.message-box ol {
+	margin-top: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	.message-box {
+		--color-message-box: #082840;
+	}
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+	font-size: small !important;
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+@media (max-width: 768px) {
+	pre {
+		display: block;
+		width: 92vw;
+		margin-left: calc(-50vw + 50%);
+		overflow-x: auto;
+		/* Smooth scrolling on iOS */
+		-webkit-overflow-scrolling: touch;
+	}
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+		
+	</head>
+	<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VZ0ECY91PF"></script>
+	
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Shannon&#39;s Software Engineering Blog</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="main">
+			<heading-anchors>
+				
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"mainEntityOfPage": {
+			"@type": "WebPage",
+			"@id": "https://sh4nnongoh.github.io/blog/10-context-engineering/"
+		},
+		"headline": "Context Engineering",
+		"description": "Describing my context engineering journey.",
+		"image": [],
+		"datePublished": "2026-02-16",
+		"dateModified": "2026-02-16",
+		"author": {
+			"@type": "Person",
+			"name": "Shannon Goh",
+			"url": "https://www.linkedin.com/in/sh4nnongoh"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Shannon Goh",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://sh4nnongoh.github.io/img/me512.jpeg"
+			}
+		}
+	}
+</script>
+
+
+
+
+<h1 id="context-engineering">Context Engineering</h1>
+<ul class="post-metadata">
+	<li><time datetime="2026-02-16">16 February 2026</time></li>
+	<li><a href="/tags/llm/" class="post-tag">LLM</a>, </li>
+	<li><a href="/tags/ai-agents/" class="post-tag"> AI Agents</a>, </li>
+	<li><a href="/tags/go/" class="post-tag"> Go</a>, </li>
+	<li><a href="/tags/context-engineering/" class="post-tag"> Context Engineering</a>, </li>
+	<li><a href="/tags/tl2/" class="post-tag"> TL2</a></li>
+</ul>
+
+<p>In the <a href="/blog/9-ai-agents">previous post</a>, Ollama was setup locally and it can be queried upon through the <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">HTTP API</a>. The question now is how do we enhance the <em>LLM</em> with tools such that it can help the users achieve what they want, <strong>without over-engineering</strong> a solution.</p>
+<div class="message-box">
+	<p><em>
+  IMPORTANT! DO NOT OVER-ENGINEER A SOLUTION!
+  <br><br>REPEAT AFTER ME.<br><br>
+  DO NOT OVER-ENGINEER A SOLUTION!
+  </em></p>
+</div>
+<p>It is so easy to fall into the trap of over-engineering. If the <em>LLM</em> does not respond correctly, excited engineers may just start writing <em>IF-ELSE</em> statements to correct the answer. Do not get in the LLM way. If there is no straight forward path with a prompt and one level of depth of tools, just ask your scientist to give you a better model.</p>
+<h2 id="start-simple">Start Simple</h2>
+<p>Let's start with a simple scenario.</p>
+<pre><code>Prompt: What is 1+1?
+Response:
+{
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{ \&quot;result\&quot;: \&quot;2\&quot; }&quot;
+  },
+  // ...
+}
+
+Prompt: What is a LLM?
+Response:
+{
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{ \&quot;answer\&quot;: \&quot;A Large Language Model (LLM) is an artificial intelligence model that can generate human-like text based on input data. It has been trained on vast amounts of text data and can understand, analyze, and generate language in various ways.\&quot; }&quot;
+  },
+  // ...
+}
+</code></pre>
+<p>Asking 2 different simple questions, will result in totally 2 different responses with differing data structures. One stores the reply in a result field while the other stores it in the answer field. As an engineer, we need to deterministically retrieve the responses in a structured manner. Luckily there is the Format field we can pass in during the request.</p>
+<h2 id="format-responses">Format Responses</h2>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">type</span> OllamaResponseFormat <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	Type       <span class="token builtin">string</span>                       <span class="token string">`json:"type,omitempty"`</span>
+	Properties <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span> <span class="token string">`json:"properties,omitempty"`</span>
+	Required   <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">bool</span>                       <span class="token string">`json:"required,omitempty"`</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// Request Object</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  OllamaResponseFormat<span class="token punctuation">{</span>
+    Type<span class="token punctuation">:</span>       <span class="token string">"object"</span><span class="token punctuation">,</span>
+    Properties<span class="token punctuation">:</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+      <span class="token string">"answer"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>By setting the format before prompting, we can get structured responses as shown below, where all replies are within the answer field and it must be a string.</p>
+<pre><code>Prompt: What is 1+1?
+Response:  {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{ \&quot;answer\&quot;: \&quot;2\&quot; }&quot;
+  },
+  // ...
+}
+
+Prompt: What is a LLM?
+Response:  {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{ \&quot;answer\&quot;: \&quot;A Large Language Model (LLM) is an artificial intelligence model that can generate human-like text based on input data. It has been trained on vast amounts of text data and can be used for various applications such as language translation, summarization, question answering, and more.\&quot; }&quot;
+  },
+  // ...
+}
+</code></pre>
+<h2 id="supercharge-the-llm-with-tools">Supercharge the LLM with Tools</h2>
+<p>As mentioned earlier we need to enhance the <em>LLM</em> with tools such that it can do more than what it was trained to do.</p>
+<p>The structure of a Tool is shown below.</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">type</span> OllamaFunctionParameter <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	Type       <span class="token builtin">string</span>          <span class="token string">`json:"type" description:"Return type of the current function."`</span>
+	Required   <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span>        <span class="token string">`json:"required" description:"Which parameters are required in the function call."`</span>
+	Properties json<span class="token punctuation">.</span>RawMessage <span class="token string">`json:"properties" description:"Details about the parameters."`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaFunction <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	Name        <span class="token builtin">string</span>                  <span class="token string">`json:"name" description:"Name of the Function."`</span>
+	Description <span class="token builtin">string</span>                  <span class="token string">`json:"description" description:"What the Function does."`</span>
+	Parameters  OllamaFunctionParameter <span class="token string">`json:"parameters" description:"Parameters that get passed to the Function."`</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> OllamaTool <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	Type     <span class="token builtin">string</span>         <span class="token string">`json:"type" description:"The type of Tool; i.e. Function"`</span>
+	Function OllamaFunction <span class="token string">`json:"function" description:"A Tool that is of Function type."`</span>
+<span class="token punctuation">}</span>
+
+tools <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>OllamaTool<span class="token punctuation">{</span><span class="token punctuation">{</span>
+		Type<span class="token punctuation">:</span> <span class="token string">"function"</span><span class="token punctuation">,</span>
+		Function<span class="token punctuation">:</span> OllamaFunction<span class="token punctuation">{</span>
+			Name<span class="token punctuation">:</span>        <span class="token string">"GetWeatherTemperature"</span><span class="token punctuation">,</span>
+			Description<span class="token punctuation">:</span> <span class="token string">"Get the Temperature."</span><span class="token punctuation">,</span>
+			Parameters<span class="token punctuation">:</span>  OllamaFunctionParameter<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+		Type<span class="token punctuation">:</span> <span class="token string">"function"</span><span class="token punctuation">,</span>
+		Function<span class="token punctuation">:</span> OllamaFunction<span class="token punctuation">{</span>
+			Name<span class="token punctuation">:</span>        <span class="token string">"GetTime"</span><span class="token punctuation">,</span>
+			Description<span class="token punctuation">:</span> <span class="token string">"Get the Time."</span><span class="token punctuation">,</span>
+			Parameters<span class="token punctuation">:</span>  OllamaFunctionParameter<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+		Type<span class="token punctuation">:</span> <span class="token string">"function"</span><span class="token punctuation">,</span>
+		Function<span class="token punctuation">:</span> OllamaFunction<span class="token punctuation">{</span>
+			Name<span class="token punctuation">:</span>        <span class="token string">"GetLLMDefinition"</span><span class="token punctuation">,</span>
+			Description<span class="token punctuation">:</span> <span class="token string">"Get the LLM definition."</span><span class="token punctuation">,</span>
+			Parameters<span class="token punctuation">:</span>  OllamaFunctionParameter<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Let's ask the <em>LLM</em>, what the weather is.</p>
+<p>When querying with the Tools defined, the response is as follows:</p>
+<pre><code>Prompt: What is the Weather now?
+Response: {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{\&quot;answer\&quot;:\&quot;GetWeatherTemperature\&quot;}&quot;
+  },
+  // ...
+}
+</code></pre>
+<p>We can then Prompt again with the Tool result as follows:</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">type</span> OllamaMessage <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	Role    <span class="token builtin">string</span> <span class="token string">`json:"role" description:"Who is requesting the message."`</span>
+	Content <span class="token builtin">string</span> <span class="token string">`json:"content" description:"The actual message content."`</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// Request Object</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  <span class="token punctuation">[</span><span class="token punctuation">]</span>OllamaMessage<span class="token punctuation">{</span><span class="token punctuation">{</span>
+    Role<span class="token punctuation">:</span>    <span class="token string">"user"</span><span class="token punctuation">,</span>
+    Content<span class="token punctuation">:</span> <span class="token string">"What is the Weather now?"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    Role<span class="token punctuation">:</span>    <span class="token string">"assistant"</span><span class="token punctuation">,</span>
+    Content<span class="token punctuation">:</span> <span class="token string">"{\"answer\": \"GetWeatherTemperature\"}"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    Role<span class="token punctuation">:</span> <span class="token string">"tool"</span><span class="token punctuation">,</span>
+    Content<span class="token punctuation">:</span> <span class="token string">"11 degrees celsius"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The second Prompt request includes the conversation history along with the Tool call and its result.</p>
+<p>The response can be seen below.</p>
+<pre><code>Response:  {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{\&quot;answer\&quot;: \&quot;The current temperature is 11 degrees Celsius.\&quot;}&quot;
+  },
+  // ...
+}
+</code></pre>
+<h2 id="hallucination">Hallucination</h2>
+<pre><code>Prompt: What is the time now?
+Response: {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{\&quot;answer\&quot;:\&quot;1683240000\\&quot;}&quot;
+  },
+  // ...
+}
+</code></pre>
+<p>When querying with the Prompt above, the <em>LLM</em> assumes that it knows the answer, but it is clearly wrong.</p>
+<p>Because we expect an <em>'answer'</em> as defined in Format options, the <em>LLM</em> responds with what it assumes is the current time.</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token comment">// Request Object</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  OllamaResponseFormat<span class="token punctuation">{</span>
+    Type<span class="token punctuation">:</span>       <span class="token string">"object"</span><span class="token punctuation">,</span>
+    Properties<span class="token punctuation">:</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+      <span class="token string">"answer"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">"function_call"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>By adding a new field <em>function_call</em> to the Format options, we allow the <em>LLM</em> to make a choice to call a Tool.</p>
+<p>The response is as follows:</p>
+<pre><code>Response: {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{\&quot;function_call\&quot;: \&quot;GetTime\&quot;}&quot;
+  },
+  // ...
+}
+</code></pre>
+<p>We can see that the <em>LLM</em> now uses the Tool to get the time.</p>
+<h2 id="testing-the-changes-with-other-prompts">Testing the changes with other Prompts</h2>
+<p>Let's ask the <em>1+1</em> question again.</p>
+<pre><code>Prompt: What is 1+1?
+Response: {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{\&quot;function_call\&quot;:\&quot;GetLLMDefinition\\\&quot;}&quot;
+  },
+  // ...
+}
+</code></pre>
+<p><em>What... Why is it asking for LLM definition???</em></p>
+<p>If we remove all the Tools from the Prompt request, then it can respond with the answer <em>&quot;2&quot;</em>.</p>
+<h2 id="dynamic-contexts">Dynamic Contexts</h2>
+<p>We need a way to dynamically inject tools to the Prompt request. However, remember that we <strong>DO NOT WANT</strong> to over-engineer a solution.</p>
+<p>Let's ask the LLM to do it for us.</p>
+<pre><code>System Prompt:
+Tools available:
+- GetWeatherTemperature: Get the current temperature.
+- GetTime: Get the current time.
+- GetLLMDefinition: Get the definition of a LLM.
+
+Prompt:
+What tool is needed to answer the question &quot;What is 1+1?&quot;
+You may return empty string if no suitable tool is available.
+
+Response: {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{\&quot;function_call\&quot;:\&quot;\\\&quot;}&quot;
+  },
+  // ...
+}
+</code></pre>
+<p>After defining the Tools available in the System Prompt, we ask the <em>LLM</em> to setup which Tools we should use for our Prompt. In this scenario, none of the Tools are compatible to answer the question <em>&quot;What is 1+1?&quot;</em></p>
+<p>Now we can programmatically know to not send the Tools with the Prompt, allowing the <em>LLM</em> to derive the answer.</p>
+<pre><code>Prompt: What is 1+1?
+Response:  {
+  &quot;model&quot;: &quot;qwen2.5-coder:3B&quot;,
+  &quot;message&quot;: {
+    &quot;role&quot;: &quot;assistant&quot;,
+    &quot;content&quot;: &quot;{ \&quot;answer\&quot;: \&quot;2\&quot; }&quot;
+  },
+  // ...
+}
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<ul>
+<li>Start simple with the goal of defining the structure of the responses.</li>
+<li>Iterate across sample prompts, to catch edge cases.</li>
+<li>Establish 2-stage prompting, whereby the <em>LLM</em> first decides what <em>Tools</em> to use, followed by fulfilling the actual prompt made by the user using the insight gained on the compatibility of <em>Tools</em> available in the first prompt.</li>
+</ul>
+<p>By following the above methodology, I believe an <em>&quot;AI Engineer&quot;</em> may find more success in achieving business objectives!</p>
+
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/9-ai-agents/">AI Agents</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<a href="https://www.linkedin.com/in/sh4nnongoh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="margin-right:12px; text-decoration:none;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M20.447 20.452H17.21V14.82c0-1.343-.027-3.071-1.873-3.071-1.873 0-2.159 1.462-2.159 2.973v5.73H9.94V9h3.112v1.561h.044c.434-.82 1.494-1.686 3.073-1.686 3.286 0 3.889 2.164 3.889 4.977v6.6zM5.337 7.433a1.804 1.804 0 1 1 0-3.607 1.804 1.804 0 0 1 0 3.607zM6.956 20.452H3.72V9h3.236v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.225 0z"></path>
+				</svg>
+			</a>
+			<a href="https://github.com/sh4nnongoh" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="text-decoration:none;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M12 .296c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.73.084-.73 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.303-5.466-1.332-5.466-5.93 0-1.31.469-2.38 1.236-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.018.005 2.042.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222v3.293c0 .321.218.694.825.576C20.565 22.092 24 17.592 24 12.296c0-6.627-5.373-12-12-12z"></path>
+				</svg>
+			</a>
+			<p>
+				<em>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a>, created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em>
+			</p>
+		</footer>
+
+		<!-- This page `/blog/10-context-engineering/` was built on 2026-02-16T15:16:31.258Z -->
+		<script type="module" src="/dist/gUKyCOfE3j.js"></script>
+	</body>
+</html>

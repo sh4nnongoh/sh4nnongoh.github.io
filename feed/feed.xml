@@ -5,11 +5,274 @@
   <subtitle>Just software stuff.</subtitle>
   <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
   <link href="https://sh4nnongoh.github.io/" />
-  <updated>2026-02-08T00:00:00Z</updated>
+  <updated>2026-02-16T00:00:00Z</updated>
   <id>https://sh4nnongoh.github.io/</id>
   <author>
     <name>Shannon Goh</name>
   </author>
+  <entry>
+    <title>Context Engineering</title>
+    <link href="https://sh4nnongoh.github.io/blog/10-context-engineering/" />
+    <updated>2026-02-16T00:00:00Z</updated>
+    <id>https://sh4nnongoh.github.io/blog/10-context-engineering/</id>
+    <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents&quot;&gt;previous post&lt;/a&gt;, Ollama was setup locally and it can be queried upon through the &lt;a href=&quot;https://github.com/ollama/ollama/blob/main/docs/api.md&quot;&gt;HTTP API&lt;/a&gt;. The question now is how do we enhance the &lt;em&gt;LLM&lt;/em&gt; with tools such that it can help the users achieve what they want, &lt;strong&gt;without over-engineering&lt;/strong&gt; a solution.&lt;/p&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  IMPORTANT! DO NOT OVER-ENGINEER A SOLUTION!
+  &lt;br&gt;&lt;br&gt;REPEAT AFTER ME.&lt;br&gt;&lt;br&gt;
+  DO NOT OVER-ENGINEER A SOLUTION!
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;It is so easy to fall into the trap of over-engineering. If the &lt;em&gt;LLM&lt;/em&gt; does not respond correctly, excited engineers may just start writing &lt;em&gt;IF-ELSE&lt;/em&gt; statements to correct the answer. Do not get in the LLM way. If there is no straight forward path with a prompt and one level of depth of tools, just ask your scientist to give you a better model.&lt;/p&gt;
+&lt;h2 id=&quot;start-simple&quot;&gt;Start Simple&lt;/h2&gt;
+&lt;p&gt;Let&#39;s start with a simple scenario.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Prompt: What is 1+1?
+Response:
+{
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{ &#92;&amp;quot;result&#92;&amp;quot;: &#92;&amp;quot;2&#92;&amp;quot; }&amp;quot;
+  },
+  // ...
+}
+
+Prompt: What is a LLM?
+Response:
+{
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{ &#92;&amp;quot;answer&#92;&amp;quot;: &#92;&amp;quot;A Large Language Model (LLM) is an artificial intelligence model that can generate human-like text based on input data. It has been trained on vast amounts of text data and can understand, analyze, and generate language in various ways.&#92;&amp;quot; }&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Asking 2 different simple questions, will result in totally 2 different responses with differing data structures. One stores the reply in a result field while the other stores it in the answer field. As an engineer, we need to deterministically retrieve the responses in a structured manner. Luckily there is the Format field we can pass in during the request.&lt;/p&gt;
+&lt;h2 id=&quot;format-responses&quot;&gt;Format Responses&lt;/h2&gt;
+&lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaResponseFormat &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+	Type       &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;                       &lt;span class=&quot;token string&quot;&gt;`json:&quot;type,omitempty&quot;`&lt;/span&gt;
+	Properties &lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;properties,omitempty&quot;`&lt;/span&gt;
+	Required   &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;bool&lt;/span&gt;                       &lt;span class=&quot;token string&quot;&gt;`json:&quot;required,omitempty&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// Request Object&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  OllamaResponseFormat&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;       &lt;span class=&quot;token string&quot;&gt;&quot;object&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    Properties&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;By setting the format before prompting, we can get structured responses as shown below, where all replies are within the answer field and it must be a string.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Prompt: What is 1+1?
+Response:  {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{ &#92;&amp;quot;answer&#92;&amp;quot;: &#92;&amp;quot;2&#92;&amp;quot; }&amp;quot;
+  },
+  // ...
+}
+
+Prompt: What is a LLM?
+Response:  {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{ &#92;&amp;quot;answer&#92;&amp;quot;: &#92;&amp;quot;A Large Language Model (LLM) is an artificial intelligence model that can generate human-like text based on input data. It has been trained on vast amounts of text data and can be used for various applications such as language translation, summarization, question answering, and more.&#92;&amp;quot; }&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;supercharge-the-llm-with-tools&quot;&gt;Supercharge the LLM with Tools&lt;/h2&gt;
+&lt;p&gt;As mentioned earlier we need to enhance the &lt;em&gt;LLM&lt;/em&gt; with tools such that it can do more than what it was trained to do.&lt;/p&gt;
+&lt;p&gt;The structure of a Tool is shown below.&lt;/p&gt;
+&lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaFunctionParameter &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+	Type       &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;          &lt;span class=&quot;token string&quot;&gt;`json:&quot;type&quot; description:&quot;Return type of the current function.&quot;`&lt;/span&gt;
+	Required   &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;`json:&quot;required&quot; description:&quot;Which parameters are required in the function call.&quot;`&lt;/span&gt;
+	Properties json&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;RawMessage &lt;span class=&quot;token string&quot;&gt;`json:&quot;properties&quot; description:&quot;Details about the parameters.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaFunction &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+	Name        &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;                  &lt;span class=&quot;token string&quot;&gt;`json:&quot;name&quot; description:&quot;Name of the Function.&quot;`&lt;/span&gt;
+	Description &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;                  &lt;span class=&quot;token string&quot;&gt;`json:&quot;description&quot; description:&quot;What the Function does.&quot;`&lt;/span&gt;
+	Parameters  OllamaFunctionParameter &lt;span class=&quot;token string&quot;&gt;`json:&quot;parameters&quot; description:&quot;Parameters that get passed to the Function.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaTool &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+	Type     &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;         &lt;span class=&quot;token string&quot;&gt;`json:&quot;type&quot; description:&quot;The type of Tool; i.e. Function&quot;`&lt;/span&gt;
+	Function OllamaFunction &lt;span class=&quot;token string&quot;&gt;`json:&quot;function&quot; description:&quot;A Tool that is of Function type.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+tools &lt;span class=&quot;token operator&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;OllamaTool&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+		Type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;function&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		Function&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; OllamaFunction&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+			Name&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;&quot;GetWeatherTemperature&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+			Description&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Get the Temperature.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+			Parameters&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;  OllamaFunctionParameter&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+		Type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;function&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		Function&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; OllamaFunction&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+			Name&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;&quot;GetTime&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+			Description&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Get the Time.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+			Parameters&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;  OllamaFunctionParameter&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+		Type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;function&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		Function&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; OllamaFunction&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+			Name&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;        &lt;span class=&quot;token string&quot;&gt;&quot;GetLLMDefinition&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+			Description&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Get the LLM definition.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+			Parameters&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;  OllamaFunctionParameter&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&#39;s ask the &lt;em&gt;LLM&lt;/em&gt;, what the weather is.&lt;/p&gt;
+&lt;p&gt;When querying with the Tools defined, the response is as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Prompt: What is the Weather now?
+Response: {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{&#92;&amp;quot;answer&#92;&amp;quot;:&#92;&amp;quot;GetWeatherTemperature&#92;&amp;quot;}&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can then Prompt again with the Tool result as follows:&lt;/p&gt;
+&lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; OllamaMessage &lt;span class=&quot;token keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+	Role    &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;role&quot; description:&quot;Who is requesting the message.&quot;`&lt;/span&gt;
+	Content &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;`json:&quot;content&quot; description:&quot;The actual message content.&quot;`&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// Request Object&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;OllamaMessage&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Role&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;    &lt;span class=&quot;token string&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    Content&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;What is the Weather now?&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Role&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;    &lt;span class=&quot;token string&quot;&gt;&quot;assistant&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    Content&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{&#92;&quot;answer&#92;&quot;: &#92;&quot;GetWeatherTemperature&#92;&quot;}&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Role&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;tool&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    Content&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;11 degrees celsius&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The second Prompt request includes the conversation history along with the Tool call and its result.&lt;/p&gt;
+&lt;p&gt;The response can be seen below.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Response:  {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{&#92;&amp;quot;answer&#92;&amp;quot;: &#92;&amp;quot;The current temperature is 11 degrees Celsius.&#92;&amp;quot;}&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;hallucination&quot;&gt;Hallucination&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;Prompt: What is the time now?
+Response: {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{&#92;&amp;quot;answer&#92;&amp;quot;:&#92;&amp;quot;1683240000&#92;&#92;&amp;quot;}&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When querying with the Prompt above, the &lt;em&gt;LLM&lt;/em&gt; assumes that it knows the answer, but it is clearly wrong.&lt;/p&gt;
+&lt;p&gt;Because we expect an &lt;em&gt;&#39;answer&#39;&lt;/em&gt; as defined in Format options, the &lt;em&gt;LLM&lt;/em&gt; responds with what it assumes is the current time.&lt;/p&gt;
+&lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Request Object&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  OllamaResponseFormat&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;       &lt;span class=&quot;token string&quot;&gt;&quot;object&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    Properties&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;function_call&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;By adding a new field &lt;em&gt;function_call&lt;/em&gt; to the Format options, we allow the &lt;em&gt;LLM&lt;/em&gt; to make a choice to call a Tool.&lt;/p&gt;
+&lt;p&gt;The response is as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Response: {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{&#92;&amp;quot;function_call&#92;&amp;quot;: &#92;&amp;quot;GetTime&#92;&amp;quot;}&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see that the &lt;em&gt;LLM&lt;/em&gt; now uses the Tool to get the time.&lt;/p&gt;
+&lt;h2 id=&quot;testing-the-changes-with-other-prompts&quot;&gt;Testing the changes with other Prompts&lt;/h2&gt;
+&lt;p&gt;Let&#39;s ask the &lt;em&gt;1+1&lt;/em&gt; question again.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Prompt: What is 1+1?
+Response: {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{&#92;&amp;quot;function_call&#92;&amp;quot;:&#92;&amp;quot;GetLLMDefinition&#92;&#92;&#92;&amp;quot;}&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;What... Why is it asking for LLM definition???&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;If we remove all the Tools from the Prompt request, then it can respond with the answer &lt;em&gt;&amp;quot;2&amp;quot;&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;dynamic-contexts&quot;&gt;Dynamic Contexts&lt;/h2&gt;
+&lt;p&gt;We need a way to dynamically inject tools to the Prompt request. However, remember that we &lt;strong&gt;DO NOT WANT&lt;/strong&gt; to over-engineer a solution.&lt;/p&gt;
+&lt;p&gt;Let&#39;s ask the LLM to do it for us.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;System Prompt:
+Tools available:
+- GetWeatherTemperature: Get the current temperature.
+- GetTime: Get the current time.
+- GetLLMDefinition: Get the definition of a LLM.
+
+Prompt:
+What tool is needed to answer the question &amp;quot;What is 1+1?&amp;quot;
+You may return empty string if no suitable tool is available.
+
+Response: {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{&#92;&amp;quot;function_call&#92;&amp;quot;:&#92;&amp;quot;&#92;&#92;&#92;&amp;quot;}&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After defining the Tools available in the System Prompt, we ask the &lt;em&gt;LLM&lt;/em&gt; to setup which Tools we should use for our Prompt. In this scenario, none of the Tools are compatible to answer the question &lt;em&gt;&amp;quot;What is 1+1?&amp;quot;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Now we can programmatically know to not send the Tools with the Prompt, allowing the &lt;em&gt;LLM&lt;/em&gt; to derive the answer.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Prompt: What is 1+1?
+Response:  {
+  &amp;quot;model&amp;quot;: &amp;quot;qwen2.5-coder:3B&amp;quot;,
+  &amp;quot;message&amp;quot;: {
+    &amp;quot;role&amp;quot;: &amp;quot;assistant&amp;quot;,
+    &amp;quot;content&amp;quot;: &amp;quot;{ &#92;&amp;quot;answer&#92;&amp;quot;: &#92;&amp;quot;2&#92;&amp;quot; }&amp;quot;
+  },
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Start simple with the goal of defining the structure of the responses.&lt;/li&gt;
+&lt;li&gt;Iterate across sample prompts, to catch edge cases.&lt;/li&gt;
+&lt;li&gt;Establish 2-stage prompting, whereby the &lt;em&gt;LLM&lt;/em&gt; first decides what &lt;em&gt;Tools&lt;/em&gt; to use, followed by fulfilling the actual prompt made by the user using the insight gained on the compatibility of &lt;em&gt;Tools&lt;/em&gt; available in the first prompt.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By following the above methodology, I believe an &lt;em&gt;&amp;quot;AI Engineer&amp;quot;&lt;/em&gt; may find more success in achieving business objectives!&lt;/p&gt;
+
+</content>
+  </entry>
   <entry>
     <title>AI Agents</title>
     <link href="https://sh4nnongoh.github.io/blog/9-ai-agents/" />

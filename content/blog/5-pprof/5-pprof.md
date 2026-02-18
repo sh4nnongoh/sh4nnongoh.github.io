@@ -2,7 +2,7 @@
 title: pprof & Load Testing
 description: Setting up a Go app with pprof endpoints; Writing a Go program for Load Testing.
 date: 2026-01-26
-tags: System Design, Magic Links, CSRF, Go, Gin, Docker, pprof, TL3
+tags: ["System Design", "Magic Links", "CSRF", "Go", "Gin", "Docker", "pprof", "TL3"]
 ---
 
 <br/>

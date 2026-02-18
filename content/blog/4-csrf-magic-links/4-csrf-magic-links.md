@@ -2,7 +2,7 @@
 title: CSRF with Magic Links
 description: Magic Links alone are not secure enough, as adversaries with access to the link have full access to your system.
 date: 2026-01-22
-tags: System Design, Magic Links, CSRF, Go, Gin, HTML Templates, HTMX, TL3
+tags: ["System Design", "Magic Links", "CSRF", "Go", "Gin", "HTML Templates", "HTMX", "TL3"]
 ---
 
 <br/>

@@ -2,7 +2,7 @@
 title: Context Engineering
 description: Describing my context engineering journey.
 date: 2026-02-16
-tags: LLM, AI Agents, Go, Context Engineering, TL2
+tags: ["LLM", "AI Agents", "Go", "Context Engineering", "TL2"]
 ---
 
 In the [previous post](/blog/9-ai-agents), Ollama was setup locally and it can be queried upon through the [HTTP API](https://github.com/ollama/ollama/blob/main/docs/api.md). The question now is how do we enhance the _LLM_ with tools such that it can help the users achieve what they want, **without over-engineering** a solution.

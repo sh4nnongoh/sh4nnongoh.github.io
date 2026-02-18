@@ -2,7 +2,7 @@
 title: pprof CPU
 description: Optimizing the CPU Usage / Latency in the Magic Link app.
 date: 2026-02-03
-tags: System Design, Magic Links, CSRF, Go, Gin, Benchmark, Log, pprof, CPU, TL4
+tags: ["System Design", "Magic Links", "CSRF", "Go", "Gin", "Benchmark", "Log", "pprof", "CPU", "TL4"]
 ---
 
 <br/>

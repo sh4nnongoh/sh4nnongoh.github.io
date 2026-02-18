@@ -2,7 +2,7 @@
 title: Magic Links
 description: Describing how I implement Magic Links
 date: 2026-01-19
-tags: System Design, Magic Links, Go, TL2
+tags: ["System Design", "Magic Links", "Go", "TL2"]
 ---
 
 <br/>

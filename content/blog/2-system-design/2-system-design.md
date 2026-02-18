@@ -2,7 +2,7 @@
 title: System Design
 description: What I believe System Design should be.
 date: 2026-01-16
-tags: System Design, TL1
+tags: ["System Design", "DDD", "TL1"]
 ---
 
 <br/>

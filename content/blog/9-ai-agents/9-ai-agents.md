@@ -2,7 +2,7 @@
 title: AI Agents
 description: My personal reflections on AI Agents.
 date: 2026-02-08
-tags: LLM, AI Agents, Go, So-So-Ah-So, TL2
+tags: ["LLM", "AI Agents", "Go", "So-So-Ah-So", "TL2"]
 ---
 
 <br/>

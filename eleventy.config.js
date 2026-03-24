@@ -4,10 +4,57 @@ import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 
+import mermaidPlugin from "@kevingimbel/eleventy-plugin-mermaid";
+
 import pluginFilters from "./_config/filters.js";
+
+// Use the modern createJiti API (synchronous require is deprecated)
+import { createJiti } from "jiti";
+// Create a jiti instance with async import support
+const jiti = createJiti(import.meta.url);
+// Import beautiful-mermaid using the async API
+const { renderMermaidSVG, renderMermaidASCII, THEMES } = await jiti.import("beautiful-mermaid");
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function (eleventyConfig) {
+
+	// Normal Mermaid
+	eleventyConfig.addPlugin(mermaidPlugin, {
+		mermaid_config: {
+			'startOnLoad': true,
+			'theme': 'dark'
+		}
+	});
+
+	// Beautiful-Mermaid
+	// Add a shortcode for Mermaid diagrams
+	eleventyConfig.addPairedShortcode("mermaid", function (content) {
+		try {
+			// Render the diagram to SVG during build
+			const svg = renderMermaidSVG(content, {
+				...THEMES['tokyo-night'],
+				// https://github.com/lukilabs/beautiful-mermaid/blob/7e9dd6e78be25715eba80660f7a609aff7618cc6/src/types.ts#L127
+				transparent: false,
+			});
+			const responsiveSvg = svg
+				// Remove hardcoded width and height
+				.replace(/width="[^"]*"/, 'width="100%"')
+				.replace(/height="[^"]*"/, 'height="auto"')
+
+			return `<div style="max-width: 100%; margin: 1rem 0;">${responsiveSvg}</div>`
+			// return `<div class="mermaid-diagram">${svg}</div>`;
+			// return `<div class="mermaid-diagram-wrapper" style="max-width: 100%; overflow-x: auto; margin: 1rem 0;"><div class="mermaid-diagram" style="min-width: min(100%, fit-content);">${svg}</div></div>`;
+		} catch (error) {
+			console.error("Mermaid rendering error:", error);
+			return `<pre class="error">Error rendering diagram: ${error.message}</pre>`;
+		}
+	});
+	// Optional: Add ASCII version for code blocks
+	eleventyConfig.addPairedShortcode("mermaidAscii", function (content) {
+		const ascii = renderMermaidASCII(content, { useAscii: false });
+		return `<pre class="ascii-diagram">${ascii}</pre>`;
+	});
+
 	// Drafts, see also _data/eleventyDataSchema.js
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft) {

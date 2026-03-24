@@ -5,26 +5,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Primary Meta Tags -->
-		<title>Magic Links</title>
-		<meta name="title" content="Magic Links">
-		<meta name="description" content="Describing how I implement Magic Links">
+		<title>Project — Agentic DDD Platform</title>
+		<meta name="title" content="Project — Agentic DDD Platform">
+		<meta name="description" content="Describing the components for an Agentic Domain Driven Design Platform.">
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://sh4nnongoh.github.io">
-		<meta property="og:title" content="Magic Links">
-		<meta property="og:description" content="Describing how I implement Magic Links">
+		<meta property="og:title" content="Project — Agentic DDD Platform">
+		<meta property="og:description" content="Describing the components for an Agentic Domain Driven Design Platform.">
 		<meta property="og:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- X (Twitter) -->
 		<meta property="twitter:card" content="summary_large_image">
 		<meta property="twitter:url" content="https://sh4nnongoh.github.io">
-		<meta property="twitter:title" content="Magic Links">
-		<meta property="twitter:description" content="Describing how I implement Magic Links">
+		<meta property="twitter:title" content="Project — Agentic DDD Platform">
+		<meta property="twitter:description" content="Describing the components for an Agentic Domain Driven Design Platform.">
 		<meta property="twitter:image" content="https://sh4nnongoh.github.io/img/me512.jpeg">
 		<!-- Meta Tags Generated with https://metatags.io -->
 
 		<meta name="google-site-verification" content="r1MXDdGzfOnO8Cjyxy0oQf1Jp-sNi5nm7ZBTXLEzaqA">
 
-		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/3-magic-links/">
+		<link rel="canonical" href="https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Shannon&#39;s Software Engineering Blog">
 		<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -660,13 +660,13 @@ pre[class*="language-diff-"] {
 		"@type": "BlogPosting",
 		"mainEntityOfPage": {
 			"@type": "WebPage",
-			"@id": "https://sh4nnongoh.github.io/blog/3-magic-links/"
+			"@id": "https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/"
 		},
-		"headline": "Magic Links",
-		"description": "Describing how I implement Magic Links",
+		"headline": "Project — Agentic DDD Platform",
+		"description": "Describing the components for an Agentic Domain Driven Design Platform.",
 		"image": [],
-		"datePublished": "2026-01-19",
-		"dateModified": "2026-01-19",
+		"datePublished": "2026-03-24",
+		"dateModified": "2026-03-24",
 		"author": {
 			"@type": "Person",
 			"name": "Shannon Goh",
@@ -686,79 +686,245 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="magic-links">Magic Links</h1>
+<h1 id="project-agentic-ddd-platform">Project — Agentic DDD Platform</h1>
 <ul class="post-metadata">
-	<li><time datetime="2026-01-19">19 January 2026</time></li>
+	<li><time datetime="2026-03-24">24 March 2026</time></li>
 	<li><a href="/tags/system-design/" class="post-tag">System Design</a>, </li>
-	<li><a href="/tags/magic-links/" class="post-tag">Magic Links</a>, </li>
+	<li><a href="/tags/ddd/" class="post-tag">DDD</a>, </li>
+	<li><a href="/tags/llm/" class="post-tag">LLM</a>, </li>
+	<li><a href="/tags/ai-agents/" class="post-tag">AI Agents</a>, </li>
 	<li><a href="/tags/go/" class="post-tag">Go</a>, </li>
-	<li><a href="/tags/tl2/" class="post-tag">TL2</a></li>
+	<li><a href="/tags/tl3/" class="post-tag">TL3</a></li>
 </ul>
 
-<br>
-<br>
+<h1 id="this-post-is-still-work-in-progress">This Post is still Work-In-Progress (:</h1>
+<p>Before diving deeper into the Agentic Workflow space, let's work on a project to have some direction.</p>
+<p>Domain Driven Design (DDD) has a large influence on how I think about systems, but is hard to apply effectively, especially when working in teams within an organization who do not know much about it.</p>
+<p>Now that Agentic Workflows are becoming the norm, and LLMs can heavily abstract away the mechanics of applying DDD effectively, this seems like a good project to work on.</p>
+<h2 id="agentic-ddd-platform">Agentic DDD Platform</h2>
+<p>The DDD methodology provides a framework from converting formal business language into working systems. By having visibility into actual business workflows, an engineer can effectively implement just enough features to meet business objectives, hence reducing the overall complexity, and achieving maximum impact or value creation.</p>
+<p>The goal of this platform is to translate a business from a user's point-of-view, described by a business domain expert, and construct deployable technical artifacts to create a minimal working system to meet those business needs.</p>
+<p>The inputs will be from 2 personas: (1) Domain Expert; (2) Software Engineer. The domain expert will describe the user interactions with the system, and the software engineer will enhance the intermediary artifacts generated by the platform from the domain expert's input. The platform will support multiple iterations between the domain expert and the software engineer before generating outputs. This output construct will be in the form of multiple technical artifacts like code, binaries, containers, infrastructure-as-code descriptions, etc, which the software engineer will use to deploy the system.</p>
+<p>The value of this platform is in the iterative collaboration aspect between technical and non-technical folks. When building a large system, it is largely a discovery process where the constraints may not be known upfront; i.e. its not possible to fully describe an entire system in a few prompts or a markdown file. By building iteratively, the team can create checkpoints at various points in the project lifecycle and branch out when an idea or experiment does not work.</p>
+<h3 id="table-of-contents">Table of Contents</h3>
+<hr>
 <div class="message-box">
-	<p><em>This is <strong>Part 2</strong> of the Magic Link System Design Series.</em></p>
-  <ol>
-    <li><a href="/blog/2-system-design">System Design</a></li>
-    <li>Magic Links</li>
-    <li><a href="/blog/4-csrf-magic-links">CSRF with Magic Links</a></li>
-    <li><a href="/blog/5-pprof">pprof & Load Testing</a></li>
-    <li><a href="/blog/6-pprof-analysis">pprof Analysis</a></li>
-    <li><a href="/blog/7-pprof-mem">pprof Memory Optimizations</a></li>
-    <li><a href="/blog/8-pprof-cpu">pprof CPU</a></li>
-  </ol>
+	<p><em>The structure of this System Design document is explained in this <a href="/blog/2-system-design">post</a>.<br></em></p>
 </div>
-<br>
-<div class="message-box">
-	<p><em>"Hey Shannon! Your previous post talks about Magic Links but there were no details at all about implementing them!"<br>- random reader</em></p>
-</div>
-<p>Hey, I hear you! In the <a href="../2-system-design/">previous post</a>, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.</p>
-<p>In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the <a href="../2-system-design/#ddd-tactical-design">Tactical Design</a> section of the System Design document.</p>
-<div class="message-box">
-	<p><em>Magic Links are a mechanism for users to access secure resources without needing to enter passwords.</em></p>
-</div>
-<h3 id="sequence-diagrams">Sequence Diagrams</h3>
-<p>The best way to explain how Magic Links work is to use Sequence Diagrams.</p>
-<picture><source type="image/avif" srcset="/blog/3-magic-links/3HmZXJfn4O-764.avif 764w"><source type="image/webp" srcset="/blog/3-magic-links/3HmZXJfn4O-764.webp 764w"><img loading="lazy" decoding="async" src="/blog/3-magic-links/3HmZXJfn4O-764.png" alt="Sequence Diagram" width="764" height="767"></picture>
-<p>The above <a href="https://www.plantuml.com/plantuml/uml/ZP9FRzGm4CNl_XIZ7k0KSL-Lqj9MN8g4ke9JBrDxIAnDx6Wyfe9FZ_yqQK8s4hTavlt6Rvvz7GHPuj0hrE8PlWTYm00n4AinjQos8pg1Ym-zRwsxo4qSnuVyyuy0etJaKW65J3EYT9FwPjbPKpS3_l4EZlV78gO1RQyC2ZvZ8FZcWxHC8RVCirBP5ZHNimCuLCVaXFYL1l5GlAf9bOX49-qZeQa0a_Piu2Vx0Uu-loalcoP95-Jwi1_OMuD2S5zEUh7IrNcFPTukTykKANAQVuz21cwzFrdQrNyXHvm9XA_OMWqFrfrM-zHL3t0aPnOQ45yClG_Lucgp2jKGy-_Kct9DOyl7OSx8qYyAY_5FJZhsiUtgzDtxqBtLfm3UhTZwX3uDkVJnSWwZqIMCgzqqxgWeD_4zkNVpZVnFb8vUNibj1kLrI6GNDh8wR_M6fprRaW1CnZBfN1OFIGM1T4pLZAaDsfoTDozopk5A-sPqP2_rNARW8sjIr-HC7Fg_">sequence diagram</a> shows the happy path of a Magic Link usage.</p>
 <ol>
-<li>Users enter their email in the Login page.</li>
-<li>The backend checks if the email exists in the database.</li>
-<li>If the email exists, generate an encrypted cookie detailing who the user is.</li>
-<li>Create a Magic Link with the encrypted cookie as a URL param.</li>
-<li>Send the Magic Link to the user's email address.</li>
-<li>User clicks the Magic Link, and upon success, gets redirected to the protected page.</li>
+<li><a href="#ddd-strategic-design">DDD Strategic Design</a></li>
+<li><a href="#ddd-tactical-design">DDD Tactical Design</a></li>
+<li><a href="#non-functional-requirements">Non-Functional Requirements</a></li>
+<li><a href="#api-endpoints">API Endpoints</a></li>
+<li><a href="#capacity-estimation">Capacity Estimation</a></li>
+<li><a href="#cost-estimation">Cost Estimation</a></li>
+<li><a href="#system-architecture">System Architecture</a></li>
 </ol>
-<p>One of the beautiful features of Magic Links is that they use Stateless Cookies. Stateless means that the backend does not need to verify if the content in the Cookie is valid or not; it simply trusts it. This greatly reduces the number of network calls to databases as shown in the sequence diagram above; there is only 1 database call at the beginning, and future visits to protected resources will simply succeed if the Cookie has not expired.</p>
-<div class="message-box">
-	<p><em>"But won't clients just mutate their Cookies to impersonate other people?"<br>- concerned reader</em></p>
+<h3 id="system-design">System Design</h3>
+<hr>
+<h4 id="ddd-strategic-design"><strong>DDD Strategic Design</strong></h4>
+<div class="simple-table-container">
+  <table class="simple-table">
+    <thead>
+      <tr>
+        <th>Persona</th>
+        <th>Interaction</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Expert</td>
+        <td>
+          Enters a prompt in the Role-Feature-Reason format 
+          describing the business from a certain user's point-of-view, 
+          so that an agent can create a System Design document from the prompt.
+        </td>
+      </tr>
+      <tr>
+        <td>Expert</td>
+        <td>Reviews & edit the generated System Design document (non-technical) so that it can be as accurate as possible.</td>
+      </tr>
+      <tr>
+        <td>Expert</td>
+        <td>Saves the workspace with a specific version number so that it can be build upon in the future.</td>
+      </tr>
+      <tr>
+        <td>Engineer</td>
+        <td>Reviews the technical portion of the generated System Design document so that one can understand more about the business domain.</td>
+      </tr>
+      <tr>
+        <td>Engineer</td>
+        <td>Enters a prompt in Cucumber / Gherkin format to describe how the aggregates interact within the overall system so that the technical portion of the System Design can get updated automatically.</td>
+      </tr>
+      <tr>
+        <td>Engineer</td>
+        <td>Edits the technical portion of the generated System Design document so that more details can be manually added or corrected.</td>
+      </tr>
+      <tr>
+        <td>Engineer</td>
+        <td>Saves the workspace with a specific version number so that it can be build upon in the future.</td>
+      </tr>
+      <tr>
+        <td>Engineer</td>
+        <td>Initiates generation of deployment artifacts so that the system can be deployed in an out-of-band manner.</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<p>In order to prevent manipulation of the Cookie, the Cookie will be encrypted by the server during creation. Only the server has the private key, hence adversaries will not be able to mutate the Cookie to suit their needs. Referring to the <a href="../2-system-design/#system-architecture">System Architecture</a> diagram in the previous post, these private encryption keys will be stored in Vercel's Key-Value stores, such that the backend will have access to them to decrypt / validate incoming requests and their respective Cookies.</p>
-<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
-<p>There are security pitfalls associated with Stateless Cookies, and these need to be captured in the <a href="../2-system-design/#non-functional-requirements">Non-Functional Requirements</a> of a System Design document.</p>
-<p>Example Additional requirements:</p>
-<ul>
-<li>The encryption key needs to be rotated every 7 days.</li>
-<li>The Cookie in the Magic Link should expire within 15 minutes.</li>
-<li>Refreshed Cookies should expire within 60 minutes, before needing a new Magic Link.</li>
-<li>To adopt the <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#alternative-using-a-double-submit-cookie-pattern">Double-Submit Cookie Pattern</a>, when generating a Cookie.</li>
-</ul>
-<div class="message-box">
-	<p>
-    <em>
-      Check out my new Go library for creating encrypted Cookies!
-      <br>
-      <a href="https://github.com/sh4nnongoh/ironsession" target="_blank" rel="noopener noreferrer">
-        https://github.com/sh4nnongoh/ironsession
-      </a>
-    </em>
-  </p>
+<p>The domain of the <strong><code>Agentic DDD Platform</code></strong> is as follows:</p>
+<div class="simple-table-container">
+  <table class="simple-table">
+    <thead>
+      <tr>
+        <th>Events</th>
+        <th>Objects</th>
+        <th>Transactions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>WorkspaceCreated</td>
+        <td>Workspace</td>
+        <td>CreateWorkspace</td>
+      </tr>
+      <tr>
+        <td>WorkspaceUpdated</td>
+        <td></td>
+        <td>UpdateWorkspace</td>
+      </tr>
+      <tr>
+        <td>WorkspaceDeleted</td>
+        <td></td>
+        <td>DeleteWorkspace</td>
+      </tr>
+      <tr>
+        <td>PromptSent</td>
+        <td>Prompt</td>
+        <td>SendPrompt</td>
+      </tr>
+      <tr>
+        <td>PromptResponse</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>DocumentCreated</td>
+        <td>Document</td>
+        <td>CreateDocument</td>
+      </tr>
+      <tr>
+        <td>DocumentEdited</td>
+        <td></td>
+        <td>EditDocument</td>
+      </tr>
+      <tr>
+        <td>UserCreated</td>
+        <td>User</td>
+        <td>CreateUser</td>
+      </tr>
+      <tr>
+        <td>UserUpdated</td>
+        <td></td>
+        <td>UpdateUser</td>
+      </tr>
+      <tr>
+        <td>UserDeleted</td>
+        <td></td>
+        <td>DeleteUser</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+<h4 id="ddd-tactical-design"><strong>DDD Tactical Design</strong></h4>
+<h5 id="collaboration-workflow">Collaboration Workflow</h5>
+<pre class="mermaid">
+sequenceDiagram
+  actor user as Expert / Engineer / AI Agent
+  participant docServer as Document Server
+  participant Database@{ "type" : "database" }
+  docServer->>user: Server-Sent-Events connection
+  user ->> docServer: POST: Updates document
+  docServer -->> user: 200
+  docServer ->> Database: Periodically saves document to DB
+  Database -->> docServer: 200
+</pre>
+<h5 id="prompt-workflow">Prompt Workflow</h5>
+<pre class="mermaid">
+sequenceDiagram
+  actor expert as Expert / Engineer
+  participant promptServer as Prompt Server
+  participant Database@{ "type" : "database" }
+  participant agent as Agent
+  participant llm as LLM Server
+  participant docServer as Document Server
+  expert->>promptServer: POST: prompt<br>request
+  promptServer->>promptServer: Validate prompt
+  promptServer->>Database: insert prompt request
+  Database-->>promptServer: success
+  promptServer-->>expert: 200
+  agent->>Database: POLL: Read prompt request
+  Database-->>agent: success
+  loop till no more prompts
+    agent->>llm: Prompt the LLM
+    llm-->>agent: LLM response
+    alt new prompt
+      agent->>Database: insert prompt request
+      Database-->>agent: success
+    end
+  end
+  agent->>Database: Create prompt response
+  Database-->>agent: success
+  agent->>docServer: POST: Updates document
+  docServer-->>agent: 200
+  expert->>promptServer: GET: prompt<br>response
+  promptServer->>Database: Read prompt response
+  Database-->>promptServer: success
+  promptServer-->>expert: 200
+</pre>
+<h5 id="artifact-generation-workflow">Artifact Generation Workflow</h5>
+<pre class="mermaid">
+sequenceDiagram
+  actor engineer as Engineer
+  participant artifactServer as Artifact Server
+  participant Database@{ "type" : "database" }
+  participant agent as Agent
+  participant llm as LLM Server
+  engineer->>artifactServer: POST: Generate<br>Artifacts
+  artifactServer->>Database: insert GenerateArtifacts request
+  Database-->>artifactServer: success
+  agent->>Database: POLL: Read GenerateArtifacts request
+  Database-->>agent: success
+  agent->>Database: Read current Document state
+  Database-->>agent: success
+  agent->>llm: Convert Document to structured JSONL
+  llm-->>agent: JSONL responses
+  loop till no more JSONL
+    agent->>agent: Generate Technical Artifact based on current JSONL
+    agent->>Database: Save Artifact into DB
+    Database-->>agent: success
+  end
+  agent->>Database: Create GenerateArtifacts response
+  Database-->>agent: success
+  engineer->>artifactServer: GET: GenerateArtifacts<br>response
+  artifactServer->>Database: Read GenerateArtifacts response
+  Database-->>artifactServer: success
+  artifactServer->>artifactServer: Compress Artifacts into a single object
+  artifactServer-->>engineer: Compressed Artifacts download
+</pre>
+<h4 id="non-functional-requirements"><strong>Non-Functional Requirements</strong></h4>
+<p><em>TBD</em></p>
+<h4 id="api-endpoints"><strong>API Endpoints</strong></h4>
+<p><em>TBD</em></p>
+<h4 id="capacity-estimation"><strong>Capacity Estimation</strong></h4>
+<p><em>TBD</em></p>
+<h4 id="cost-estimation"><strong>Cost Estimation</strong></h4>
+<p><em>TBD</em></p>
+<h4 id="system-architecture"><strong>System Architecture</strong></h4>
+<p><em>TBD</em></p>
+<hr>
 
 
-
-<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/2-system-design/">System Design</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/4-csrf-magic-links/">CSRF with Magic Links</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/10-context-engineering/">Context Engineering</a></li>
 </ul>
 
 			</heading-anchors>
@@ -780,7 +946,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/3-magic-links/` was built on 2026-03-24T08:58:43.189Z -->
+		<!-- This page `/blog/11-agentic-ddd-platform/` was built on 2026-03-24T08:58:43.188Z -->
 		<script type="module" src="/dist/awKyiYEiN9.js"></script>
 
 		

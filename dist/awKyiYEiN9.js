@@ -234,3 +234,4 @@ window.dataLayer = window.dataLayer || [];
 		gtag('js', new Date());
 
 		gtag('config', 'G-VZ0ECY91PF');
+import mermaid from "https://unpkg.com/mermaid@11.11.0/dist/mermaid.esm.min.mjs";document.addEventListener('DOMContentLoaded', mermaid.initialize({"startOnLoad":true,"theme":"dark","loadOnSave":true}));

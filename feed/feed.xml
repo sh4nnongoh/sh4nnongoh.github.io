@@ -15,7 +15,13 @@
     <link href="https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/" />
     <updated>2026-03-24T00:00:00Z</updated>
     <id>https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/</id>
-    <content type="html">&lt;h1 id=&quot;this-post-is-still-work-in-progress&quot;&gt;This Post is still Work-In-Progress (:&lt;/h1&gt;
+    <content type="html">&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;message-box&quot;&gt;
+	&lt;p&gt;&lt;em&gt;
+  This post is still a work-in-progress, and will most likely be worked-on in stealth mode. (:
+  &lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;p&gt;Before diving deeper into the Agentic Workflow space, let&#39;s work on a project to have some direction.&lt;/p&gt;
 &lt;p&gt;Domain Driven Design (DDD) has a large influence on how I think about systems, but is hard to apply effectively, especially when working in teams within an organization who do not know much about it.&lt;/p&gt;
 &lt;p&gt;Now that Agentic Workflows are becoming the norm, and LLMs can heavily abstract away the mechanics of applying DDD effectively, this seems like a good project to work on.&lt;/p&gt;

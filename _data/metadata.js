@@ -8,11 +8,11 @@ export default {
 		email: "sh4nnongoh@gmail.com",
 		url: "https://www.linkedin.com/in/sh4nnongoh",
 		github: "https://github.com/sh4nnongoh",
-		logo: "https://sh4nnongoh.github.io/img/me512.jpeg"
+		logo: "https://sh4nnongoh.github.io/img/me_small.jpeg"
 	},
 	publisher: {
 		name: "Shannon Goh",
 		email: "sh4nnongoh@gmail.com",
-		logo: "https://sh4nnongoh.github.io/img/me512.jpeg"
+		logo: "https://sh4nnongoh.github.io/img/me_small.jpeg"
 	}
 }

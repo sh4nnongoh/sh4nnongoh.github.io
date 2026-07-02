@@ -7,7 +7,7 @@ const eleventyNavigation = {
 # About
 
 <img
-  src="../public/img/me512.jpeg"
+  src="../public/img/me_small.jpeg"
   alt="Avatar"
   style="border-radius:50%;object-fit:cover;"
 	width=256

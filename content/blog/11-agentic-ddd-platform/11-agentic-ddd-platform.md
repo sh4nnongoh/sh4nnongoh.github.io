@@ -5,7 +5,13 @@ date: 2026-03-24
 tags: ["System Design", "DDD", "LLM", "AI Agents", "Go", "TL3"]
 ---
 
-# This Post is still Work-In-Progress \(:
+<br>
+<br>
+<div class="message-box">
+	<p><em>
+  This post is still a work-in-progress, and will most likely be worked-on in stealth mode. (:
+  </em></p>
+</div>
 
 Before diving deeper into the Agentic Workflow space, let's work on a project to have some direction.
 

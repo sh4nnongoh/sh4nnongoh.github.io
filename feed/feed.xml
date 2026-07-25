@@ -3,18 +3,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>Shannon&#39;s Software Engineering Blog</title>
   <subtitle>Just software stuff.</subtitle>
-  <link href="https://sh4nnongoh.github.io/feed/feed.xml" rel="self" />
-  <link href="https://sh4nnongoh.github.io/" />
+  <link href="https://www.sh4nnongoh.com/feed/feed.xml" rel="self" />
+  <link href="https://www.sh4nnongoh.com/" />
   <updated>2026-03-24T00:00:00Z</updated>
-  <id>https://sh4nnongoh.github.io/</id>
+  <id>https://www.sh4nnongoh.com/</id>
   <author>
     <name>Shannon Goh</name>
   </author>
   <entry>
     <title>Project — Agentic DDD Platform</title>
-    <link href="https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/" />
+    <link href="https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/" />
     <updated>2026-03-24T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/</id>
+    <id>https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -33,16 +33,16 @@
 &lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
 &lt;hr&gt;
 &lt;div class=&quot;message-box&quot;&gt;
-	&lt;p&gt;&lt;em&gt;The structure of this System Design document is explained in this &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;post&lt;/a&gt;.&lt;br&gt;&lt;/em&gt;&lt;/p&gt;
+	&lt;p&gt;&lt;em&gt;The structure of this System Design document is explained in this &lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;post&lt;/a&gt;.&lt;br&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#ddd-strategic-design&quot;&gt;DDD Strategic Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#ddd-tactical-design&quot;&gt;DDD Tactical Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#api-endpoints&quot;&gt;API Endpoints&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#capacity-estimation&quot;&gt;Capacity Estimation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#cost-estimation&quot;&gt;Cost Estimation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/11-agentic-ddd-platform/#system-architecture&quot;&gt;System Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#ddd-strategic-design&quot;&gt;DDD Strategic Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#ddd-tactical-design&quot;&gt;DDD Tactical Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#api-endpoints&quot;&gt;API Endpoints&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#capacity-estimation&quot;&gt;Capacity Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#cost-estimation&quot;&gt;Cost Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/11-agentic-ddd-platform/#system-architecture&quot;&gt;System Architecture&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&quot;system-design&quot;&gt;System Design&lt;/h3&gt;
 &lt;hr&gt;
@@ -251,10 +251,10 @@ sequenceDiagram
   </entry>
   <entry>
     <title>Context Engineering</title>
-    <link href="https://sh4nnongoh.github.io/blog/10-context-engineering/" />
+    <link href="https://www.sh4nnongoh.com/blog/10-context-engineering/" />
     <updated>2026-02-16T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/10-context-engineering/</id>
-    <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents&quot;&gt;previous post&lt;/a&gt;, Ollama was setup locally and it can be queried upon through the &lt;a href=&quot;https://github.com/ollama/ollama/blob/main/docs/api.md&quot;&gt;HTTP API&lt;/a&gt;. The question now is how do we enhance the &lt;em&gt;LLM&lt;/em&gt; with tools such that it can help the users achieve what they want, &lt;strong&gt;without over-engineering&lt;/strong&gt; a solution.&lt;/p&gt;
+    <id>https://www.sh4nnongoh.com/blog/10-context-engineering/</id>
+    <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents&quot;&gt;previous post&lt;/a&gt;, Ollama was setup locally and it can be queried upon through the &lt;a href=&quot;https://github.com/ollama/ollama/blob/main/docs/api.md&quot;&gt;HTTP API&lt;/a&gt;. The question now is how do we enhance the &lt;em&gt;LLM&lt;/em&gt; with tools such that it can help the users achieve what they want, &lt;strong&gt;without over-engineering&lt;/strong&gt; a solution.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;
   IMPORTANT! DO NOT OVER-ENGINEER A SOLUTION!
@@ -642,23 +642,23 @@ Response:  {
   </entry>
   <entry>
     <title>AI Agents</title>
-    <link href="https://sh4nnongoh.github.io/blog/9-ai-agents/" />
+    <link href="https://www.sh4nnongoh.com/blog/9-ai-agents/" />
     <updated>2026-02-08T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/9-ai-agents/</id>
+    <id>https://www.sh4nnongoh.com/blog/9-ai-agents/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;Disclaimer: I am not an &quot;AI Engineer&quot; or whatever that means. This post describes my thoughts and reflections on the current landscape at this current point in time, and may very well change in the future.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/AlYejncQqb-1416.avif 1416w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/AlYejncQqb-1416.webp 1416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/AlYejncQqb-1416.png&quot; alt=&quot;rag&quot; width=&quot;1416&quot; height=&quot;1974&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents/AlYejncQqb-1416.avif 1416w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents/AlYejncQqb-1416.webp 1416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents/AlYejncQqb-1416.png&quot; alt=&quot;rag&quot; width=&quot;1416&quot; height=&quot;1974&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;RAG&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;I was scrolling &lt;strong&gt;X&lt;/strong&gt; one day and saw this &lt;a href=&quot;https://x.com/goyalshaliniuk/status/2019735325321388416?s=20&quot;&gt;post&lt;/a&gt; about RAG. I thought &lt;em&gt;&amp;quot;Whoa! The AI landscape has evolved so much!&amp;quot;&lt;/em&gt;. So I started going down the rabbit hole, trying to understand what RAG is.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;Retrieval-augmented generation (RAG) is a technique that enhances large language models (LLMs) by allowing them to retrieve and incorporate new information from external data sources before generating responses. This approach improves the accuracy and relevance of the information provided by the LLMs.&lt;br&gt;- Wikipedia&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;So apparently this is a &lt;strong&gt;&lt;em&gt;technique&lt;/em&gt;&lt;/strong&gt; used to interface with an LLM? Okay, what exactly is this technique I wondered. So I went to setup my own LLM, and since I have a MacBook, I went with the Ollama setup.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/2O4E1VpKRL-1974.avif 1974w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/2O4E1VpKRL-1974.webp 1974w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/9-ai-agents/2O4E1VpKRL-1974.png&quot; alt=&quot;ollama&quot; width=&quot;1974&quot; height=&quot;694&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents/2O4E1VpKRL-1974.avif 1974w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents/2O4E1VpKRL-1974.webp 1974w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/9-ai-agents/2O4E1VpKRL-1974.png&quot; alt=&quot;ollama&quot; width=&quot;1974&quot; height=&quot;694&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Ollama&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Looking at the &lt;a href=&quot;https://docs.ollama.com/quickstart#curl&quot;&gt;docs&lt;/a&gt;, Ollama exposes a HTTP endpoint where we can send HTTP request to interface with the model.&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; http://localhost:11434/api/chat &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;{
@@ -728,27 +728,27 @@ Response:  {
   </entry>
   <entry>
     <title>pprof CPU</title>
-    <link href="https://sh4nnongoh.github.io/blog/8-pprof-cpu/" />
+    <link href="https://www.sh4nnongoh.com/blog/8-pprof-cpu/" />
     <updated>2026-02-03T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/8-pprof-cpu/</id>
+    <id>https://www.sh4nnongoh.com/blog/8-pprof-cpu/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 7&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;pprof CPU&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/OJ6v8qIjj8-3416.avif 3416w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/OJ6v8qIjj8-3416.webp 3416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/OJ6v8qIjj8-3416.png&quot; alt=&quot;cpu-base&quot; width=&quot;3416&quot; height=&quot;1662&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/OJ6v8qIjj8-3416.avif 3416w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/OJ6v8qIjj8-3416.webp 3416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/OJ6v8qIjj8-3416.png&quot; alt=&quot;cpu-base&quot; width=&quot;3416&quot; height=&quot;1662&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The above CPU flamegraph shows the CPU utilization after the memory optimizations made in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The above CPU flamegraph shows the CPU utilization after the memory optimizations made in the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;As seen in the flamegraph, the &lt;em&gt;Magic Link&lt;/em&gt; handler takes up less than half of the CPU utilization during the sample period. This is expected as it is a very simple handler. Majority of the compute in the handler is used for encryption, while the rest is part of the HTTP lifecycle.&lt;/p&gt;
 &lt;p&gt;One area of optimization would be the &lt;em&gt;fmt.Fprint&lt;/em&gt; section that is part of the &lt;em&gt;Gin&lt;/em&gt; logger. Every request coming in will be logged synchronously, triggering &lt;em&gt;syscalls&lt;/em&gt; which consumes CPU utilization.&lt;/p&gt;
 &lt;h2 id=&quot;benchmarks&quot;&gt;Benchmarks&lt;/h2&gt;
@@ -783,7 +783,7 @@ Response:  {
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The above code shows a simple benchmark test that is focus on the &lt;em&gt;Magic Link&lt;/em&gt; handler, with the results shown below.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/sqoRVDEKry-1398.avif 1398w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/sqoRVDEKry-1398.webp 1398w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/sqoRVDEKry-1398.png&quot; alt=&quot;benchmark-base&quot; width=&quot;1398&quot; height=&quot;196&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/sqoRVDEKry-1398.avif 1398w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/sqoRVDEKry-1398.webp 1398w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/sqoRVDEKry-1398.png&quot; alt=&quot;benchmark-base&quot; width=&quot;1398&quot; height=&quot;196&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Benchmark Results (baseline)&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id=&quot;metrics-legend&quot;&gt;Metrics Legend&lt;/h3&gt;
 &lt;table&gt;
@@ -878,13 +878,13 @@ Response:  {
   &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Running the benchmarks again, we can see the optimized results below.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/E2HNG0_ydP-1398.avif 1398w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/E2HNG0_ydP-1398.webp 1398w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/E2HNG0_ydP-1398.png&quot; alt=&quot;benchmark-optimized&quot; width=&quot;1398&quot; height=&quot;196&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/E2HNG0_ydP-1398.avif 1398w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/E2HNG0_ydP-1398.webp 1398w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/E2HNG0_ydP-1398.png&quot; alt=&quot;benchmark-optimized&quot; width=&quot;1398&quot; height=&quot;196&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Benchmark Results (Optimized)&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Using the &lt;em&gt;Zap&lt;/em&gt; logger, latency was improved by &lt;em&gt;(22614-5430) / 22614 = &lt;strong&gt;~76%&lt;/strong&gt;&lt;/em&gt;. This is a huge speed improvement!&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/7FA5finAt3-3420.avif 3420w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/7FA5finAt3-3420.webp 3420w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu/7FA5finAt3-3420.png&quot; alt=&quot;cpu-optimized&quot; width=&quot;3420&quot; height=&quot;1724&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/7FA5finAt3-3420.avif 3420w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/7FA5finAt3-3420.webp 3420w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu/7FA5finAt3-3420.png&quot; alt=&quot;cpu-optimized&quot; width=&quot;3420&quot; height=&quot;1724&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU (Optimized)&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Looking at the flamegraph, we can see that the &lt;em&gt;fmt.Fprint&lt;/em&gt; section is gone, and that the &lt;em&gt;syscalls&lt;/em&gt; are greatly reduced.&lt;/p&gt;
-&lt;p&gt;The CPU utilization is still low as we can&#39;t increase the number of concurrent requests due to the RSS limit mentioned &lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#cpu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The CPU utilization is still low as we can&#39;t increase the number of concurrent requests due to the RSS limit mentioned &lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#cpu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;
     &lt;em&gt;
@@ -901,27 +901,27 @@ Response:  {
   </entry>
   <entry>
     <title>pprof Memory Optimization</title>
-    <link href="https://sh4nnongoh.github.io/blog/7-pprof-mem/" />
+    <link href="https://www.sh4nnongoh.com/blog/7-pprof-mem/" />
     <updated>2026-02-01T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/7-pprof-mem/</id>
+    <id>https://www.sh4nnongoh.com/blog/7-pprof-mem/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 6&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;pprof Memory Optimizations&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/&quot;&gt;previous post&lt;/a&gt; we identified areas for optimization, with the memory allocation being the most obvious one.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/&quot;&gt;previous post&lt;/a&gt; we identified areas for optimization, with the memory allocation being the most obvious one.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;em&gt;Magic Link Generation&lt;/em&gt; handler has 2 main areas with high memory allocation: &lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/#cookie-serialization&quot;&gt;&lt;strong&gt;(1) Cookie Serialization&lt;/strong&gt;&lt;/a&gt;; &lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/#html-generation&quot;&gt;&lt;strong&gt;(2) HTML Generation&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;Magic Link Generation&lt;/em&gt; handler has 2 main areas with high memory allocation: &lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/#cookie-serialization&quot;&gt;&lt;strong&gt;(1) Cookie Serialization&lt;/strong&gt;&lt;/a&gt;; &lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/#html-generation&quot;&gt;&lt;strong&gt;(2) HTML Generation&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;cookie-serialization&quot;&gt;Cookie Serialization&lt;/h2&gt;
 &lt;p&gt;The serializer exists to convert client information, in the form of key-value pairs, into an encoded string that represents the cookie. This cookie is attached to the HTTP request.&lt;/p&gt;
 &lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Serialize encodes a value using gob.&lt;/span&gt;
@@ -984,13 +984,13 @@ Response:  {
   &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Since we are using JSON encoding, we need to cast the &lt;em&gt;interface{}&lt;/em&gt; data type to &lt;em&gt;map[string]interface{}&lt;/em&gt;, in order for the library to serialize successfully.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/EQNVmX6TC1-3418.avif 3418w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/EQNVmX6TC1-3418.webp 3418w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/EQNVmX6TC1-3418.png&quot; alt=&quot;heap-alloc-space-serialize-optimize&quot; width=&quot;3418&quot; height=&quot;1478&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/EQNVmX6TC1-3418.avif 3418w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/EQNVmX6TC1-3418.webp 3418w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/EQNVmX6TC1-3418.png&quot; alt=&quot;heap-alloc-space-serialize-optimize&quot; width=&quot;3418&quot; height=&quot;1478&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space Serializer Optimized&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;By switching to the new library, we can see the allocated memory drop by &lt;em&gt;~300MB&lt;/em&gt;! That is a significant improvement.&lt;/p&gt;
 &lt;h2 id=&quot;html-generation&quot;&gt;HTML Generation&lt;/h2&gt;
 &lt;p&gt;The default HTML template parses the the file system for template files and uses reflection at runtime to infer what the HTML should be as seen in the flamegraph. This is done for each request and is extremely slow and memory inefficient.&lt;/p&gt;
 &lt;p&gt;Using the &lt;a href=&quot;https://github.com/a-h/templ&quot;&gt;Templ&lt;/a&gt; library, these HTML templates are converted to Go code in the build stage, and compiles down to native binary together with the webserver. As a result, rendering a HTML response is extremely fast with minimal memory allocations.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/KpTNR-ji-w-3420.avif 3420w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/KpTNR-ji-w-3420.webp 3420w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem/KpTNR-ji-w-3420.png&quot; alt=&quot;heap-alloc-space-html-optimize&quot; width=&quot;3420&quot; height=&quot;1240&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/KpTNR-ji-w-3420.avif 3420w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/KpTNR-ji-w-3420.webp 3420w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem/KpTNR-ji-w-3420.png&quot; alt=&quot;heap-alloc-space-html-optimize&quot; width=&quot;3420&quot; height=&quot;1240&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space HTML Optimized&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;By switching to the new library, we can see the allocated memory further drop by &lt;em&gt;~200MB&lt;/em&gt;! That is another significant improvement.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -1009,24 +1009,24 @@ Response:  {
   </entry>
   <entry>
     <title>pprof Analysis</title>
-    <link href="https://sh4nnongoh.github.io/blog/6-pprof-analysis/" />
+    <link href="https://www.sh4nnongoh.com/blog/6-pprof-analysis/" />
     <updated>2026-01-31T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/6-pprof-analysis/</id>
+    <id>https://www.sh4nnongoh.com/blog/6-pprof-analysis/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 5&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;pprof Analysis&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
+&lt;p&gt;Now that we have generated the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof profiles&lt;/a&gt; for our &lt;em&gt;Magic Link&lt;/em&gt; app, let&#39;s start analyzing them.&lt;/p&gt;
 &lt;p&gt;There are a lot of information provided by the profiles, and in order to not get overwhelmed, we need to adopt a strategy to analyze them.&lt;/p&gt;
 &lt;h2 id=&quot;strategy&quot;&gt;Strategy&lt;/h2&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -1040,15 +1040,15 @@ Response:  {
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Resource Utilization&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#blocking-operation&quot;&gt;Blocking Operation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#mutex&quot;&gt;Mutex&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#goroutine&quot;&gt;Goroutine&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#heap&quot;&gt;Heap&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#cpu&quot;&gt;CPU&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#blocking-operation&quot;&gt;Blocking Operation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#mutex&quot;&gt;Mutex&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#goroutine&quot;&gt;Goroutine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#heap&quot;&gt;Heap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#cpu&quot;&gt;CPU&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;Latency Reduction&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/#cpu&quot;&gt;CPU&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/#cpu&quot;&gt;CPU&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
 &lt;h2 id=&quot;resource-utilization&quot;&gt;Resource Utilization&lt;/h2&gt;
@@ -1083,7 +1083,7 @@ Response:  {
 &lt;br&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./goroutine.pprof&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/Z3wWVTwucg-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/Z3wWVTwucg-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/Z3wWVTwucg-3402.png&quot; alt=&quot;goroutine&quot; width=&quot;3402&quot; height=&quot;716&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/Z3wWVTwucg-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/Z3wWVTwucg-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/Z3wWVTwucg-3402.png&quot; alt=&quot;goroutine&quot; width=&quot;3402&quot; height=&quot;716&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot; italic=&quot;&quot;&gt;&lt;em&gt;Number of Goroutines&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;By referencing the flamegraph, it can be seen that the number of goroutines spawned (&lt;em&gt;517&lt;/em&gt;) is approximately equal to the concurrent requests (&lt;em&gt;500&lt;/em&gt;) made during the load test. It can also be seen that there is only one branch of goroutines which is inline with our implementation. In conclusion, there is no issue here.&lt;/p&gt;
 &lt;h4 id=&quot;heap&quot;&gt;Heap&lt;/h4&gt;
@@ -1095,17 +1095,17 @@ Response:  {
 &lt;br&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./heap_rate.pprof&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/pS5bweYaPH-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/pS5bweYaPH-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/pS5bweYaPH-3402.png&quot; alt=&quot;heap-alloc-space&quot; width=&quot;3402&quot; height=&quot;1486&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap Allocated Space&lt;/em&gt;&lt;/p&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/G5Wt6pgI44-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/G5Wt6pgI44-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/G5Wt6pgI44-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/G5Wt6pgI44-3402.png&quot; alt=&quot;heap-in-use-space&quot; width=&quot;3402&quot; height=&quot;918&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;Heap In-Use Space&lt;/em&gt;&lt;/p&gt;
 &lt;details&gt;
   &lt;summary&gt;Click to show/hide  invalid old content&lt;/summary&gt;
 &lt;p&gt;I had a wrong understanding on the matter, detailed below.&lt;/p&gt;
 &lt;p&gt;&lt;s&gt;Looking at the &lt;em&gt;2&lt;/em&gt; flamegraphs above, it can be seen that the in-use space (&lt;em&gt;10.24MB&lt;/em&gt;) is much smaller than the allocated space (&lt;em&gt;1.33GB&lt;/em&gt;). That means that the current allocated memory utilization is only &lt;strong&gt;~0.7%&lt;/strong&gt;! That is extremely low! The in-use memory utilization is very low as well (&lt;em&gt;10.24MB&lt;/em&gt; / &lt;em&gt;64MB&lt;/em&gt; ~= &lt;strong&gt;16%&lt;/strong&gt;).&lt;/s&gt;&lt;/p&gt;
 &lt;p&gt;&lt;s&gt;There are opportunities for improvements here.&lt;/s&gt;&lt;/p&gt;
-&lt;p&gt;&lt;s&gt;Remember that our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker container&lt;/a&gt; is only allocated 64MB of memory? Have you wondered how is it possible for the memory allocation during load test to reach 1.8GB? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. 500 concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app.&lt;/s&gt;&lt;/p&gt;
+&lt;p&gt;&lt;s&gt;Remember that our &lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof#docker&quot;&gt;Docker container&lt;/a&gt; is only allocated 64MB of memory? Have you wondered how is it possible for the memory allocation during load test to reach 1.8GB? This is because of the wonderful Garbage Collector present in Go programs. It is so efficient that it can handle our badly written code effectively at scale; i.e. 500 concurrent requests. Memory is constantly allocated per request and discarded at the end. Although the GC is efficient, it still provides an opportunity to make improvements to our app.&lt;/s&gt;&lt;/p&gt;
 &lt;p&gt;&lt;s&gt;Basically, we do not want the allocated memory to grow exponentially over time, such that we rely too much on the GC. Each time the GC runs, the app basically pauses and that introduces latency. Once the allocated memory utilization is stable, we mostly likely can increase the number of concurrent requests to increase the in-use memory utilization, making full use of our resources while increasing throughput.&lt;/s&gt;&lt;/p&gt;
 &lt;/details&gt;
 &lt;p&gt;Looking at the top right corner of each memory profile, we can see the memory allocated or in-use by the app during the load test. I once thought that the high allocated memory was an issue but in fact, that number alone does not mean anything. Instead, we need to take the rate of change of how the allocated memory grows with the increase in concurrent requests. For this app, the allocated memory and in-use memory remains relatively constant as the concurrent requests increases. The in-use memory should also be much lower than the allocated memory to ensure that there are no memory leaks in the app such that the GC is unable to reclaim them; in this case the in-use memory is fine as well.&lt;/p&gt;
@@ -1120,7 +1120,7 @@ Response:  {
 &lt;br&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;go tool pprof &lt;span class=&quot;token parameter variable&quot;&gt;-http&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:8082 ./cpu.pprof&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/DXqlG6UlkS-3402.png&quot; alt=&quot;cpu&quot; width=&quot;3402&quot; height=&quot;1696&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/DXqlG6UlkS-3402.avif 3402w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/DXqlG6UlkS-3402.webp 3402w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/DXqlG6UlkS-3402.png&quot; alt=&quot;cpu&quot; width=&quot;3402&quot; height=&quot;1696&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;
@@ -1130,8 +1130,8 @@ Response:  {
   &lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;p&gt;The current CPU utilization is (&lt;em&gt;14.83s&lt;/em&gt; / &lt;em&gt;30s&lt;/em&gt; ~= &lt;strong&gt;49%&lt;/strong&gt;). This means that the CPU still has room to process more concurrent requests, but due to the app reaching the RSS limits as seen in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof#docker&quot;&gt;Docker metrics&lt;/a&gt;, the app can&#39;t handle more concurrent requests.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/P_sVpYeXVJ-1142.avif 1142w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/P_sVpYeXVJ-1142.webp 1142w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis/P_sVpYeXVJ-1142.png&quot; alt=&quot;cpu-gc-top&quot; width=&quot;1142&quot; height=&quot;480&quot;&gt;&lt;/picture&gt;
+&lt;p&gt;The current CPU utilization is (&lt;em&gt;14.83s&lt;/em&gt; / &lt;em&gt;30s&lt;/em&gt; ~= &lt;strong&gt;49%&lt;/strong&gt;). This means that the CPU still has room to process more concurrent requests, but due to the app reaching the RSS limits as seen in the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof#docker&quot;&gt;Docker metrics&lt;/a&gt;, the app can&#39;t handle more concurrent requests.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/P_sVpYeXVJ-1142.avif 1142w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/P_sVpYeXVJ-1142.webp 1142w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis/P_sVpYeXVJ-1142.png&quot; alt=&quot;cpu-gc-top&quot; width=&quot;1142&quot; height=&quot;480&quot;&gt;&lt;/picture&gt;
 &lt;p align=&quot;center&quot;&gt;&lt;em&gt;CPU GC (TOP 10)&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The Top 10 GC related functions utilize only about ~5% of the CPU utilization. Hence, there is no issue with the memory allocation mentioned in the previous section.&lt;/p&gt;
 &lt;h2 id=&quot;latency-reduction&quot;&gt;Latency Reduction&lt;/h2&gt;
@@ -1170,21 +1170,21 @@ Response:  {
   </entry>
   <entry>
     <title>pprof &amp; Load Testing</title>
-    <link href="https://sh4nnongoh.github.io/blog/5-pprof/" />
+    <link href="https://www.sh4nnongoh.com/blog/5-pprof/" />
     <updated>2026-01-26T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/5-pprof/</id>
+    <id>https://www.sh4nnongoh.com/blog/5-pprof/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 4&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;pprof &amp; Load Testing&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 &lt;br&gt;
@@ -1195,7 +1195,7 @@ Response:  {
   - Google
   &lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;previous post&lt;/a&gt;, we built a simple &lt;code&gt;Go&lt;/code&gt; webapp using the &lt;code&gt;Gin&lt;/code&gt; webserver for authentication of users using &lt;code&gt;Magic Links&lt;/code&gt;. However, how do we know that it actually works at scale? We need a way to benchmark the app with a proper load and see if it can support the number of users expected to use our app with an appropriate level of resource constraints to match business requirements. This is where &lt;a href=&quot;https://github.com/google/pprof&quot;&gt;pprof&lt;/a&gt; comes in handy, as it is already built into the Go package.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;previous post&lt;/a&gt;, we built a simple &lt;code&gt;Go&lt;/code&gt; webapp using the &lt;code&gt;Gin&lt;/code&gt; webserver for authentication of users using &lt;code&gt;Magic Links&lt;/code&gt;. However, how do we know that it actually works at scale? We need a way to benchmark the app with a proper load and see if it can support the number of users expected to use our app with an appropriate level of resource constraints to match business requirements. This is where &lt;a href=&quot;https://github.com/google/pprof&quot;&gt;pprof&lt;/a&gt; comes in handy, as it is already built into the Go package.&lt;/p&gt;
 &lt;pre class=&quot;language-go&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
 	&lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
 
@@ -1380,8 +1380,8 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;GIN_MODE&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;release &lt;span class=&quot;token punctuation&quot;&gt;&#92;&lt;/span&gt;
   myapp:latest&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;When invoking the container, a strict constrained environment can be defined to test specific areas of our application. An example is shown above.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/5-pprof/5OQn4HWpsr-2916.avif 2916w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/5-pprof/5OQn4HWpsr-2916.webp 2916w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/5-pprof/5OQn4HWpsr-2916.png&quot; alt=&quot;Docker Desktop Metrics&quot; width=&quot;2916&quot; height=&quot;1816&quot;&gt;&lt;/picture&gt;
-&lt;p&gt;The parameters of our &lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof/#load-testing&quot;&gt;Load Testing script&lt;/a&gt; can be defined by experimenting with the values, and observing the stability of the container metrics in the Docker Desktop UI. In our scenario, &lt;code&gt;500&lt;/code&gt; concurrent requests is a good number to start with for a &lt;code&gt;64MB&lt;/code&gt; container.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/5-pprof/5OQn4HWpsr-2916.avif 2916w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/5-pprof/5OQn4HWpsr-2916.webp 2916w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/5-pprof/5OQn4HWpsr-2916.png&quot; alt=&quot;Docker Desktop Metrics&quot; width=&quot;2916&quot; height=&quot;1816&quot;&gt;&lt;/picture&gt;
+&lt;p&gt;The parameters of our &lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof/#load-testing&quot;&gt;Load Testing script&lt;/a&gt; can be defined by experimenting with the values, and observing the stability of the container metrics in the Docker Desktop UI. In our scenario, &lt;code&gt;500&lt;/code&gt; concurrent requests is a good number to start with for a &lt;code&gt;64MB&lt;/code&gt; container.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;
     &lt;em&gt;
@@ -1399,21 +1399,21 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
   </entry>
   <entry>
     <title>CSRF with Magic Links</title>
-    <link href="https://sh4nnongoh.github.io/blog/4-csrf-magic-links/" />
+    <link href="https://www.sh4nnongoh.com/blog/4-csrf-magic-links/" />
     <updated>2026-01-22T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/4-csrf-magic-links/</id>
+    <id>https://www.sh4nnongoh.com/blog/4-csrf-magic-links/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 3&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;CSRF with Magic Links&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 &lt;p&gt;As a recap, a Magic Link contains an encrypted token containing the identity of a particular user. By that definition, anyone clicking that link can impersonate the identify encoded in the link. Doesn&#39;t that sound familiar? (&lt;em&gt;Cough, Cough&lt;/em&gt; - &lt;strong&gt;Netflix&lt;/strong&gt;)&lt;/p&gt;
@@ -1447,8 +1447,8 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
   A CSRF token is a nounce of a certain size that is random across sessions and users.
   &lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;In order to prevent such attacks, the &lt;em&gt;CSRF token&lt;/em&gt; needs to be sent with the requests alongside the authentication cookies. The server will compare the request&#39;s &lt;em&gt;CSRF token&lt;/em&gt; with the session&#39;s state, which could either be stored server-side like in Redis, or &lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/#sequence-diagrams&quot;&gt;in our scenario&lt;/a&gt;, in the encrypted cookie.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links/lZd_YgLNA4-439.avif 439w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links/lZd_YgLNA4-439.webp 439w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links/lZd_YgLNA4-439.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;439&quot; height=&quot;478&quot;&gt;&lt;/picture&gt;
+&lt;p&gt;In order to prevent such attacks, the &lt;em&gt;CSRF token&lt;/em&gt; needs to be sent with the requests alongside the authentication cookies. The server will compare the request&#39;s &lt;em&gt;CSRF token&lt;/em&gt; with the session&#39;s state, which could either be stored server-side like in Redis, or &lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links/#sequence-diagrams&quot;&gt;in our scenario&lt;/a&gt;, in the encrypted cookie.&lt;/p&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links/lZd_YgLNA4-439.avif 439w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links/lZd_YgLNA4-439.webp 439w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links/lZd_YgLNA4-439.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;439&quot; height=&quot;478&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;The above &lt;a href=&quot;https://www.websequencediagrams.com/?lz=dGl0bGUgTG9naW4gd2l0aCBDb29raWVzCgphY3RvciBVc2VyCgovbAAcBS0-AAsFIDoAAQZ2aXNpdHMgcGFnZQA2BlxuQ1NSRiB0b2tlbiBlbWJlZGRlZAoKAC8FLT4gAEAGADYHc3VibWl0cyBjcmVkZW50aWFscyBcbgB9BgA7CmluIGhlYWRlcgB6CQB6ClJldHVybnMgZW5jcnlwdGVkIGMAgTcFIFxuY29udGFpbmluZwBCCwB-C3NlY3VyZQCBQAh0cmFuc2FjdHMAgXwGABYHcGFnZXMgXG51c2luZwBTEmFuZACBEhcAVgcAgSAKCg&amp;amp;s=default&quot;&gt;sequence diagram&lt;/a&gt; shows the following:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;When the user navigates to the &lt;em&gt;/login&lt;/em&gt; page, a &lt;em&gt;CSRF token&lt;/em&gt; generated by the server is present in the &lt;em&gt;meta&lt;/em&gt; tag of the page.&lt;/li&gt;
@@ -1459,7 +1459,7 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
 &lt;p&gt;There is no way for an adversary site to capture this &lt;em&gt;CSRF token&lt;/em&gt; embedded in our site.&lt;/p&gt;
 &lt;h3 id=&quot;csrf-magic-links&quot;&gt;CSRF + Magic Links&lt;/h3&gt;
 &lt;p&gt;A &lt;em&gt;Magic Link&lt;/em&gt; basically has the encrypted cookie as part of the URL. The question now is how does the user send the &lt;em&gt;CSRF token&lt;/em&gt; in the header by just clicking a link? You might have noticed when using certain secure sites like banking, there is some sort of &lt;em&gt;&amp;quot;/verification&amp;quot;&lt;/em&gt; intemediary page before the site shows you your dashboard. This intermediary page actually captures the encrypted cookie in the &lt;em&gt;Magic Link&lt;/em&gt; along with the &lt;em&gt;CSRF token&lt;/em&gt; in the browser and performs the actual POST request of logging into the secure site.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links/cMXV3k-0Je-515.avif 515w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links/cMXV3k-0Je-515.webp 515w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links/cMXV3k-0Je-515.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;515&quot; height=&quot;510&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links/cMXV3k-0Je-515.avif 515w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links/cMXV3k-0Je-515.webp 515w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links/cMXV3k-0Je-515.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;515&quot; height=&quot;510&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;The above &lt;a href=&quot;https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgTG9naW4gd2l0aCBNYWdpYyBMaW5rCgphY3RvciBVc2VyCgovdmVyaWZpY2F0aW9uIC0-ABIFIDoAAQZjbGlja3Mgb24ANAsgJiBcbm5hdmlnYXRlcyB0byAANQ1wYWdlCgA_BS0-IABPDjogQW4gYXV0b21hdGVkIFBPU1QgcmVxdWVzdCBpcyBkb25lIFxuY29udGFpbmluZyB0aGUgZW5jcnlwdGVkIHRva2VuIFxuYW5kIENTUkYACgdpbgAjBWhlYWRlcgCBPxAAgUYKU2V2ZXIgZ2VuZXIAgTMFYSBuZXcAUwtjb29raWUgXG5mb3IAdAVzZXNzaW9uICYgcmVkaXJlY3RzAIEMBXVzZXIgXG50bwAfB2N1cmUgcmVzb3VyY2UKAIFxCgATBwCCQwd0cmFuc2FjdHMAgwgGADAHcGFnZXMgXG51c2luZwB7EgCBWBIAgV4IAHAHAIFWCgo&amp;amp;s=default&quot;&gt;sequence diagram&lt;/a&gt; shows the following:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;The &lt;em&gt;Magic Link&lt;/em&gt; navigates the user to the &lt;em&gt;&amp;quot;/verification&amp;quot;&lt;/em&gt; page.&lt;/li&gt;
@@ -1546,7 +1546,7 @@ loop&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
 &lt;br&gt;
 &lt;p&gt;The reason why we have 2 keys, is that one is used for &lt;em&gt;HMAC&lt;/em&gt; while the other is for encryption. &lt;em&gt;HMAC&lt;/em&gt; is needed so that adversaries are not able to successfully mutate the ciphertext of the encrypted cookie such that the decrypted version is still semantically valid.&lt;/p&gt;
 &lt;p&gt;We also define 2 separate key pairs as one is for &lt;em&gt;Magic Links&lt;/em&gt;, while the other is for the actual encrypted session cookies.&lt;/p&gt;
-&lt;p&gt;The expiry of the keys are defined here as well and should match what is stated in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/#non-functional-requirements&quot;&gt;Non-Functional requirements&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The expiry of the keys are defined here as well and should match what is stated in the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links/#non-functional-requirements&quot;&gt;Non-Functional requirements&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id=&quot;2-routes&quot;&gt;(2) Routes&lt;/h4&gt;
 &lt;p&gt;You may have noticed that secured routes have both a &lt;em&gt;GET&lt;/em&gt; and a &lt;em&gt;POST&lt;/em&gt; method. This is to support URL navigation, whereby the &lt;em&gt;check-auth&lt;/em&gt; page is rendered to capture the &lt;em&gt;CSRF token&lt;/em&gt; in the browser before attempting to retrieve the secured resources with a &lt;em&gt;POST&lt;/em&gt;.&lt;/p&gt;
 &lt;h4 id=&quot;3-minimal-javascript&quot;&gt;(3) Minimal Javascript&lt;/h4&gt;
@@ -1564,7 +1564,7 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 &lt;p&gt;With &lt;em&gt;HTMX&lt;/em&gt;, there is minimal need to introduce &lt;em&gt;javascript&lt;/em&gt; into our webapp. However, as we will be using the browser&#39;s &lt;em&gt;localstorage&lt;/em&gt; to store the &lt;em&gt;CSRF token&lt;/em&gt;, &lt;em&gt;javascript&lt;/em&gt; is still needed. The above code snippet shows the minimal code needed to store and retrieve the &lt;em&gt;CSRF token&lt;/em&gt;.&lt;/p&gt;
 &lt;h4 id=&quot;demo&quot;&gt;Demo&lt;/h4&gt;
 &lt;video controls=&quot;&quot; width=&quot;720&quot;&gt;
-  &lt;source src=&quot;https://sh4nnongoh.github.io/videos/csrf.mp4&quot; type=&quot;video/mp4&quot;&gt;
+  &lt;source src=&quot;https://www.sh4nnongoh.com/videos/csrf.mp4&quot; type=&quot;video/mp4&quot;&gt;
   Your browser does not support the video tag.
 &lt;/video&gt;
 &lt;p&gt;The above video shows the full capabilities of our Magic Link site!&lt;/p&gt;
@@ -1585,35 +1585,35 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
   </entry>
   <entry>
     <title>Magic Links</title>
-    <link href="https://sh4nnongoh.github.io/blog/3-magic-links/" />
+    <link href="https://www.sh4nnongoh.com/blog/3-magic-links/" />
     <updated>2026-01-19T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/3-magic-links/</id>
+    <id>https://www.sh4nnongoh.com/blog/3-magic-links/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 2&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;Magic Links&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;&quot;Hey Shannon! Your previous post talks about Magic Links but there were no details at all about implementing them!&quot;&lt;br&gt;- random reader&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;Hey, I hear you! In the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/&quot;&gt;previous post&lt;/a&gt;, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.&lt;/p&gt;
-&lt;p&gt;In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-tactical-design&quot;&gt;Tactical Design&lt;/a&gt; section of the System Design document.&lt;/p&gt;
+&lt;p&gt;Hey, I hear you! In the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/&quot;&gt;previous post&lt;/a&gt;, I gave an example System Design writeup for XYZ Auth to implement Magic Links for the organisation. However, remember that System Design documents are living documents, and the previous post was just to highlight the structure of the document.&lt;/p&gt;
+&lt;p&gt;In this post we will build upon the System Design in the previous post with details on how Magic Links will be implemented. Specifically, we will create technical artifacts to be placed in the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#ddd-tactical-design&quot;&gt;Tactical Design&lt;/a&gt; section of the System Design document.&lt;/p&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;Magic Links are a mechanism for users to access secure resources without needing to enter passwords.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;h3 id=&quot;sequence-diagrams&quot;&gt;Sequence Diagrams&lt;/h3&gt;
 &lt;p&gt;The best way to explain how Magic Links work is to use Sequence Diagrams.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.avif 764w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.webp 764w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/3-magic-links/3HmZXJfn4O-764.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;764&quot; height=&quot;767&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/3-magic-links/3HmZXJfn4O-764.avif 764w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/3-magic-links/3HmZXJfn4O-764.webp 764w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/3-magic-links/3HmZXJfn4O-764.png&quot; alt=&quot;Sequence Diagram&quot; width=&quot;764&quot; height=&quot;767&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;The above &lt;a href=&quot;https://www.plantuml.com/plantuml/uml/ZP9FRzGm4CNl_XIZ7k0KSL-Lqj9MN8g4ke9JBrDxIAnDx6Wyfe9FZ_yqQK8s4hTavlt6Rvvz7GHPuj0hrE8PlWTYm00n4AinjQos8pg1Ym-zRwsxo4qSnuVyyuy0etJaKW65J3EYT9FwPjbPKpS3_l4EZlV78gO1RQyC2ZvZ8FZcWxHC8RVCirBP5ZHNimCuLCVaXFYL1l5GlAf9bOX49-qZeQa0a_Piu2Vx0Uu-loalcoP95-Jwi1_OMuD2S5zEUh7IrNcFPTukTykKANAQVuz21cwzFrdQrNyXHvm9XA_OMWqFrfrM-zHL3t0aPnOQ45yClG_Lucgp2jKGy-_Kct9DOyl7OSx8qYyAY_5FJZhsiUtgzDtxqBtLfm3UhTZwX3uDkVJnSWwZqIMCgzqqxgWeD_4zkNVpZVnFb8vUNibj1kLrI6GNDh8wR_M6fprRaW1CnZBfN1OFIGM1T4pLZAaDsfoTDozopk5A-sPqP2_rNARW8sjIr-HC7Fg_&quot;&gt;sequence diagram&lt;/a&gt; shows the happy path of a Magic Link usage.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Users enter their email in the Login page.&lt;/li&gt;
@@ -1627,9 +1627,9 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;&quot;But won&#39;t clients just mutate their Cookies to impersonate other people?&quot;&lt;br&gt;- concerned reader&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;In order to prevent manipulation of the Cookie, the Cookie will be encrypted by the server during creation. Only the server has the private key, hence adversaries will not be able to mutate the Cookie to suit their needs. Referring to the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#system-architecture&quot;&gt;System Architecture&lt;/a&gt; diagram in the previous post, these private encryption keys will be stored in Vercel&#39;s Key-Value stores, such that the backend will have access to them to decrypt / validate incoming requests and their respective Cookies.&lt;/p&gt;
+&lt;p&gt;In order to prevent manipulation of the Cookie, the Cookie will be encrypted by the server during creation. Only the server has the private key, hence adversaries will not be able to mutate the Cookie to suit their needs. Referring to the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#system-architecture&quot;&gt;System Architecture&lt;/a&gt; diagram in the previous post, these private encryption keys will be stored in Vercel&#39;s Key-Value stores, such that the backend will have access to them to decrypt / validate incoming requests and their respective Cookies.&lt;/p&gt;
 &lt;h3 id=&quot;non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/h3&gt;
-&lt;p&gt;There are security pitfalls associated with Stateless Cookies, and these need to be captured in the &lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt; of a System Design document.&lt;/p&gt;
+&lt;p&gt;There are security pitfalls associated with Stateless Cookies, and these need to be captured in the &lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt; of a System Design document.&lt;/p&gt;
 &lt;p&gt;Example Additional requirements:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The encryption key needs to be rotated every 7 days.&lt;/li&gt;
@@ -1654,21 +1654,21 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
   </entry>
   <entry>
     <title>System Design</title>
-    <link href="https://sh4nnongoh.github.io/blog/2-system-design/" />
+    <link href="https://www.sh4nnongoh.com/blog/2-system-design/" />
     <updated>2026-01-16T00:00:00Z</updated>
-    <id>https://sh4nnongoh.github.io/blog/2-system-design/</id>
+    <id>https://www.sh4nnongoh.com/blog/2-system-design/</id>
     <content type="html">&lt;br&gt;
 &lt;br&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is &lt;strong&gt;Part 1&lt;/strong&gt; of the Magic Link System Design Series.&lt;/em&gt;&lt;/p&gt;
   &lt;ol&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design&quot;&gt;System Design&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/3-magic-links&quot;&gt;Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/4-csrf-magic-links&quot;&gt;CSRF with Magic Links&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/5-pprof&quot;&gt;pprof &amp; Load Testing&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/6-pprof-analysis&quot;&gt;pprof Analysis&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/7-pprof-mem&quot;&gt;pprof Memory Optimizations&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/8-pprof-cpu&quot;&gt;pprof CPU&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 &lt;p&gt;System Design is such a broad topic, with many different styles adopted by different people. It only became popular recently when it became a requirement during interviews for software engineering roles. This blog is not about tips &amp;amp; tricks for passing half-hour session interviews, but a more realistic take on building systems that lasts.&lt;/p&gt;
@@ -1687,13 +1687,13 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 &lt;h2 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h2&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-strategic-design&quot;&gt;DDD Strategic Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#ddd-tactical-design&quot;&gt;DDD Tactical Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#api-endpoints&quot;&gt;API Endpoints&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#capacity-estimation-(data-storage)&quot;&gt;Capacity Estimation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#cost-estimation&quot;&gt;Cost Estimation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://sh4nnongoh.github.io/blog/2-system-design/#system-architecture&quot;&gt;System Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#ddd-strategic-design&quot;&gt;DDD Strategic Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#ddd-tactical-design&quot;&gt;DDD Tactical Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#non-functional-requirements&quot;&gt;Non-Functional Requirements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#api-endpoints&quot;&gt;API Endpoints&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#capacity-estimation-(data-storage)&quot;&gt;Capacity Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#cost-estimation&quot;&gt;Cost Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sh4nnongoh.com/blog/2-system-design/#system-architecture&quot;&gt;System Architecture&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&quot;system-design&quot;&gt;System Design&lt;/h2&gt;
 &lt;hr&gt;
@@ -1783,7 +1783,7 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 	&lt;p&gt;&lt;em&gt;This section is where a software engineer provides technical artifacts such as ER diagrams or sequence diagrams.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/Ntg6bzDa-0-2202.avif 2202w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/Ntg6bzDa-0-2202.webp 2202w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2-system-design/Ntg6bzDa-0-2202.png&quot; alt=&quot;ER Diagram&quot; width=&quot;2202&quot; height=&quot;734&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/2-system-design/Ntg6bzDa-0-2202.avif 2202w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/2-system-design/Ntg6bzDa-0-2202.webp 2202w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/2-system-design/Ntg6bzDa-0-2202.png&quot; alt=&quot;ER Diagram&quot; width=&quot;2202&quot; height=&quot;734&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;Based on the events and objects identified in the &lt;em&gt;Strategic Design&lt;/em&gt; stage, the above Entity-Relationship diagram is drawn.&lt;/p&gt;
 &lt;h3 id=&quot;non-functional-requirements&quot;&gt;&lt;strong&gt;Non-Functional Requirements&lt;/strong&gt;&lt;/h3&gt;
 &lt;div class=&quot;message-box&quot;&gt;
@@ -1821,13 +1821,13 @@ is_admin: 1 byte&lt;/code&gt;&lt;/pre&gt;
 	&lt;p&gt;&lt;em&gt;Based on the estimates done earlier, you can also estimate the cost of your design. Depending on your service provider, there may be calculators available to estimate the costs of the system.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;a href=&quot;https://calculator.aws/#/createCalculator/RDSPostgreSQL&quot;&gt;AWS Calculator&lt;/a&gt;&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/mopT0UT3fV-2616.avif 2616w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/mopT0UT3fV-2616.webp 2616w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2-system-design/mopT0UT3fV-2616.png&quot; alt=&quot;Cost&quot; width=&quot;2616&quot; height=&quot;1414&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/2-system-design/mopT0UT3fV-2616.avif 2616w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/2-system-design/mopT0UT3fV-2616.webp 2616w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/2-system-design/mopT0UT3fV-2616.png&quot; alt=&quot;Cost&quot; width=&quot;2616&quot; height=&quot;1414&quot;&gt;&lt;/picture&gt;
 &lt;h3 id=&quot;system-architecture&quot;&gt;&lt;strong&gt;System Architecture&lt;/strong&gt;&lt;/h3&gt;
 &lt;div class=&quot;message-box&quot;&gt;
 	&lt;p&gt;&lt;em&gt;This is where the whole architecture of your system is shown. If the system is large, you may add accompanying flow diagrams as well.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;br&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/uLQ3sDDHv0-2457.avif 2457w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://sh4nnongoh.github.io/blog/2-system-design/uLQ3sDDHv0-2457.webp 2457w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://sh4nnongoh.github.io/blog/2-system-design/uLQ3sDDHv0-2457.png&quot; alt=&quot;Architecture&quot; width=&quot;2457&quot; height=&quot;1627&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/2-system-design/uLQ3sDDHv0-2457.avif 2457w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://www.sh4nnongoh.com/blog/2-system-design/uLQ3sDDHv0-2457.webp 2457w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://www.sh4nnongoh.com/blog/2-system-design/uLQ3sDDHv0-2457.png&quot; alt=&quot;Architecture&quot; width=&quot;2457&quot; height=&quot;1627&quot;&gt;&lt;/picture&gt;
 &lt;hr&gt;
 
 

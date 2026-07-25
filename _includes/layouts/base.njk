@@ -4,22 +4,33 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		{%- set isPost = "posts" in (tags or []) %}
+		{%- set pageUrl %}{{ metadata.url }}{{ page.url }}{% endset %}
+		{%- set ogImage %}{% if image %}{{ image | htmlBaseUrl(metadata.url) }}{% else %}{{ metadata.author.logo }}{% endif %}{% endset %}
+
 		<!-- Primary Meta Tags -->
 		<title>{{ title or metadata.title }}</title>
 		<meta name="title" content="{{ title or metadata.title }}" />
 		<meta name="description" content="{{ description or metadata.description }}" />
+		<meta name="author" content="{{ metadata.author.name }}" />
 		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="{{ metadata.url }}" />
+		<meta property="og:type" content="{% if isPost %}article{% else %}website{% endif %}" />
+		<meta property="og:url" content="{{ pageUrl }}" />
+		<meta property="og:site_name" content="{{ metadata.title }}" />
 		<meta property="og:title" content="{{ title or metadata.title }}" />
 		<meta property="og:description" content="{{ description or metadata.description }}" />
-		<meta property="og:image" content="{{ metadata.author.logo }}" />
+		<meta property="og:image" content="{{ ogImage }}" />
+		{%- if isPost %}
+		<meta property="article:published_time" content="{{ page.date | htmlDateString }}" />
+		<meta property="article:modified_time" content="{{ (page.updated or page.date) | htmlDateString }}" />
+		<meta property="article:author" content="{{ metadata.author.name }}" />
+		{%- endif %}
 		<!-- X (Twitter) -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="{{ metadata.url }}" />
+		<meta property="twitter:url" content="{{ pageUrl }}" />
 		<meta property="twitter:title" content="{{ title or metadata.title }}" />
 		<meta property="twitter:description" content="{{ description or metadata.description }}" />
-		<meta property="twitter:image" content="{{ metadata.author.logo }}" />
+		<meta property="twitter:image" content="{{ ogImage }}" />
 		<!-- Meta Tags Generated with https://metatags.io -->
 
 		<meta name="google-site-verification" content="r1MXDdGzfOnO8Cjyxy0oQf1Jp-sNi5nm7ZBTXLEzaqA" />

@@ -12,9 +12,9 @@ layout: layouts/base.njk
 		},
 		"headline": "{{ title | escape }}",
 		"description": "{{ description | escape }}",
-		"image": [{% if imageAbsolute %}"{{ imageAbsolute }}"{% endif %}],
+		"image": ["{% if image %}{{ image | htmlBaseUrl(metadata.url) }}{% else %}{{ metadata.author.logo }}{% endif %}"],
 		"datePublished": "{{ page.date | htmlDateString }}",
-		"dateModified": "{{ page.updated or page.date | htmlDateString }}",
+		"dateModified": "{{ (page.updated or page.date) | htmlDateString }}",
 		"author": {
 			"@type": "Person",
 			"name": "{{ metadata.author.name }}",

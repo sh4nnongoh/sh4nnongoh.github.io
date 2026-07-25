@@ -125,7 +125,7 @@ export default async function (eleventyConfig) {
 			language: "en",
 			title: "Shannon's Software Engineering Blog",
 			subtitle: "Just software stuff.",
-			base: "https://sh4nnongoh.github.io/",
+			base: "https://www.sh4nnongoh.com/",
 			author: {
 				name: "Shannon Goh"
 			}
